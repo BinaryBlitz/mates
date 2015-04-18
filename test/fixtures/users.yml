@@ -1,0 +1,32 @@
+# == Schema Information
+#
+# Table name: users
+#
+#  id         :integer          not null, primary key
+#  first_name :string
+#  last_name  :string
+#  nickname   :string
+#  birthday   :date
+#  gender     :boolean
+#  api_token  :string
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#
+
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+foo:
+  first_name: Foo
+  last_name: Bar
+  nickname: foobar
+  birthday: 2015-04-18
+  gender: false
+  api_token: <%= SecureRandom.hex %>
+
+baz:
+  first_name: Baz
+  last_name: Qux
+  nickname: bazqux
+  birthday: 2015-04-18
+  gender: true
+  api_token: <%= SecureRandom.hex %>
