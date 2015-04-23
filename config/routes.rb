@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :friend_requests
   scope '/api', defaults: { format: :json } do
     resources :users
   end

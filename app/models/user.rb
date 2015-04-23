@@ -20,6 +20,9 @@ class User < ActiveRecord::Base
   validates :last_name, presence: true, length: { maximum: 20 }
   validates :nickname, presence: true, length: { maximum: 20 }
 
+  has_many :friend_requests, dependent: :destroy
+  has_many :pending_friends, through: :friend_requests, source: :friend
+
   private
 
   def generate_api_token

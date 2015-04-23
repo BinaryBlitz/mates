@@ -1,0 +1,3 @@
+friend_request:
+  user: foo
+  friend: bar
