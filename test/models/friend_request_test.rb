@@ -1,3 +1,14 @@
+# == Schema Information
+#
+# Table name: friend_requests
+#
+#  id         :integer          not null, primary key
+#  user_id    :integer
+#  friend_id  :integer
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#
+
 class FriendRequestTest < ActiveSupport::TestCase
   def setup
     @friend_request = friend_requests(:friend_request)

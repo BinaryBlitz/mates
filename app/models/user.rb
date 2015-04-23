@@ -23,6 +23,9 @@ class User < ActiveRecord::Base
   has_many :friend_requests, dependent: :destroy
   has_many :pending_friends, through: :friend_requests, source: :friend
 
+  has_many :friendships, dependent: :destroy
+  has_many :friends, through: :friendships
+
   def remove_friend(friend)
     friendships.find_by_friend(friend).destroy
     friend.friendships.find_by_friend(self).destroy
