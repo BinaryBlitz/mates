@@ -27,8 +27,8 @@ class User < ActiveRecord::Base
   has_many :friends, through: :friendships
 
   def remove_friend(friend)
-    friendships.find_by_friend(friend).destroy
-    friend.friendships.find_by_friend(self).destroy
+    friendships.find_by(friend: friend).destroy
+    friend.friendships.find_by(friend: self).destroy
   end
 
   private
