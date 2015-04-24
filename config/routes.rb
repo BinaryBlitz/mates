@@ -3,6 +3,7 @@ Rails.application.routes.draw do
     resources :users
     resources :friend_requests, except: [:show, :new, :edit]
     resources :friends, only: [:index, :destroy]
+    resources :events
   end
 
   # The priority is based upon order of creation: first created -> highest priority.
