@@ -1,0 +1,30 @@
+# == Schema Information
+#
+# Table name: events
+#
+#  id         :integer          not null, primary key
+#  name       :string
+#  target     :string
+#  start_at   :datetime
+#  end_at     :datetime
+#  city       :string
+#  latitude   :float
+#  longitude  :float
+#  info       :text
+#  visible    :string
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#  address    :string
+#
+
+foo:
+  name: Foo
+  target: foobar
+  start_at: <%= Time.now %>
+  end_at: <%= 10.days.from_now %>
+  city: Moscow
+  address: "Bolshaya Nikitskay"
+  latitude: 1.0
+  longitude: 1.0
+  info: Greate party
+  visible: Public
