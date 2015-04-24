@@ -26,6 +26,8 @@ class User < ActiveRecord::Base
   has_many :friendships, dependent: :destroy
   has_many :friends, through: :friendships
 
+  has_many :events, dependent: :destroy, foreign_key: :admin_id
+
   def remove_friend(friend)
     friendships.find_by(friend: friend).destroy
     friend.friendships.find_by(friend: self).destroy

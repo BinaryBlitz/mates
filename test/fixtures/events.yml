@@ -15,9 +15,10 @@
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #  address    :string
+#  admin_id   :integer
 #
 
-foo:
+party:
   name: Foo
   target: foobar
   start_at: <%= Time.now %>
@@ -28,3 +29,6 @@ foo:
   longitude: 1.0
   info: Greate party
   visible: Public
+  admin: foo
+
+
