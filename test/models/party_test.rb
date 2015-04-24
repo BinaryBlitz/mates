@@ -1,39 +1,39 @@
-class PartyTest < ActiveSupport::TestCase
+class EventTest < ActiveSupport::TestCase
   def setup
-    @party = parties(:foo)
+    @event = events(:foo)
   end
 
   test 'should be valid' do
-    assert @party.valid?
+    assert @event.valid?
   end
 
   test "name should be present" do
-    @party.name = ""
-    assert_not @party.valid?
+    @event.name = ""
+    assert_not @event.valid?
   end
 
   test "target should be present" do
-    @party.target = ""
-    assert_not @party.valid?
+    @event.target = ""
+    assert_not @event.valid?
   end
 
   test "at least it should have city" do
-    @party.city = ""
-    assert_not @party.valid?
+    @event.city = ""
+    assert_not @event.valid?
   end
 
   test "name should be no longer than 30 characters" do
-    @party.name = "a" * 31
-    assert_not @party.valid?
+    @event.name = "a" * 31
+    assert_not @event.valid?
   end
 
   test "target should be no longer than 20 characters" do
-    @party.target = "a" * 21
-    assert_not @party.valid?
+    @event.target = "a" * 21
+    assert_not @event.valid?
   end
 
   test "city should be no longer than 30 characters" do
-    @party.city = "a" * 31
-    assert_not @party.valid?
+    @event.city = "a" * 31
+    assert_not @event.valid?
   end
 end
