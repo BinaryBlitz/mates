@@ -11,6 +11,7 @@
 #  api_token  :string
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
+#  avatar     :string
 #
 
 class User < ActiveRecord::Base
@@ -27,6 +28,8 @@ class User < ActiveRecord::Base
   has_many :friends, through: :friendships
 
   has_many :events, dependent: :destroy, foreign_key: :admin_id
+
+  mount_base64_uploader :avatar, AvatarUploader
 
   def remove_friend(friend)
     friendships.find_by(friend: friend).destroy

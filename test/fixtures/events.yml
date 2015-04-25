@@ -16,6 +16,7 @@
 #  updated_at :datetime         not null
 #  address    :string
 #  admin_id   :integer
+#  photo      :string
 #
 
 party:
