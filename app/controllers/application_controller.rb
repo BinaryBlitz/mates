@@ -5,6 +5,7 @@ class ApplicationController < ActionController::Base
   before_action :restrict_access
 
   attr_reader :current_user
+  helper_method :current_user
 
   def restrict_access
     unless restrict_access_by_params

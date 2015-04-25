@@ -27,7 +27,10 @@ class User < ActiveRecord::Base
   has_many :friendships, dependent: :destroy
   has_many :friends, through: :friendships
 
-  has_many :events, dependent: :destroy, foreign_key: :admin_id
+  has_many :owned_events, dependent: :destroy, foreign_key: :admin_id, class_name: 'Event'
+
+  has_many :memberships, dependent: :destroy
+  has_many :events, through: :memberships
 
   has_many :proposals, dependent: :destroy
   has_many :proposed_events, through: :proposals, source: :event

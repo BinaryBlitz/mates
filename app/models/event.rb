@@ -28,7 +28,10 @@ class Event < ActiveRecord::Base
   has_many :invites, dependent: :destroy
   has_many :invited_users, through: :invites, source: :user
 
-  validates :admin_id, presence: true
+  has_many :memberships, dependent: :destroy
+  has_many :users, through: :memberships
+
+  validates :admin, presence: true
   validates :name, presence: true, length: { maximum: 30 }
   validates :target, presence: true, length: { maximum: 20 }
   validates :city, presence: true, length: { maximum: 30 }
