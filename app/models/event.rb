@@ -16,6 +16,7 @@
 #  updated_at :datetime         not null
 #  address    :string
 #  admin_id   :integer
+#  photo      :string
 #
 
 class Event < ActiveRecord::Base
@@ -25,4 +26,6 @@ class Event < ActiveRecord::Base
   validates :name, presence: true, length: { maximum: 30 }
   validates :target, presence: true, length: { maximum: 20 }
   validates :city, presence: true, length: { maximum: 30 }
+
+  mount_base64_uploader :photo, PhotoUploader
 end
