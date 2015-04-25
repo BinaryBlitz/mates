@@ -9,7 +9,7 @@ class EventsController < ApplicationController
   end
 
   def create
-    @event = current_user.events.new(articles_params)
+    @event = current_user.events.new(events_params)
 
     if @event.save
       render :show, status: :created, location: @event
@@ -38,7 +38,6 @@ class EventsController < ApplicationController
   end
 
   def events_params
-    params.require(:event).permit(:name, :target, :start_at,
-    :end_at, :city, :adress, :latitude, :longitude, :info, :visible)
+    params.require(:event).permit(:name, :target, :start_at, :end_at, :city, :address, :latitude, :longitude, :info, :visible)
   end
 end
