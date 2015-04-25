@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :proposals
   scope '/api', defaults: { format: :json } do
     resources :users
     resources :friend_requests, except: [:show, :new, :edit]

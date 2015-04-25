@@ -29,6 +29,9 @@ class User < ActiveRecord::Base
 
   has_many :events, dependent: :destroy, foreign_key: :admin_id
 
+  has_many :proposals, dependent: :destroy
+  has_many :proposed_events, through: :proposals, source: :event
+
   mount_base64_uploader :avatar, AvatarUploader
 
   def remove_friend(friend)

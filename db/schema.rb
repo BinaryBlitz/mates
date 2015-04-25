@@ -11,7 +11,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150425160015) do
+ActiveRecord::Schema.define(version: 20150425213145) do
+
+  create_table "event_members", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "event_id"
+    t.boolean  "approved",   default: false
+    t.boolean  "accepted",   default: false
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+  end
+
+  add_index "event_members", ["event_id"], name: "index_event_members_on_event_id"
+  add_index "event_members", ["user_id"], name: "index_event_members_on_user_id"
 
   create_table "events", force: :cascade do |t|
     t.string   "name"
@@ -51,6 +63,18 @@ ActiveRecord::Schema.define(version: 20150425160015) do
 
   add_index "friendships", ["friend_id"], name: "index_friendships_on_friend_id"
   add_index "friendships", ["user_id"], name: "index_friendships_on_user_id"
+
+  create_table "proposals", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "event_id"
+    t.integer  "creator_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "proposals", ["creator_id"], name: "index_proposals_on_creator_id"
+  add_index "proposals", ["event_id"], name: "index_proposals_on_event_id"
+  add_index "proposals", ["user_id"], name: "index_proposals_on_user_id"
 
   create_table "users", force: :cascade do |t|
     t.string   "first_name"
