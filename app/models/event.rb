@@ -15,9 +15,13 @@
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #  address    :string
+#  admin_id   :integer
 #
 
 class Event < ActiveRecord::Base
+  belongs_to :admin, class_name: 'User'
+
+  validates :admin_id, presence: true
   validates :name, presence: true, length: { maximum: 30 }
   validates :target, presence: true, length: { maximum: 20 }
   validates :city, presence: true, length: { maximum: 30 }
