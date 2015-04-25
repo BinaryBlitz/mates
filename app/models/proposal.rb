@@ -20,6 +20,8 @@ class Proposal < ActiveRecord::Base
   validates :creator, presence: true
 
   def accept
-    # Destroy proposal and create invite
+    event.invited_users << user
+    # Push the notification
+    destroy
   end
 end
