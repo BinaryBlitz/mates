@@ -34,4 +34,13 @@ class EventsTest < ActionDispatch::IntegrationTest
     end
     assert_response :success
   end
+
+  test 'should remove users from event' do
+    bad_user = users(:baz)
+    @event.users << bad_user
+
+    delete "/api/events/#{@event.id}/remove", api_token: api_token, user_id: bad_user.id
+    assert_response :no_content
+    refute @event.users.include?(bad_user)
+  end
 end

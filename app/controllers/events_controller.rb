@@ -47,6 +47,13 @@ class EventsController < ApplicationController
     head :no_content
   end
 
+  # Admin only action
+  def remove
+    user = @event.users.find(params[:user_id])
+    @event.users.destroy(user)
+    head :no_content
+  end
+
   def proposals
     # Admin only action
     @proposals = @event.proposals
