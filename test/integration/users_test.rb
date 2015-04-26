@@ -1,19 +1,19 @@
 require 'test_helper'
 
-class UsersControllerTest < ActionController::TestCase
+class UsersTest < ActionDispatch::IntegrationTest
   setup do
     @user = users(:foo)
   end
 
-  test 'should get index' do
-    get :index, api_token: api_token, format: :json
+  test "index" do
+    get '/api/users/', api_token: api_token
     assert_response :success
     assert_not_nil assigns(:users)
   end
 
   test 'should create user' do
     assert_difference('User.count') do
-      post :create, format: :json, user: {
+      post '/api/users', user: {
         first_name: @user.first_name + '1',
         last_name: @user.last_name + '1',
         nickname: @user.nickname + '1'
@@ -24,20 +24,19 @@ class UsersControllerTest < ActionController::TestCase
   end
 
   test 'should show user' do
-    get :show, id: @user, api_token: api_token, format: :json
+    get "/api/users/#{@user.id}", api_token: api_token
     assert_response :success
   end
 
   test 'should update user' do
-    patch :update,
-          id: @user, api_token: api_token, format: :json,
+    patch "/api/users/#{@user.id}", api_token: api_token,
           user: { first_name: @user.first_name + '1', last_name: @user.last_name + '1' }
     assert_response :success
   end
 
   test 'should destroy user' do
     assert_difference('User.count', -1) do
-      delete :destroy, id: @user, api_token: api_token, format: :json
+      delete "/api/users/#{@user.id}", api_token: api_token
     end
 
     assert_response :success
