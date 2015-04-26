@@ -1,6 +1,10 @@
 class InvitesController < ApplicationController
   before_action :set_invite, only: [:show, :update, :destroy]
 
+  def index
+    @invites = current_user.invites
+  end
+
   def show
   end
 

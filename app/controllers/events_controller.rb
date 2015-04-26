@@ -1,5 +1,5 @@
 class EventsController < ApplicationController
-  before_action :set_event, only: [:show, :update, :destroy, :leave]
+  before_action :set_event, except: [:index, :create]
 
   # Participated events
   def index
@@ -47,14 +47,23 @@ class EventsController < ApplicationController
     head :no_content
   end
 
+  def proposals
+    # Admin only action
+    @proposals = @event.proposals
+  end
+
   private
 
   def set_event
-    @event = current_user.events.find(params[:id])
+    @event = Event.find(params[:id])
   end
 
   def events_params
-    params.require(:event).permit(:name, :target, :start_at, :end_at, :city,
-            :address, :latitude, :longitude, :info, :visible, :photo)
+    params.require(:event)
+      .permit(
+        :name, :target, :start_at, :end_at,
+        :city, :address, :latitude, :longitude,
+        :info, :visible, :photo
+      )
   end
 end

@@ -6,9 +6,12 @@ Rails.application.routes.draw do
 
     resources :events, except: [:new, :edit] do
       get :owned, on: :collection
-      delete :leave, on: :member
+      member do
+        get :proposals
+        delete :leave
+      end
     end
-    resources :invites, except: [:index, :new, :edit]
+    resources :invites, except: [:new, :edit]
     resources :proposals, except: [:index, :new, :edit]
     resources :memberships, except: [:new, :edit]
   end

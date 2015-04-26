@@ -14,7 +14,7 @@ class FriendRequestsTest < ActionDispatch::IntegrationTest
     assert_not_nil assigns(:outgoing)
   end
 
-  test 'should create and accept friend request' do
+  test 'should create and accept friend request, should remove friends' do
     assert_difference('FriendRequest.count') do
       post '/api/friend_requests', api_token: api_token, friend_id: @friend.id
     end
@@ -24,5 +24,10 @@ class FriendRequestsTest < ActionDispatch::IntegrationTest
     assert_response :no_content
     assert @user.friends.include?(@friend)
     assert @friend.friends.include?(@user)
+
+    delete "/api/friends/#{@friend.id}", api_token: api_token
+    assert_response :no_content
+    refute @user.friends.include?(@friend)
+    refute @friend.friends.include?(@user)
   end
 end
