@@ -35,6 +35,8 @@ class User < ActiveRecord::Base
   has_many :invites, dependent: :destroy
   has_many :invited_events, through: :invites, source: :event
 
+  has_many :comments, dependent: :destroy
+
   mount_base64_uploader :avatar, AvatarUploader
 
   def remove_friend(friend)

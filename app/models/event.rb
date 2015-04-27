@@ -31,6 +31,8 @@ class Event < ActiveRecord::Base
   has_many :memberships, dependent: :destroy
   has_many :users, through: :memberships
 
+  has_many :comments, dependent: :destroy
+
   validates :admin, presence: true
   validates :name, presence: true, length: { maximum: 30 }
   validates :target, presence: true, length: { maximum: 20 }
