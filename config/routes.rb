@@ -11,6 +11,7 @@ Rails.application.routes.draw do
         delete :remove
         delete :leave
       end
+      resources :comments, except: [:new, :edit]
     end
     resources :invites, except: [:new, :edit]
     resources :proposals, except: [:index, :new, :edit]
