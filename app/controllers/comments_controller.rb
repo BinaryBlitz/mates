@@ -14,7 +14,7 @@ class CommentsController < ApplicationController
     @comment.user = current_user
 
     if @comment.save
-      render :show, status: :created, location: @comment
+      render :show, status: :created, location: [@event, @comment]
     else
       render json: @comment.errors, status: :unprocessable_entity
     end
@@ -22,7 +22,7 @@ class CommentsController < ApplicationController
 
   def update
     if @comment.update(comment_params)
-      render :show, status: :ok, location: @comment
+      render :show, status: :ok, location: [@event, @comment]
     else
       render json: @comment.errors, status: :unprocessable_entity
     end
