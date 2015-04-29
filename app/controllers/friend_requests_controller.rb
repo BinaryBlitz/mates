@@ -8,7 +8,7 @@ class FriendRequestsController < ApplicationController
 
   def create
     friend = User.find(params[:friend_id])
-    @friend_request = current_user.friend_requests.new(friend: friend)
+    @friend_request = current_user.friend_requests.build(friend: friend)
 
     if @friend_request.save
       render :show, status: :created, location: @friend_request

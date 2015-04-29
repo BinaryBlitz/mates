@@ -10,7 +10,7 @@ class CommentsController < ApplicationController
   end
 
   def create
-    @comment = @event.comments.new(comment_params)
+    @comment = @event.comments.build(comment_params)
     @comment.user = current_user
 
     if @comment.save
