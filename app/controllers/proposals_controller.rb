@@ -18,12 +18,14 @@ class ProposalsController < ApplicationController
 
   # Accept the proposal
   def update
+    authorize @proposal
     @proposal.accept
     head :no_content
   end
 
   # Decline or cancel proposal
   def destroy
+    authorize @proposal
     @proposal.destroy
     head :no_content
   end
