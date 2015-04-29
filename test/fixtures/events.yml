@@ -32,4 +32,8 @@ party:
   visible: public
   admin: foo
 
-
+finale:
+  name: Champions League Finale
+  admin: baz
+  target: Olympiastadion
+  city: Berlin
