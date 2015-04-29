@@ -30,4 +30,15 @@ class FriendRequestsTest < ActionDispatch::IntegrationTest
     refute @user.friends.include?(@friend)
     refute @friend.friends.include?(@user)
   end
+
+  test 'should authorize users' do
+    stranger = users(:baz)
+    post '/api/friend_requests', api_token: api_token, friend_id: @friend.id
+
+    patch "/api/friend_requests/#{FriendRequest.last.id}", api_token: stranger.api_token
+    assert_response :unauthorized
+
+    delete "/api/friend_requests/#{FriendRequest.last.id}", api_token: stranger.api_token
+    assert_response :unauthorized
+  end
 end

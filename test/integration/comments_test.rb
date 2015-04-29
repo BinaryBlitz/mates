@@ -3,6 +3,7 @@ require 'test_helper'
 class CommentsTest < ActionDispatch::IntegrationTest
   setup do
     @event = events(:party)
+    @comment = comments(:comment)
   end
 
   test 'should get index' do
@@ -26,5 +27,15 @@ class CommentsTest < ActionDispatch::IntegrationTest
 
     delete "/api/events/#{@event.id}/comments/#{Comment.last.id}", api_token: api_token
     assert_response :no_content
+  end
+
+  test 'should auhtorize users' do
+    stranger = users(:baz)
+
+    patch "/api/events/#{@event.id}/comments/#{@comment.id}", api_token: stranger.api_token
+    assert_response :unauthorized
+
+    delete "/api/events/#{@event.id}/comments/#{@comment.id}", api_token: stranger.api_token
+    assert_response :unauthorized
   end
 end

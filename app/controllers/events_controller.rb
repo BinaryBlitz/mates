@@ -20,6 +20,7 @@ class EventsController < ApplicationController
   end
 
   def update
+    authorize @event
     if @event.update(events_params)
       render :show, status: :ok, location: @event
     else
@@ -28,6 +29,7 @@ class EventsController < ApplicationController
   end
 
   def destroy
+    authorize @event
     @event.destroy
     head :no_content
   end
@@ -40,21 +42,22 @@ class EventsController < ApplicationController
 
   # Leave the event
   def leave
-    head :unprocessable_entity and return if current_user == @event.admin
-
+    authorize @event
     current_user.events.destroy(@event)
     head :no_content
   end
 
-  # Admin only action
+  # Remove user from the event
   def remove
+    authorize @event
     user = @event.users.find(params[:user_id])
     @event.users.destroy(user)
     head :no_content
   end
 
+  # List of proposed users
   def proposals
-    # Admin only action
+    authorize @event
     @proposals = @event.proposals
   end
 

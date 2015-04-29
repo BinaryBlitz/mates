@@ -16,9 +16,11 @@ gem 'carrierwave'
 gem 'carrierwave-base64'
 gem 'mini_magick'
 
-# Authentication
+# Auth
 gem 'vkontakte_api'
 gem 'koala', '~> 2.0.0'
+gem 'pundit'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 

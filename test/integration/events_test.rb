@@ -36,6 +36,25 @@ class EventsTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
+  test 'should authorize users' do
+    stranger = users(:baz)
+
+    patch "/api/events/#{@event.id}", api_token: stranger.api_token
+    assert_response :unauthorized
+
+    delete "/api/events/#{@event.id}", api_token: stranger.api_token
+    assert_response :unauthorized
+
+    delete "/api/events/#{@event.id}/remove", api_token: stranger.api_token
+    assert_response :unauthorized
+
+    get "/api/events/#{@event.id}/proposals", api_token: stranger.api_token
+    assert_response :unauthorized
+
+    delete "/api/events/#{@event.id}/leave", api_token: api_token
+    assert_response :unauthorized
+  end
+
   test 'should remove users from event' do
     bad_user = users(:baz)
     @event.users << bad_user

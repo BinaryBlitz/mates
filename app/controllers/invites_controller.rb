@@ -21,12 +21,14 @@ class InvitesController < ApplicationController
 
   # Accept the invite
   def update
+    authorize @invite
     @invite.accept
     head :no_content
   end
 
   # Decline or cancel the invite
   def destroy
+    authorize @invite
     @invite.destroy
     head :no_content
   end

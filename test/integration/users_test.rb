@@ -29,16 +29,25 @@ class UsersTest < ActionDispatch::IntegrationTest
   end
 
   test 'should update user' do
-    patch "/api/users/#{@user.id}", api_token: api_token,
+    patch "/api/users/#{@user.id}", api_token: @user.api_token,
           user: { first_name: @user.first_name + '1', last_name: @user.last_name + '1' }
     assert_response :success
   end
 
   test 'should destroy user' do
     assert_difference('User.count', -1) do
-      delete "/api/users/#{@user.id}", api_token: api_token
+      delete "/api/users/#{@user.id}", api_token: @user.api_token
     end
-
     assert_response :success
+  end
+
+  test 'should authorize users' do
+    stranger = users(:john)
+
+    patch "/api/users/#{@user.id}", api_token: stranger.api_token
+    assert_response :unauthorized
+
+    delete "/api/users/#{@user.id}", api_token: stranger.api_token
+    assert_response :unauthorized
   end
 end
