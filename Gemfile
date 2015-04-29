@@ -18,7 +18,7 @@ gem 'mini_magick'
 
 # Authentication
 gem 'vkontakte_api'
-
+gem 'koala', '~> 2.0.0'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 

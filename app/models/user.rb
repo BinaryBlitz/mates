@@ -42,7 +42,7 @@ class User < ActiveRecord::Base
 
   mount_base64_uploader :avatar, AvatarUploader
 
-  include VKAuthenticable
+  include Authenticable
 
   def remove_friend(friend)
     friendships.find_by(friend: friend).destroy
