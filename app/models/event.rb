@@ -20,11 +20,12 @@
 #
 
 class Event < ActiveRecord::Base
+  after_create :attend
+
   belongs_to :admin, class_name: 'User'
 
   has_many :proposals, dependent: :destroy
   has_many :proposed_users, through: :proposals, source: :user
-
   has_many :invites, dependent: :destroy
   has_many :invited_users, through: :invites, source: :user
 
@@ -39,4 +40,10 @@ class Event < ActiveRecord::Base
   validates :city, presence: true, length: { maximum: 30 }
 
   mount_base64_uploader :photo, PhotoUploader
+
+  private
+
+  def attend
+    admin.events << self
+  end
 end

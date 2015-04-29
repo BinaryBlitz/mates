@@ -20,6 +20,7 @@ class EventsTest < ActionDispatch::IntegrationTest
         city: 'new'
       }
     end
+    assert @event.admin.events.include?(Event.last)
 
     get "/api/events/#{Event.last.id}", api_token: api_token
     assert_response :success

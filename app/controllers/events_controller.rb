@@ -13,7 +13,6 @@ class EventsController < ApplicationController
     @event = current_user.owned_events.build(events_params)
 
     if @event.save
-      current_user.events << @event
       render :show, status: :created, location: @event
     else
       render json: @event.errors, status: :unprocessable_entity
