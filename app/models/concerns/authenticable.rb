@@ -13,13 +13,13 @@ module Authenticable
     end
 
     def find_or_create_from_fb(graph)
-      fb_user = graph.get_object("me?fields=id,first_name,last_name,picture")
+      fb_user = graph.get_object('me?fields=id,first_name,last_name,picture')
       user = find_by(facebook_id: fb_user.id)
 
-      user || create! {
+      user || create!(
         first_name: fb_user.first_name, last_name: fb_user.last_name,
         facebook_id: fb_user.id, remote_avatar_url: fb_user.picture.data.url.to_s
-      }
+      )
     end
   end
 end

@@ -22,10 +22,10 @@ class VKTest < ActiveSupport::TestCase
   def vk_client
     users = stub(get: [vk_user])
     friends = stub(get: [])
-    vk_client = stub(users: users, token: 'token', friends: friends)
+    stub(users: users, token: 'token', friends: friends)
   end
 
   def vk_user
-    vk_user = stub(first_name: 'Foo', last_name: 'Bar', photo: nil, uid: 2)
+    stub(first_name: 'Foo', last_name: 'Bar', photo: nil, uid: 2)
   end
 end
