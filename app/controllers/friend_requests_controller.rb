@@ -18,11 +18,13 @@ class FriendRequestsController < ApplicationController
   end
 
   def update
+    authorize @friend_request
     @friend_request.accept
     head :no_content
   end
 
   def destroy
+    authorize @friend_request
     @friend_request.destroy
     head :no_content
   end
