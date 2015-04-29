@@ -114,9 +114,11 @@ ActiveRecord::Schema.define(version: 20150427105159) do
     t.date     "birthday"
     t.boolean  "gender"
     t.string   "api_token"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
     t.string   "avatar"
+    t.integer  "vk_id"
+    t.integer  "facebook_id"
   end
 
 end

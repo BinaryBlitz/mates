@@ -2,16 +2,18 @@
 #
 # Table name: users
 #
-#  id         :integer          not null, primary key
-#  first_name :string
-#  last_name  :string
-#  nickname   :string
-#  birthday   :date
-#  gender     :boolean
-#  api_token  :string
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
-#  avatar     :string
+#  id          :integer          not null, primary key
+#  first_name  :string
+#  last_name   :string
+#  nickname    :string
+#  birthday    :date
+#  gender      :boolean
+#  api_token   :string
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
+#  avatar      :string
+#  vk_id       :integer
+#  facebook_id :integer
 #
 
 class User < ActiveRecord::Base
@@ -19,7 +21,7 @@ class User < ActiveRecord::Base
 
   validates :first_name, presence: true, length: { maximum: 20 }
   validates :last_name, presence: true, length: { maximum: 20 }
-  validates :nickname, presence: true, length: { maximum: 20 }
+  validates :nickname, presence: true, length: { maximum: 20 }, unless: :oauth?
 
   has_many :friend_requests, dependent: :destroy
   has_many :pending_friends, through: :friend_requests, source: :friend
@@ -39,6 +41,8 @@ class User < ActiveRecord::Base
 
   mount_base64_uploader :avatar, AvatarUploader
 
+  include Authenticable
+
   def remove_friend(friend)
     friendships.find_by(friend: friend).destroy
     friend.friendships.find_by(friend: self).destroy
@@ -48,5 +52,9 @@ class User < ActiveRecord::Base
 
   def generate_api_token
     self.api_token = SecureRandom.hex
+  end
+
+  def oauth?
+    vk_id || facebook_id
   end
 end
