@@ -11,6 +11,7 @@
 #  api_token  :string
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
+#  avatar     :string
 #
 
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
@@ -29,4 +30,12 @@ baz:
   nickname: bazqux
   birthday: 2015-04-18
   gender: true
+  api_token: <%= SecureRandom.hex %>
+
+john:
+  first_name: John
+  last_name: Doe
+  nickname: johndoe
+  birthday: 2015-04-18
+  gender: false
   api_token: <%= SecureRandom.hex %>

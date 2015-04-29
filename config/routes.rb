@@ -1,6 +1,21 @@
 Rails.application.routes.draw do
   scope '/api', defaults: { format: :json } do
     resources :users
+    resources :friend_requests, except: [:show, :new, :edit]
+    resources :friends, only: [:index, :destroy]
+
+    resources :events, except: [:new, :edit] do
+      get :owned, on: :collection
+      member do
+        get :proposals
+        delete :remove
+        delete :leave
+      end
+      resources :comments, except: [:new, :edit]
+    end
+    resources :invites, except: [:new, :edit]
+    resources :proposals, except: [:index, :new, :edit]
+    resources :memberships, except: [:new, :edit]
   end
 
   # The priority is based upon order of creation: first created -> highest priority.
