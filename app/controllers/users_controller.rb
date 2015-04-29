@@ -37,6 +37,13 @@ class UsersController < ApplicationController
     head :no_content
   end
 
+  def authenticate_fb
+    return unless params[:token].present?
+    graph = Koala::Facebook::API.new(params[:token])
+    @user = User.find_or_create_from_fb(graph)
+    #render action: :authenticate, location: @user
+  end
+
   private
 
   # Use callbacks to share common setup or constraints between actions.
