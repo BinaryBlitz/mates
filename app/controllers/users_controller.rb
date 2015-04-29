@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
-  skip_before_action :restrict_access
+  skip_before_action :restrict_access,
+                     only: [:create, :authenticate, :authenticate_vk, :authenticate_fb]
   before_action :set_user, only: [:show, :update, :destroy]
 
   # GET /users
@@ -24,6 +25,7 @@ class UsersController < ApplicationController
 
   # PATCH/PUT /users/1
   def update
+    authorize @user
     if @user.update(user_params)
       render :show, status: :ok, location: @user
     else
@@ -33,6 +35,7 @@ class UsersController < ApplicationController
 
   # DELETE /users/1
   def destroy
+    authorize @user
     @user.destroy
     head :no_content
   end
