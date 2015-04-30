@@ -8,6 +8,7 @@ class ProposalsController < ApplicationController
   def create
     @proposal = Proposal.new(proposal_params)
     @proposal.creator = current_user
+    authorize @proposal
 
     if @proposal.save
       render :show, status: :created, location: @proposal
