@@ -43,7 +43,7 @@ class UsersController < ApplicationController
   def authenticate
     @user = User.find_by(nickname: params[:nickname])
 
-    if @user && @user.authenticate(params[:password_digest])
+    if @user && @user.authenticate(params[:password])
       render :authenticate, location: @user
     else
       render json: { error: 'Invalid nickname / password combination' }, status: :unauthorized

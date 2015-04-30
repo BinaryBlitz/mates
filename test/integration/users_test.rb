@@ -45,7 +45,7 @@ class UsersTest < ActionDispatch::IntegrationTest
   end
 
   test 'should authenticate by nickname' do
-    post "/api/users/authenticate", nickname: @user.nickname, password_digest: 'foobar'
+    post "/api/users/authenticate", nickname: @user.nickname, password: 'foobar'
     assert_response :success
     assert_not_nil json_response['api_token']
   end
