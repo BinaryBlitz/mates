@@ -12,4 +12,8 @@ class ActiveSupport::TestCase
   def api_token
     users(:foo).api_token
   end
+
+  def json_response
+    JSON.parse(@response.body)
+  end
 end

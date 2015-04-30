@@ -25,6 +25,7 @@ foo:
   birthday: 2015-04-18
   gender: false
   api_token: <%= SecureRandom.hex %>
+  password_digest: <%= BCrypt::Password.create('foobar', cost: 4) %>
 
 baz:
   first_name: Baz

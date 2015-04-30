@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150427105159) do
+ActiveRecord::Schema.define(version: 20150430133004) do
 
   create_table "comments", force: :cascade do |t|
     t.string   "content"
@@ -23,18 +23,6 @@ ActiveRecord::Schema.define(version: 20150427105159) do
 
   add_index "comments", ["event_id"], name: "index_comments_on_event_id"
   add_index "comments", ["user_id"], name: "index_comments_on_user_id"
-
-  create_table "event_members", force: :cascade do |t|
-    t.integer  "user_id"
-    t.integer  "event_id"
-    t.boolean  "approved",   default: false
-    t.boolean  "accepted",   default: false
-    t.datetime "created_at",                 null: false
-    t.datetime "updated_at",                 null: false
-  end
-
-  add_index "event_members", ["event_id"], name: "index_event_members_on_event_id"
-  add_index "event_members", ["user_id"], name: "index_event_members_on_user_id"
 
   create_table "events", force: :cascade do |t|
     t.string   "name"
@@ -114,11 +102,12 @@ ActiveRecord::Schema.define(version: 20150427105159) do
     t.date     "birthday"
     t.boolean  "gender"
     t.string   "api_token"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
     t.string   "avatar"
     t.integer  "vk_id"
-    t.integer  "facebook_id"
+    t.integer  "facebook_id",     limit: 8
+    t.string   "password_digest"
   end
 
 end

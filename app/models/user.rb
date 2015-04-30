@@ -19,9 +19,11 @@
 class User < ActiveRecord::Base
   before_create :generate_api_token
 
+  has_secure_password
   validates :first_name, presence: true, length: { maximum: 20 }
   validates :last_name, presence: true, length: { maximum: 20 }
   validates :nickname, presence: true, length: { maximum: 20 }, unless: :oauth?
+  validates :password, presence: true, length: { minimum: 6 }
 
   has_many :friend_requests, dependent: :destroy
   has_many :pending_friends, through: :friend_requests, source: :friend
