@@ -12,14 +12,13 @@ class UsersTest < ActionDispatch::IntegrationTest
   end
 
   test 'should create user' do
-    assert_difference('User.count') do
-      post '/api/users', user: {
-        first_name: @user.first_name + '1',
-        last_name: @user.last_name + '1',
-        nickname: @user.nickname + '1'
-      }
-    end
-
+    post '/api/users', user: {
+      first_name: 'Foo',
+      last_name: 'Bar',
+      nickname: 'Foobar',
+      password: 'foobar',
+      password_confirmation: 'foobar'
+    }
     assert_response :created
   end
 
@@ -29,8 +28,12 @@ class UsersTest < ActionDispatch::IntegrationTest
   end
 
   test 'should update user' do
-    patch "/api/users/#{@user.id}", api_token: @user.api_token,
-          user: { first_name: @user.first_name + '1', last_name: @user.last_name + '1' }
+    patch "/api/users/#{@user.id}", api_token: api_token, user: {
+      first_name: 'Foo',
+      last_name: 'Bar',
+      password: 'foobar',
+      password_confirmation: 'foobar'
+    }
     assert_response :success
   end
 
@@ -39,6 +42,12 @@ class UsersTest < ActionDispatch::IntegrationTest
       delete "/api/users/#{@user.id}", api_token: @user.api_token
     end
     assert_response :success
+  end
+
+  test 'should authenticate by nickname' do
+    post "/api/users/authenticate", nickname: @user.nickname, password_digest: 'foobar'
+    assert_response :success
+    assert_not_nil json_response['api_token']
   end
 
   test 'should authorize users' do

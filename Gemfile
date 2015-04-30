@@ -18,11 +18,9 @@ gem 'mini_magick'
 
 # Auth
 gem 'vkontakte_api'
-gem 'koala', '~> 2.0.0'
+gem 'koala'
 gem 'pundit'
-
-# Use ActiveModel has_secure_password
-# gem 'bcrypt', '~> 3.1.7'
+gem 'bcrypt', '~> 3.1.7'
 
 # Use Unicorn as the app server
 # gem 'unicorn'

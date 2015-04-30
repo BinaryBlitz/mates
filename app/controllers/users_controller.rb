@@ -40,11 +40,30 @@ class UsersController < ApplicationController
     head :no_content
   end
 
+  def authenticate
+    @user = User.find_by(nickname: params[:nickname])
+
+    if @user && @user.authenticate(params[:password_digest])
+      render :authenticate, location: @user
+    else
+      render json: { error: 'Invalid nickname / password combination' }, status: :unauthorized
+    end
+  end
+
+  def authenticate_vk
+    return unless params[:token].present?
+    vk = VkontakteApi::Client.new(params[:token])
+    @user = User.find_or_create_from_vk(vk)
+
+    render :authenticate, location: @user
+  end
+
   def authenticate_fb
     return unless params[:token].present?
     graph = Koala::Facebook::API.new(params[:token])
     @user = User.find_or_create_from_fb(graph)
-    #render action: :authenticate, location: @user
+
+    render :authenticate, location: @user
   end
 
   private
@@ -56,6 +75,6 @@ class UsersController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def user_params
-    params.require(:user).permit(:first_name, :last_name, :nickname, :birthday, :gender, :avatar)
+    params.require(:user).permit(:first_name, :last_name, :nickname, :password, :password_confirmation, :birthday, :gender, :avatar)
   end
 end
