@@ -1,4 +1,8 @@
 class CommentPolicy < ApplicationPolicy
+  def create?
+    record.event.users.include?(user)
+  end
+
   def update?
     record.user == user
   end

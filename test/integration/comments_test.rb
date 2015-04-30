@@ -13,6 +13,9 @@ class CommentsTest < ActionDispatch::IntegrationTest
   end
 
   test 'should post, update, delete comments' do
+    # Allow the user to post comments on event
+    @event.users << users(:foo)
+
     post "/api/events/#{@event.id}/comments", api_token: api_token, comment: {
       content: "comment"
     }
@@ -31,6 +34,11 @@ class CommentsTest < ActionDispatch::IntegrationTest
 
   test 'should auhtorize users' do
     stranger = users(:baz)
+
+    post "/api/events/#{@event.id}/comments", api_token: stranger.api_token, comment: {
+      content: "Hello!"
+    }
+    assert_response :unauthorized
 
     patch "/api/events/#{@event.id}/comments/#{@comment.id}", api_token: stranger.api_token
     assert_response :unauthorized

@@ -12,6 +12,7 @@ class CommentsController < ApplicationController
   def create
     @comment = @event.comments.build(comment_params)
     @comment.user = current_user
+    authorize @comment
 
     if @comment.save
       render :show, status: :created, location: [@event, @comment]
