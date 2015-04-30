@@ -41,6 +41,12 @@ class Event < ActiveRecord::Base
 
   mount_base64_uploader :photo, PhotoUploader
 
+  PREVIEW_USERS_COUNT = 2
+
+  def preview_users
+    users.where.not(id: admin.id).limit(PREVIEW_USERS_COUNT)
+  end
+
   private
 
   def attend

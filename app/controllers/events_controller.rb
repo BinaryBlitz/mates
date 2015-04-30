@@ -1,5 +1,5 @@
 class EventsController < ApplicationController
-  before_action :set_event, except: [:index, :create]
+  before_action :set_event, except: [:index, :create, :owned]
 
   # Participated events
   def index
