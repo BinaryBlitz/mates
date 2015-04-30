@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150430133004) do
+ActiveRecord::Schema.define(version: 20150430195951) do
 
   create_table "comments", force: :cascade do |t|
     t.string   "content"
@@ -24,16 +24,28 @@ ActiveRecord::Schema.define(version: 20150430133004) do
   add_index "comments", ["event_id"], name: "index_comments_on_event_id"
   add_index "comments", ["user_id"], name: "index_comments_on_user_id"
 
+  create_table "event_members", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "event_id"
+    t.boolean  "approved",   default: false
+    t.boolean  "accepted",   default: false
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+  end
+
+  add_index "event_members", ["event_id"], name: "index_event_members_on_event_id"
+  add_index "event_members", ["user_id"], name: "index_event_members_on_user_id"
+
   create_table "events", force: :cascade do |t|
     t.string   "name"
     t.string   "target"
-    t.datetime "start_at"
-    t.datetime "end_at"
+    t.datetime "starts_at"
+    t.datetime "ends_at"
     t.string   "city"
     t.float    "latitude"
     t.float    "longitude"
     t.text     "info"
-    t.string   "visible"
+    t.string   "visibility"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string   "address"

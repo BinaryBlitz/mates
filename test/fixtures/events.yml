@@ -5,13 +5,13 @@
 #  id         :integer          not null, primary key
 #  name       :string
 #  target     :string
-#  start_at   :datetime
-#  end_at     :datetime
+#  starts_at  :datetime
+#  ends_at    :datetime
 #  city       :string
 #  latitude   :float
 #  longitude  :float
 #  info       :text
-#  visible    :string
+#  visibility :string
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #  address    :string
