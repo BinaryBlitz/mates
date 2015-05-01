@@ -18,9 +18,6 @@
 #
 
 class User < ActiveRecord::Base
-  before_create :generate_api_token
-
-  has_secure_password
   validates :first_name, presence: true, length: { maximum: 20 }
   validates :last_name, presence: true, length: { maximum: 20 }
   validates :nickname, presence: true, length: { maximum: 20 }, unless: :oauth?
@@ -42,6 +39,9 @@ class User < ActiveRecord::Base
 
   has_many :comments, dependent: :destroy
 
+  has_secure_password
+  has_secure_token :api_token
+
   mount_base64_uploader :avatar, AvatarUploader
 
   include Authenticable
@@ -52,10 +52,6 @@ class User < ActiveRecord::Base
   end
 
   private
-
-  def generate_api_token
-    self.api_token = SecureRandom.hex
-  end
 
   def oauth?
     vk_id || facebook_id

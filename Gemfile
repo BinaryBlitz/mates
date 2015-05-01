@@ -20,6 +20,7 @@ gem 'mini_magick'
 gem 'vkontakte_api'
 gem 'koala'
 gem 'pundit'
+gem 'has_secure_token'
 gem 'bcrypt', '~> 3.1.7'
 
 # Use Unicorn as the app server
