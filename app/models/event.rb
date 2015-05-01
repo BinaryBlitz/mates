@@ -43,9 +43,20 @@ class Event < ActiveRecord::Base
 
   PREVIEW_USERS_COUNT = 2
 
+  scope :upcoming_events, -> { where('starts_at >= ?', Time.now)}
+  scope :not_participated_by, ->(user) { where.not(id: user.event_ids)}
+
   def preview_users
     users.where.not(id: admin.id).limit(PREVIEW_USERS_COUNT)
   end
+
+
+  def self.created_or_participated_by_friends(current_user)
+    friends = current_user.friend_ids
+    joins(:users).where(users: {id: current_user.friend_ids})
+    .not_participated_by(current_user)
+  end
+
 
   private
 

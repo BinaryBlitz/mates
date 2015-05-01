@@ -6,6 +6,8 @@
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
 # Users and friends
+Event.destroy_all
+User.destroy_all
 foo = User.create(
   first_name: 'Foo', last_name: 'Bar', nickname: 'foobar',
   gender: true, password: 'foobar', phone_number: '+74995555557')
@@ -66,6 +68,7 @@ wedding = Event.create(
   name: 'The Red Wedding', target: 'Robb Stark', city: 'The Twins', admin: frey,
   starts_at: Time.now, ends_at: Time.now + 1.day, info: "Everyone's invited.", address: 'The Twins')
 wedding.users << robb
+wedding.users << sam
 wedding.invited_users << cat
 wedding.proposals.create(user: bolton, creator: robb)
 wedding.comments.create(content: 'The Lannisters send their regards.', user: bolton)

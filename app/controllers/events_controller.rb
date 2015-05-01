@@ -61,6 +61,12 @@ class EventsController < ApplicationController
     @proposals = @event.proposals
   end
 
+  # Fetch actual upcoming events to the feed
+  def feed
+    @events = Event.upcoming_events.created_or_participated_by_friends(current_user)
+    render :index
+  end
+
   private
 
   def set_event
