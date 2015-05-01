@@ -18,7 +18,7 @@ module Authenticable
 
       user || create!(
         first_name: fb_user['first_name'], last_name: fb_user['last_name'], password: SecureRandom.hex,
-        nickname: fb_user['name'],facebook_id: fb_user['id'], remote_avatar_url: fb_user['picture.data.url'].to_s
+        nickname: fb_user['name'],facebook_id: fb_user['id'], remote_avatar_url: fb_user['picture']['data']['url'].to_s
       )
     end
   end
