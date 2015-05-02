@@ -44,9 +44,6 @@ battle.invited_users << ygritte
 battle.proposals.create(user: mance, creator: ygritte)
 battle.comments.create(content: 'The night is gathering.', user: sam)
 battle.comments.create(content: 'You know nothing, Jon Snow.', user: ygritte)
-battle_next = Event.create(
-  name: 'Battle of Castle Black 2', target: 'The Wall', city: 'The North', admin: jon,
-  starts_at: Time.now+5.days, ends_at: Time.now + 10.days, info: 'To the Wall!', address: 'Castle Black')
 
 
 choosing = Event.create(
@@ -80,3 +77,11 @@ wedding.comments.create(content: '...', user: robb)
 wedding_next = Event.create(
   name: 'The Red Wedding 2', target: 'Robb Stark', city: 'The Twins2', admin: frey,
   starts_at: Time.now + 1.month, ends_at: Time.now + 2.month, info: "Everyone's invited.", address: 'The Twins')
+wedding_next.users << cat
+wedding_next.users << bolton
+battle_next = Event.create(
+  name: 'Battle of Castle Black 2', target: 'The Wall', city: 'The North', admin: jon,
+  starts_at: Time.now+5.days, ends_at: Time.now + 10.days, info: 'To the Wall!', address: 'Castle Black')
+battle_next.users << baz
+battle_next.users << ygritte
+battle_next.users << foo
