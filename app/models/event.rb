@@ -50,13 +50,27 @@ class Event < ActiveRecord::Base
     users.where.not(id: admin.id).limit(PREVIEW_USERS_COUNT)
   end
 
-
-  def self.created_or_participated_by_friends(current_user)
-    friends = current_user.friend_ids
-    joins(:users).where(users: {id: current_user.friend_ids})
-    .not_participated_by(current_user)
+  def self.feed_for(current_user)
+    feed_events_ids = self.created_or_participated_by_friends(current_user)
+    feed_events_ids += self.by_users_from_past_events(current_user)
+    where(id: feed_events_ids)
   end
 
+
+  def self.created_or_participated_by_friends(current_user)
+    joins(:users).merge(current_user.friends)
+    .not_participated_by(current_user)
+    .upcoming_events
+    .pluck("id")
+  end
+
+  def self.by_users_from_past_events(current_user)
+    includes(:memberships)
+    .where(memberships: { user_id: User.from_events_participated_by(current_user)})
+    .not_participated_by(current_user)
+    .upcoming_events
+    .pluck("id")
+  end
 
   private
 

@@ -51,6 +51,14 @@ class User < ActiveRecord::Base
 
   include Authenticable
 
+  def self.from_events_participated_by(user)
+    includes(:memberships)
+    .where(memberships: { event_id: user.events })
+    .where.not(memberships: { user_id: user.friends })
+    .where.not(memberships: { user_id: user })
+    .pluck('id')
+  end
+
   def remove_friend(friend)
     friendships.find_by(friend: friend).destroy
     friend.friendships.find_by(friend: self).destroy
