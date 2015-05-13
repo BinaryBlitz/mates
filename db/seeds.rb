@@ -34,8 +34,10 @@ sam.friends << jon
 jon.pending_friends << ygritte
 mance.pending_friends << jon
 
+party, active = EventType.create([{ name: 'Party' }, { name: 'Active' }])
+
 battle = Event.create(
-  name: 'Battle of Castle Black', target: 'The Wall', city: 'The North', admin: jon,
+  name: 'Battle of Castle Black', event_type: active, city: 'The North', admin: jon,
   starts_at: Time.now, ends_at: Time.now + 1.day, info: 'To the Wall!', address: 'Castle Black')
 battle.users << sam
 battle.invited_users << ygritte
@@ -44,7 +46,7 @@ battle.comments.create(content: 'The night is gathering.', user: sam)
 battle.comments.create(content: 'You know nothing, Jon Snow.', user: ygritte)
 
 choosing = Event.create(
-  name: "Night's Watch Choosing", target: 'Choosing', city: 'Castle Black', admin: sam,
+  name: "Night's Watch Choosing", event_type: party, city: 'Castle Black', admin: sam,
   info: "Choosing of the new Lord Commander of the Night's Watch")
 choosing.users << jon
 
@@ -63,7 +65,7 @@ cat = User.create(
 )
 
 wedding = Event.create(
-  name: 'The Red Wedding', target: 'Robb Stark', city: 'The Twins', admin: frey,
+  name: 'The Red Wedding', event_type: party, city: 'The Twins', admin: frey,
   starts_at: Time.now, ends_at: Time.now + 1.day, info: "Everyone's invited.", address: 'The Twins')
 wedding.users << robb
 wedding.invited_users << cat

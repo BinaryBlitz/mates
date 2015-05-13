@@ -11,13 +11,18 @@ class EventsTest < ActionDispatch::IntegrationTest
     assert_not_nil assigns(:events)
   end
 
+  test 'should get event types' do
+    get '/api/event_types', api_token: api_token
+    assert_response :success
+  end
+
   test 'should create, read, update and destroy event' do
     assert_difference('Event.count') do
       post '/api/events', api_token: api_token, event: {
         admin_id: @event.admin_id,
         name: 'new',
-        target: 'new',
-        city: 'new'
+        city: 'new',
+        event_type_id: @event.event_type.id
       }
     end
     assert @event.admin.events.include?(Event.last)
@@ -26,8 +31,7 @@ class EventsTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_not_nil assigns(:event)
 
-    patch "/api/events/#{Event.last.id}", api_token: api_token, event: {
-      name: 'edit', target: 'edit' }
+    patch "/api/events/#{Event.last.id}", api_token: api_token, event: { name: 'edit' }
     assert_response :success
 
     assert_difference('Event.count', -1) do
