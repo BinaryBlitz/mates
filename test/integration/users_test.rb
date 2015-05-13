@@ -5,7 +5,7 @@ class UsersTest < ActionDispatch::IntegrationTest
     @user = users(:foo)
   end
 
-  test "index" do
+  test 'should list users' do
     get '/api/users/', api_token: api_token
     assert_response :success
     assert_not_nil assigns(:users)
@@ -45,7 +45,7 @@ class UsersTest < ActionDispatch::IntegrationTest
   end
 
   test 'should authenticate by nickname' do
-    post "/api/users/authenticate", nickname: @user.nickname, password: 'foobar'
+    post '/api/users/authenticate', nickname: @user.nickname, password: 'foobar'
     assert_response :success
     assert_not_nil json_response['api_token']
   end

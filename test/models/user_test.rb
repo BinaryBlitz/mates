@@ -15,6 +15,8 @@
 #  vk_id           :integer
 #  facebook_id     :integer
 #  password_digest :string
+#  city            :string
+#  phone_number    :string
 #
 
 require 'test_helper'

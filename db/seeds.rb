@@ -7,19 +7,21 @@
 
 # Users and friends
 foo = User.create(
-  first_name: 'Foo', last_name: 'Bar', nickname: 'foobar', gender: true, password: 'foobar')
+  first_name: 'Foo', last_name: 'Bar', nickname: 'foobar',
+  gender: true, password: 'foobar', phone_number: '+74995555557')
 foo.update(api_token: 'foo')
 baz = User.create(
-  first_name: 'Baz', last_name: 'Qux', nickname: 'bazqux', gender: false, password: 'bazqux')
+  first_name: 'Baz', last_name: 'Qux', nickname: 'bazqux',
+  gender: false, password: 'bazqux', phone_number: '+74995555558')
 baz.update(api_token: 'baz')
 
 jon = User.create(
   first_name: 'Jon', last_name: 'Snow', birthday: 15.years.ago,
-  nickname: 'bastard', gender: true, password: 'jonsnow')
+  nickname: 'bastard', gender: true, password: 'jonsnow', phone_number: '+74995555555')
 jon.update(api_token: 'jon')
 sam = User.create(
   first_name: 'Sam', last_name: 'Tarly', birthday: 19.years.ago,
-  nickname: 'the-slayer', gender: true, password: 'samtarly')
+  nickname: 'the-slayer', gender: true, password: 'samtarly', phone_number: '+74995555556')
 ygritte = User.create(
   first_name: 'Ygritte', last_name: 'The Wildling', birthday: 16.years.ago,
   nickname: 'kissed-by-fire', gender: false, password: 'ygritte')

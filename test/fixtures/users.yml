@@ -15,6 +15,8 @@
 #  vk_id           :integer
 #  facebook_id     :integer
 #  password_digest :string
+#  city            :string
+#  phone_number    :string
 #
 
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
@@ -25,6 +27,7 @@ foo:
   nickname: foobar
   birthday: 2015-04-18
   gender: false
+  phone_number: +74995555555
   api_token: <%= SecureRandom.hex %>
   password_digest: <%= BCrypt::Password.create('foobar', cost: 4) %>
 
@@ -33,6 +36,7 @@ baz:
   last_name: Qux
   nickname: bazqux
   birthday: 2015-04-18
+  phone_number: +74995555556
   gender: true
   api_token: <%= SecureRandom.hex %>
 
@@ -41,5 +45,6 @@ john:
   last_name: Doe
   nickname: johndoe
   birthday: 2015-04-18
+  phone_number: +74995555557
   gender: false
   api_token: <%= SecureRandom.hex %>
