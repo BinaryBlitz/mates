@@ -56,6 +56,16 @@ class User < ActiveRecord::Base
     friend.friendships.find_by(friend: self).destroy
   end
 
+  # Users that attended same events as the current user
+  def self.find_by_common_events(user)
+    includes(:memberships)
+      .where(memberships: { event_id: user.events })
+      .where(memberships: { event_id: Event.past_events })
+      .where.not(memberships: { user_id: user.friends })
+      .where.not(memberships: { user_id: user })
+      .distinct.pluck('id')
+  end
+
   private
 
   def oauth?

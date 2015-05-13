@@ -41,6 +41,11 @@ class EventsTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
+  test 'should get feed' do
+    get '/api/events/feed', api_token: api_token
+    assert_response :success
+  end
+
   test 'should authorize users' do
     stranger = users(:baz)
 
