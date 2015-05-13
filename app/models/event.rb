@@ -17,6 +17,7 @@
 #  admin_id      :integer
 #  photo         :string
 #  event_type_id :integer
+#  user_limit    :integer
 #
 
 class Event < ActiveRecord::Base
@@ -39,6 +40,7 @@ class Event < ActiveRecord::Base
   validates :event_type, presence: true
   validates :name, presence: true, length: { maximum: 30 }
   validates :city, presence: true, length: { maximum: 30 }
+  validates :user_limit, numericality: { greater_than: 0 }, allow_blank: true
 
   mount_base64_uploader :photo, PhotoUploader
 

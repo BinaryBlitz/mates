@@ -37,8 +37,9 @@ mance.pending_friends << jon
 party, active = EventType.create([{ name: 'Party' }, { name: 'Active' }])
 
 battle = Event.create(
-  name: 'Battle of Castle Black', event_type: active, city: 'The North', admin: jon,
-  starts_at: Time.now, ends_at: Time.now + 1.day, info: 'To the Wall!', address: 'Castle Black')
+  name: 'Battle of Castle Black', event_type: active, city: 'The North', address: 'Castle Black',
+  admin: jon, starts_at: Time.now, ends_at: Time.now + 1.day, info: 'To the Wall!',
+  user_limit: 5000)
 battle.users << sam
 battle.invited_users << ygritte
 battle.proposals.create(user: mance, creator: ygritte)
@@ -65,8 +66,8 @@ cat = User.create(
 )
 
 wedding = Event.create(
-  name: 'The Red Wedding', event_type: party, city: 'The Twins', admin: frey,
-  starts_at: Time.now, ends_at: Time.now + 1.day, info: "Everyone's invited.", address: 'The Twins')
+  name: 'The Red Wedding', event_type: party, city: 'The Twins', admin: frey, address: 'The Twins',
+  starts_at: Time.now, ends_at: Time.now + 1.day, info: "Everyone's invited.", user_limit: 10)
 wedding.users << robb
 wedding.invited_users << cat
 wedding.proposals.create(user: bolton, creator: robb)

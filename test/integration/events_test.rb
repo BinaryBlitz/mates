@@ -22,7 +22,8 @@ class EventsTest < ActionDispatch::IntegrationTest
         admin_id: @event.admin_id,
         name: 'new',
         city: 'new',
-        event_type_id: @event.event_type.id
+        event_type_id: @event.event_type.id,
+        user_limit: 1
       }
     end
     assert @event.admin.events.include?(Event.last)

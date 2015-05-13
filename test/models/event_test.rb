@@ -17,6 +17,7 @@
 #  admin_id      :integer
 #  photo         :string
 #  event_type_id :integer
+#  user_limit    :integer
 #
 
 class EventTest < ActiveSupport::TestCase
@@ -55,6 +56,14 @@ class EventTest < ActiveSupport::TestCase
 
   test 'city should be no longer than 30 characters' do
     @event.city = 'a' * 31
+    assert_not @event.valid?
+  end
+
+  test 'user limit should be positive' do
+    @event.user_limit = -1
+    assert_not @event.valid?
+
+    @event.user_limit = 0
     assert_not @event.valid?
   end
 end
