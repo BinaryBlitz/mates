@@ -15,6 +15,8 @@
 #  vk_id           :integer
 #  facebook_id     :integer
 #  password_digest :string
+#  city            :string
+#  phone_number    :string
 #
 
 class User < ActiveRecord::Base
@@ -43,6 +45,9 @@ class User < ActiveRecord::Base
   has_secure_token :api_token
 
   mount_base64_uploader :avatar, AvatarUploader
+
+  phony_normalize :phone_number, default_country_code: 'RU'
+  validates :phone_number, phony_plausible: true
 
   include Authenticable
 

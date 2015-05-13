@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150512102813) do
+ActiveRecord::Schema.define(version: 20150513142329) do
 
   create_table "comments", force: :cascade do |t|
     t.string   "content"
@@ -121,6 +121,7 @@ ActiveRecord::Schema.define(version: 20150512102813) do
     t.integer  "facebook_id",     limit: 8
     t.string   "password_digest"
     t.string   "city"
+    t.string   "phone_number"
   end
 
 end
