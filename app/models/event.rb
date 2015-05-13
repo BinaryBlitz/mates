@@ -43,8 +43,34 @@ class Event < ActiveRecord::Base
 
   PREVIEW_USERS_COUNT = 2
 
+  scope :not_participated_by, ->(user) { where.not(id: user.event_ids)}
+  scope :past_events, -> { where('ends_at < ?', Time.now)}
+  scope :upcoming_events, -> { where('starts_at >= ?', Time.now)}
+
   def preview_users
     users.where.not(id: admin.id).limit(PREVIEW_USERS_COUNT)
+  end
+
+  def self.feed_for(current_user)
+    feed_events_ids = self.attended_by_friends(current_user)
+    feed_events_ids += self.find_by_past_event_attendees(current_user)
+    where(id: feed_events_ids)
+  end
+
+  def self.attended_by_friends(current_user)
+    joins(:users).merge(current_user.friends)
+    .not_participated_by(current_user)
+    .upcoming_events
+    .pluck("id")
+  end
+
+  def self.find_by_past_event_attendees(current_user)
+    includes(:memberships)
+    .where(memberships: { user_id: User.from_events_participated_by(current_user)})
+    .not_participated_by(current_user)
+    .upcoming_events
+    .distinct
+    .pluck("id")
   end
 
   private

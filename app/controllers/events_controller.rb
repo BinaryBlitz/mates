@@ -1,5 +1,5 @@
 class EventsController < ApplicationController
-  before_action :set_event, except: [:index, :create, :owned]
+  before_action :set_event, except: [:index, :create, :owned, :feed]
 
   # Participated events
   def index
@@ -59,6 +59,12 @@ class EventsController < ApplicationController
   def proposals
     authorize @event
     @proposals = @event.proposals
+  end
+
+  # Fetch actual upcoming events to the feed
+  def feed
+    @events  = Event.feed_for(current_user)
+    render :index
   end
 
   private

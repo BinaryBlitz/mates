@@ -14,6 +14,7 @@ Rails.application.routes.draw do
     # Events
     resources :events, except: [:new, :edit] do
       get :owned, on: :collection
+      get :feed, on: :collection
       member do
         get :proposals
         delete :remove
