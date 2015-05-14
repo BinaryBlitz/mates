@@ -28,6 +28,9 @@ ygritte = User.create(
 mance = User.create(
   first_name: 'Mance', last_name: 'Rayder', birthday: 34.years.ago,
   nickname: 'king-beyond-the-wall', gender: true, password: 'mancerayder')
+alliser = User.create(
+  first_name: 'Alliser', last_name: 'Thorne', birthday: 55.years.ago,
+  nickname: 'first-ranger', gender: true, password: 'thorne')
 
 jon.friends << sam
 sam.friends << jon
@@ -38,9 +41,9 @@ party, active = EventType.create([{ name: 'Party' }, { name: 'Active' }])
 
 battle = Event.create(
   name: 'Battle of Castle Black', event_type: active, city: 'The North', address: 'Castle Black',
-  admin: jon, starts_at: Time.now, ends_at: Time.now + 1.day, info: 'To the Wall!',
-  user_limit: 5000)
-battle.users << sam
+  starts_at: Time.now - 1.year, ends_at: Time.now - 1.year + 1.day, info: 'To the Wall!',
+  admin: jon, user_limit: 5000)
+battle.users << sam << alliser
 battle.invited_users << ygritte
 battle.proposals.create(user: mance, creator: ygritte)
 battle.comments.create(content: 'The night is gathering.', user: sam)
@@ -48,8 +51,14 @@ battle.comments.create(content: 'You know nothing, Jon Snow.', user: ygritte)
 
 choosing = Event.create(
   name: "Night's Watch Choosing", event_type: party, city: 'Castle Black', admin: sam,
-  info: "Choosing of the new Lord Commander of the Night's Watch")
-choosing.users << jon
+  info: "Choosing of the new Lord Commander of the Night's Watch",
+  starts_at: Time.now + 1.year, ends_at: Time.now + 1.year + 1.day)
+choosing.users << alliser
+
+Event.create(
+  name: 'The Great ranging', event_type: active, city: 'The North', address: 'Haunted Forest',
+  info: 'Expedition', starts_at: Time.now + 1.year, ends_at: Time.now + 1.year + 1.day,
+  admin: alliser)
 
 frey = User.create(
   first_name: 'Walder', last_name: 'Frey', birthday: 90.years.ago,
