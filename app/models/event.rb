@@ -54,6 +54,10 @@ class Event < ActiveRecord::Base
     users.where.not(id: admin.id).limit(PREVIEW_USERS_COUNT)
   end
 
+  def propose(proposed_user, creator)
+    proposals.create(user: proposed_user, creator: creator)
+  end
+
   # List of recommended events
   def self.feed_for(current_user)
     feed_events_ids = attended_by_friends(current_user)
