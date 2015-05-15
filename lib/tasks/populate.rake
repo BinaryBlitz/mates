@@ -19,14 +19,14 @@ namespace :db do
       users = User.all.sample(8)
 
       # Friend requests
-      users.pop(4) do |friend|
-        user.friends << friend unless user.friends.include?(friend) || user == friend
+      users.pop(4).each do |friend|
+        user.pending_friends << friend unless user.friends.include?(friend) || user == friend || friend.pending_friends.include?(user)
       end
 
       # Friendships
-      users.each do |friend|
-        unless user.pending_friends.include?(friend) || user == friend || friend.pending_friends.include?(user)
-          user.pending_friends << friend
+      users.pop(4).each do |friend|
+        unless user.friends.include?(friend) || user == friend || friend.pending_friends.include?(user)
+          user.friends << friend
         end
       end
     end
