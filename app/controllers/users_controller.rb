@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
   skip_before_action :restrict_access,
                      only: [:create, :authenticate, :authenticate_vk, :authenticate_fb]
-  before_action :set_user, only: [:show, :update, :destroy]
+  before_action :set_user, only: [:show, :update, :destroy, :events, :friends]
 
   # GET /users
   def index
@@ -64,6 +64,16 @@ class UsersController < ApplicationController
     @user = User.find_or_create_from_fb(graph)
 
     render :authenticate, location: @user
+  end
+
+  def events
+    @events = @user.events
+    render 'events/index'
+  end
+
+  def friends
+    @friends = @user.friends
+    render 'friends/index'
   end
 
   private

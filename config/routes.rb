@@ -7,6 +7,10 @@ Rails.application.routes.draw do
         post 'authenticate_vk'
         post 'authenticate_fb'
       end
+      member do
+        get 'events'
+        get 'friends'
+      end
     end
     resources :friend_requests, except: [:show, :new, :edit]
     resources :friends, only: [:index, :destroy]

@@ -59,4 +59,14 @@ class UsersTest < ActionDispatch::IntegrationTest
     delete "/api/users/#{@user.id}", api_token: stranger.api_token
     assert_response :unauthorized
   end
+
+  test "should get user's friends" do
+    get "/api/users/#{@user.id}/friends", api_token: api_token
+    assert_response :success
+  end
+
+  test "should get user's events" do
+    get "/api/users/#{@user.id}/events", api_token: api_token
+    assert_response :success
+  end
 end
