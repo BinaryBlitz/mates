@@ -76,6 +76,11 @@ class UsersController < ApplicationController
     render 'friends/index'
   end
 
+  def search
+    @users = User.search_by_name(params[:name])
+    render :index
+  end
+
   private
 
   # Use callbacks to share common setup or constraints between actions.

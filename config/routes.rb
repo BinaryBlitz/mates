@@ -6,6 +6,7 @@ Rails.application.routes.draw do
         post 'authenticate'
         post 'authenticate_vk'
         post 'authenticate_fb'
+        get 'search'
       end
       member do
         get 'events'
@@ -20,6 +21,7 @@ Rails.application.routes.draw do
       collection do
         get :owned
         get :feed
+        get :search
       end
       member do
         get :proposals

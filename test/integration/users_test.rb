@@ -69,4 +69,9 @@ class UsersTest < ActionDispatch::IntegrationTest
     get "/api/users/#{@user.id}/events", api_token: api_token
     assert_response :success
   end
+
+  test 'should search users by name' do
+    get '/api/users/search', api_token: api_token, name: @user.first_name
+    assert_response :success
+  end
 end
