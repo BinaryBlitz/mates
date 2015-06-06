@@ -10,10 +10,13 @@ Rails.application.routes.draw do
       member do
         get 'events'
         get 'friends'
+        post 'favorite'
+        delete 'unfavorite'
       end
     end
     resources :friend_requests, except: [:show, :new, :edit]
     resources :friends, only: [:index, :destroy]
+    resources :favorites, only: [:index]
 
     # Events
     resources :events, except: [:new, :edit] do
