@@ -79,6 +79,10 @@ class User < ActiveRecord::Base
     end
   end
 
+  def favorite?(user)
+    favorited_users.include?(user)
+  end
+
   private
 
   def oauth?
