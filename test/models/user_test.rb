@@ -25,4 +25,15 @@ class UserTest < ActiveSupport::TestCase
   def setup
     @user = users(:foo)
   end
+
+  test 'search by name' do
+    result = User.search_by_name(@user.first_name)
+    assert result.include?(@user)
+
+    result = User.search_by_name(@user.last_name)
+    assert result.include?(@user)
+
+    result = User.search_by_name(@user.nickname)
+    assert result.include?(@user)
+  end
 end

@@ -68,6 +68,17 @@ class User < ActiveRecord::Base
       .distinct.pluck('id')
   end
 
+  def self.search_by_name(query)
+    args = query.strip.split
+    if args.size > 0
+      result =
+        'first_name LIKE ? OR last_name LIKE ? OR nickname LIKE ?' +
+        ' OR first_name LIKE ? OR last_name LIKE ? OR nickname LIKE ?' * (args.size - 1)
+      args.map! { |w| ["#{w}", "#{w}", "#{w}"] }.flatten!
+      User.where(result, *args)
+    end
+  end
+
   private
 
   def oauth?

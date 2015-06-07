@@ -81,4 +81,9 @@ class UsersTest < ActionDispatch::IntegrationTest
     assert_response :no_content
     refute @user.favorited_users.include?(favorite)
   end
+
+  test 'should search users by name' do
+    get '/api/users/search', api_token: api_token, name: @user.first_name
+    assert_response :success
+  end
 end
