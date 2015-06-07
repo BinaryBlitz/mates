@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150514174725) do
+ActiveRecord::Schema.define(version: 20150606145012) do
 
   create_table "comments", force: :cascade do |t|
     t.string   "content"
@@ -50,6 +50,17 @@ ActiveRecord::Schema.define(version: 20150514174725) do
 
   add_index "events", ["admin_id"], name: "index_events_on_admin_id"
   add_index "events", ["event_type_id"], name: "index_events_on_event_type_id"
+
+  create_table "favorites", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "favorited_id"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+  end
+
+  add_index "favorites", ["favorited_id"], name: "index_favorites_on_favorited_id"
+  add_index "favorites", ["user_id", "favorited_id"], name: "index_favorites_on_user_id_and_favorited_id", unique: true
+  add_index "favorites", ["user_id"], name: "index_favorites_on_user_id"
 
   create_table "friend_requests", force: :cascade do |t|
     t.integer  "user_id"

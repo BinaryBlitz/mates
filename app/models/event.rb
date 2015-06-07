@@ -17,7 +17,7 @@
 #  admin_id      :integer
 #  photo         :string
 #  event_type_id :integer
-#  user_limit    :integer
+#  user_limit    :integer          default(1)
 #
 
 class Event < ActiveRecord::Base

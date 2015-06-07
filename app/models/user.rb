@@ -29,6 +29,8 @@ class User < ActiveRecord::Base
   has_many :pending_friends, through: :friend_requests, source: :friend
   has_many :friendships, dependent: :destroy
   has_many :friends, through: :friendships
+  has_many :favorites, dependent: :destroy
+  has_many :favorited_users, through: :favorites, source: :favorited
 
   has_many :owned_events, dependent: :destroy, foreign_key: :admin_id, class_name: 'Event'
   has_many :events, through: :memberships
