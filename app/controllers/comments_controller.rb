@@ -12,6 +12,7 @@ class CommentsController < ApplicationController
   def create
     @comment = @event.comments.build(comment_params)
     @comment.user = current_user
+    authorize @comment
 
     if @comment.save
       render :show, status: :created, location: [@event, @comment]
@@ -21,6 +22,7 @@ class CommentsController < ApplicationController
   end
 
   def update
+    authorize @comment
     if @comment.update(comment_params)
       render :show, status: :ok, location: [@event, @comment]
     else
@@ -29,6 +31,7 @@ class CommentsController < ApplicationController
   end
 
   def destroy
+    authorize @comment
     @comment.destroy
     head :no_content
   end

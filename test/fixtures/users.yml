@@ -2,16 +2,21 @@
 #
 # Table name: users
 #
-#  id         :integer          not null, primary key
-#  first_name :string
-#  last_name  :string
-#  nickname   :string
-#  birthday   :date
-#  gender     :boolean
-#  api_token  :string
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
-#  avatar     :string
+#  id              :integer          not null, primary key
+#  first_name      :string
+#  last_name       :string
+#  nickname        :string
+#  birthday        :date
+#  gender          :boolean
+#  api_token       :string
+#  created_at      :datetime         not null
+#  updated_at      :datetime         not null
+#  avatar          :string
+#  vk_id           :integer
+#  facebook_id     :integer
+#  password_digest :string
+#  city            :string
+#  phone_number    :string
 #
 
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
@@ -22,13 +27,16 @@ foo:
   nickname: foobar
   birthday: 2015-04-18
   gender: false
+  phone_number: +74995555555
   api_token: <%= SecureRandom.hex %>
+  password_digest: <%= BCrypt::Password.create('foobar', cost: 4) %>
 
 baz:
   first_name: Baz
   last_name: Qux
   nickname: bazqux
   birthday: 2015-04-18
+  phone_number: +74995555556
   gender: true
   api_token: <%= SecureRandom.hex %>
 
@@ -37,5 +45,6 @@ john:
   last_name: Doe
   nickname: johndoe
   birthday: 2015-04-18
+  phone_number: +74995555557
   gender: false
   api_token: <%= SecureRandom.hex %>

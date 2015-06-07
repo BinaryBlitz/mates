@@ -11,7 +11,7 @@
 
 class FriendshipTest < ActiveSupport::TestCase
   def setup
-    @friendship = friendships(:friendship)
+    @friendship = Friendship.new(user: users(:foo), friend: users(:baz))
   end
 
   test 'invalid without user' do
@@ -27,5 +27,13 @@ class FriendshipTest < ActiveSupport::TestCase
   test 'invalid if friend is user' do
     @friendship.friend = @friendship.user
     assert @friendship.invalid?
+  end
+
+  test 'should create inverse friendship' do
+    assert_not @friendship.user.friends.include?(@friendship.friend)
+    @friendship.save
+
+    assert @friendship.user.friends.include?(@friendship.friend)
+    assert @friendship.friend.friends.include?(@friendship.user)
   end
 end

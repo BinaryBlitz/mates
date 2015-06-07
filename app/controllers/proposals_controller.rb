@@ -8,6 +8,7 @@ class ProposalsController < ApplicationController
   def create
     @proposal = Proposal.new(proposal_params)
     @proposal.creator = current_user
+    authorize @proposal
 
     if @proposal.save
       render :show, status: :created, location: @proposal
@@ -18,12 +19,14 @@ class ProposalsController < ApplicationController
 
   # Accept the proposal
   def update
+    authorize @proposal
     @proposal.accept
     head :no_content
   end
 
   # Decline or cancel proposal
   def destroy
+    authorize @proposal
     @proposal.destroy
     head :no_content
   end

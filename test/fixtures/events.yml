@@ -2,34 +2,41 @@
 #
 # Table name: events
 #
-#  id         :integer          not null, primary key
-#  name       :string
-#  target     :string
-#  start_at   :datetime
-#  end_at     :datetime
-#  city       :string
-#  latitude   :float
-#  longitude  :float
-#  info       :text
-#  visible    :string
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
-#  address    :string
-#  admin_id   :integer
-#  photo      :string
+#  id            :integer          not null, primary key
+#  name          :string
+#  starts_at     :datetime
+#  ends_at       :datetime
+#  city          :string
+#  latitude      :float
+#  longitude     :float
+#  info          :text
+#  visibility    :string
+#  created_at    :datetime         not null
+#  updated_at    :datetime         not null
+#  address       :string
+#  admin_id      :integer
+#  photo         :string
+#  event_type_id :integer
+#  user_limit    :integer
 #
 
 party:
   name: Foo
-  target: foobar
-  start_at: <%= Time.zone.now %>
-  end_at: <%= 10.days.from_now %>
+  starts_at: <%= Time.zone.now %>
+  ends_at: <%= 10.days.from_now %>
   city: Moscow
   address: Bolshaya Nikitskaya
   latitude: 1.0
   longitude: 1.0
   info: Great party
-  visible: public
+  visibility: public
   admin: foo
+  event_type: cafe
+  user_limit: 5
 
-
+finale:
+  name: Champions League Finale
+  admin: baz
+  city: Berlin
+  event_type: cinema
+  user_limit: 70000

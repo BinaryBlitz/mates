@@ -1,11 +1,26 @@
 Rails.application.routes.draw do
   scope '/api', defaults: { format: :json } do
-    resources :users
+    # Users
+    resources :users, except: [:new, :edit] do
+      collection do
+        post 'authenticate'
+        post 'authenticate_vk'
+        post 'authenticate_fb'
+      end
+      member do
+        get 'events'
+        get 'friends'
+      end
+    end
     resources :friend_requests, except: [:show, :new, :edit]
     resources :friends, only: [:index, :destroy]
 
+    # Events
     resources :events, except: [:new, :edit] do
-      get :owned, on: :collection
+      collection do
+        get :owned
+        get :feed
+      end
       member do
         get :proposals
         delete :remove
@@ -13,6 +28,7 @@ Rails.application.routes.draw do
       end
       resources :comments, except: [:new, :edit]
     end
+    resources :event_types, only: [:index]
     resources :invites, except: [:new, :edit]
     resources :proposals, except: [:index, :new, :edit]
     resources :memberships, except: [:new, :edit]

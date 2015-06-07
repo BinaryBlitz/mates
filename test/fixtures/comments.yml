@@ -1,14 +1,16 @@
 # == Schema Information
 #
-# Table name: friendships
+# Table name: comments
 #
 #  id         :integer          not null, primary key
+#  content    :string
 #  user_id    :integer
-#  friend_id  :integer
+#  event_id   :integer
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #
 
-friendship:
+comment:
+  content: Hello!
   user: foo
-  friend: bar
+  event: party

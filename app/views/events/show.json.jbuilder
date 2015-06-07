@@ -1,10 +1,18 @@
-json.extract! @event, :id, :name, :target, :start_at, :end_at, :city, :address, :latitude,
-:longitude, :info, :visible, :photo_url
+json.partial! 'event', event: @event
+
 json.users @event.users do |user|
   json.partial! 'users/user', user: user
 end
-if current_user == @event.admin
-  json.proposals @event.proposals do |proposal|
-    json.partial! 'proposals/proposal', proposal: proposal
+
+if policy(@event).update?
+  json.proposed_users @event.proposed_users do |proposed_user|
+    json.partial! 'users/user', user: proposed_user
   end
+  json.invited_users @event.invited_users do |invited_user|
+    json.partial! 'users/user', user: invited_user
+  end
+end
+
+json.comments @event.comments do |comment|
+  json.partial! 'comments/comment', comment: comment
 end
