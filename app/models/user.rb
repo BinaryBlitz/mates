@@ -83,6 +83,14 @@ class User < ActiveRecord::Base
     favorited_users.include?(user)
   end
 
+  def pending_friend?(user)
+    pending_friends.include?(user)
+  end
+
+  def friend?(user)
+    friends.include?(user)
+  end
+
   private
 
   def oauth?
