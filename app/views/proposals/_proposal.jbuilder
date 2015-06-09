@@ -1,3 +1,9 @@
 json.extract! proposal, :id, :creator_id
-json.creator proposal.creator, partial: 'users/user', as: :user
-json.user proposal.user, partial: 'users/user', as: :user
+
+json.creator do
+  json.partial! 'users/user', user: proposal.creator
+end
+
+json.user do
+  json.partial! 'users/user', user: proposal.user
+end
