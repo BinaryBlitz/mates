@@ -88,6 +88,11 @@ class EventsTest < ActionDispatch::IntegrationTest
     assert @event.users.include?(user)
   end
 
+  test 'event proposals' do
+    get "/api/events/#{@event.id}/proposals", api_token: api_token
+    assert_response :success
+  end
+
   test 'event submissions' do
     get "/api/events/#{@event.id}/submissions", api_token: api_token
     assert_response :success
