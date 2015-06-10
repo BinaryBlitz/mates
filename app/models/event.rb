@@ -46,10 +46,10 @@ class Event < ActiveRecord::Base
   validates :event_type, presence: true
   validates :name, presence: true, length: { maximum: 30 }
   validates :city, presence: true, length: { maximum: 30 }
-  validates :user_limit, numericality: { greater_than: 0 }, allow_blank: true
+  validates :user_limit, numericality: { greater_than: 1 }, allow_blank: true
 
   #  Filter validations
-  validates :gender, length: { is: 1 }, inclusion: { in: %w(m M f F) }, allow_nil: true
+  validates :gender, length: { is: 1 }, inclusion: { in: %w(f m) }, allow_nil: true
 
   validates :min_age, numericality: { greater_than: 0 }, allow_nil: true
   validates :max_age, numericality: { less_than_or_equal_to: 100 }, allow_nil: true

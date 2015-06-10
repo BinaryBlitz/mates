@@ -94,7 +94,8 @@ class EventsController < ApplicationController
       .permit(
         :name, :start_at, :end_at,
         :city, :address, :latitude, :longitude,
-        :info, :visible, :photo, :event_type_id
+        :info, :visible, :photo, :event_type_id, :user_limit,
+        :min_age, :max_age, :gender
       )
   end
 end

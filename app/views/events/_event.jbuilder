@@ -1,6 +1,7 @@
 json.extract! event,
               :id, :name, :starts_at, :ends_at, :city, :latitude, :longitude, :info,
-              :visibility, :created_at, :address, :user_limit, :photo_url
+              :visibility, :created_at, :address, :user_limit, :photo_url,
+              :min_age, :max_age, :gender
 
 json.owned current_user.owned_events.include?(event)
 json.visited current_user.events.include?(event)

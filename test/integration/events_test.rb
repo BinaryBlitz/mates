@@ -19,11 +19,9 @@ class EventsTest < ActionDispatch::IntegrationTest
   test 'should create, read, update and destroy event' do
     assert_difference('Event.count') do
       post '/api/events', api_token: api_token, event: {
-        admin_id: @event.admin_id,
-        name: 'new',
-        city: 'new',
-        event_type_id: @event.event_type.id,
-        user_limit: 1
+        name: 'new', city: 'new',
+        event_type_id: @event.event_type.id, user_limit: 2,
+        min_age: @event.min_age, max_age: @event.max_age, gender: @event.gender
       }
     end
     assert @event.admin.events.include?(Event.last)
