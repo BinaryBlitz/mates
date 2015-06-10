@@ -69,6 +69,8 @@ class User < ActiveRecord::Base
   end
 
   def self.search_by_name(query)
+    return User.none if !query.is_a?(String) || query.empty?
+
     args = query.strip.split
     if args.size > 0
       result =
