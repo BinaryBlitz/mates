@@ -36,6 +36,7 @@ party:
   admin: foo
   event_type: cafe
   user_limit: 5
+  min_age: 18
 
 finale:
   name: Champions League Finale

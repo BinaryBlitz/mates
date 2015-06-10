@@ -7,7 +7,7 @@
 #  last_name       :string
 #  nickname        :string
 #  birthday        :date
-#  gender          :boolean
+#  gender          :string
 #  api_token       :string
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
@@ -46,5 +46,20 @@ class UserTest < ActiveSupport::TestCase
 
     result = User.search_by_name(nil)
     assert result.empty?
+  end
+
+  test 'gender' do
+    @user.gender = nil
+    @user.password = 'foobar'
+    assert @user.valid?
+
+    @user.gender = 'm'
+    assert @user.valid?
+
+    @user.gender = 'Hello'
+    assert @user.invalid?
+
+    @user.gender = ''
+    assert @user.invalid?
   end
 end

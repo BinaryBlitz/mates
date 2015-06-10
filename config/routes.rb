@@ -28,6 +28,7 @@ Rails.application.routes.draw do
       end
       member do
         get :proposals
+        post :join
         delete :remove
         delete :leave
       end

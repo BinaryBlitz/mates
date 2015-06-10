@@ -99,13 +99,20 @@ class EventTest < ActiveSupport::TestCase
     @event.gender = 'm'
     assert @event.valid?
 
-    @event.gender = 'M'
-    assert @event.valid?
-
     @event.gender = 'Hello'
     assert @event.invalid?
 
     @event.gender = ''
     assert @event.invalid?
+  end
+
+  test 'gender validation' do
+    @event.gender = nil
+    assert @event.valid_gender?(nil)
+    assert @event.valid_gender?('f')
+
+    @event.gender = 'f'
+    assert_not @event.valid_gender?(nil)
+    assert_not @event.valid_gender?('m')
   end
 end

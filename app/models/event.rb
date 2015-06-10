@@ -94,6 +94,28 @@ class Event < ActiveRecord::Base
       .pluck('id')
   end
 
+  def age_interval
+    from = min_age || 0
+    to = max_age || 100
+    from..to
+  end
+
+  def valid_gender?(user_gender)
+    return true if gender.nil?
+
+    gender == user_gender
+  end
+
+  def valid_age?(user_age)
+    return true if min_age.nil? && max_age.nil?
+
+    age_interval.include?(user_age)
+  end
+
+  def valid_user?(new_user)
+    valid_gender?(new_user.gender) && valid_age?(new_user.age)
+  end
+
   private
 
   def attend
