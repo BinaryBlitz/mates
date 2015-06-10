@@ -66,6 +66,17 @@ class EventsController < ApplicationController
     render :index
   end
 
+  def join
+    membership = Membership.new(user: current_user, event: @event)
+    authorize membership, :create?
+
+    if membership.save
+      head :created
+    else
+      render json: membership.errors, status: :unprocessable_entity
+    end
+  end
+
   private
 
   def set_event

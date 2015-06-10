@@ -7,7 +7,7 @@
 #  last_name       :string
 #  nickname        :string
 #  birthday        :date
-#  gender          :boolean
+#  gender          :string
 #  api_token       :string
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
@@ -24,6 +24,7 @@ class User < ActiveRecord::Base
   validates :last_name, presence: true, length: { maximum: 20 }
   validates :nickname, presence: true, length: { maximum: 20 }, unless: :oauth?
   validates :password, presence: true, length: { minimum: 6 }
+  validates :gender, length: { is: 1 }, inclusion: { in: %w(m f) }, allow_nil: true
 
   has_many :friend_requests, dependent: :destroy
   has_many :pending_friends, through: :friend_requests, source: :friend
@@ -91,6 +92,14 @@ class User < ActiveRecord::Base
 
   def friend?(user)
     friends.include?(user)
+  end
+
+  def age
+    return 0 unless birthday
+
+    age = Date.today.year - birthday.year
+    age -= 1 if Date.today < birthday + age.years
+    age
   end
 
   private

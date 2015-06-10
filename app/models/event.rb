@@ -18,6 +18,9 @@
 #  photo         :string
 #  event_type_id :integer
 #  user_limit    :integer          default(1)
+#  min_age       :integer
+#  max_age       :integer
+#  gender        :string(1)
 #
 
 class Event < ActiveRecord::Base
@@ -41,6 +44,17 @@ class Event < ActiveRecord::Base
   validates :name, presence: true, length: { maximum: 30 }
   validates :city, presence: true, length: { maximum: 30 }
   validates :user_limit, numericality: { greater_than: 0 }, allow_blank: true
+
+  #  Filter validations
+  validates :gender, length: { is: 1 }, inclusion: { in: %w(m M f F) }, allow_nil: true
+
+  validates :min_age, numericality: { greater_than: 0 }, allow_nil: true
+  validates :max_age, numericality: { less_than_or_equal_to: 100 }, allow_nil: true
+
+  validates :min_age, numericality: { less_than_or_equal_to: :max_age },
+                      if: 'max_age.present?', allow_nil: true
+  validates :max_age, numericality: { greater_than_or_equal_to: :min_age },
+                      if: 'min_age.present?', allow_nil: true
 
   mount_base64_uploader :photo, PhotoUploader
 
@@ -78,6 +92,28 @@ class Event < ActiveRecord::Base
       .where(memberships: { user_id: User.find_by_common_events(current_user) })
       .not_attended_by(current_user).upcoming.distinct
       .pluck('id')
+  end
+
+  def age_interval
+    from = min_age || 0
+    to = max_age || 100
+    from..to
+  end
+
+  def valid_gender?(user_gender)
+    return true if gender.nil?
+
+    gender == user_gender
+  end
+
+  def valid_age?(user_age)
+    return true if min_age.nil? && max_age.nil?
+
+    age_interval.include?(user_age)
+  end
+
+  def valid_user?(new_user)
+    valid_gender?(new_user.gender) && valid_age?(new_user.age)
   end
 
   private

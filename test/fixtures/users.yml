@@ -7,7 +7,7 @@
 #  last_name       :string
 #  nickname        :string
 #  birthday        :date
-#  gender          :boolean
+#  gender          :string
 #  api_token       :string
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
@@ -26,7 +26,7 @@ foo:
   last_name: Bar
   nickname: foobar
   birthday: 2015-04-18
-  gender: false
+  gender: m
   phone_number: +74995555555
   api_token: <%= SecureRandom.hex %>
   password_digest: <%= BCrypt::Password.create('foobar', cost: 4) %>
@@ -37,7 +37,7 @@ baz:
   nickname: bazqux
   birthday: 2015-04-18
   phone_number: +74995555556
-  gender: true
+  gender: f
   api_token: <%= SecureRandom.hex %>
 
 john:
@@ -46,5 +46,5 @@ john:
   nickname: johndoe
   birthday: 2015-04-18
   phone_number: +74995555557
-  gender: false
+  gender: m
   api_token: <%= SecureRandom.hex %>

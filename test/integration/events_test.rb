@@ -73,4 +73,17 @@ class EventsTest < ActionDispatch::IntegrationTest
     assert_response :no_content
     refute @event.users.include?(bad_user)
   end
+
+  test 'join' do
+    user = users(:baz)
+
+    post "/api/events/#{@event.id}/join", api_token: user.api_token
+    assert_response :unauthorized
+    refute @event.users.include?(user)
+
+    user.update(birthday: Date.today - 20.years, password: 'foobar')
+    post "/api/events/#{@event.id}/join", api_token: user.api_token
+    assert_response :created
+    assert @event.users.include?(user)
+  end
 end
