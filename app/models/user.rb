@@ -72,9 +72,9 @@ class User < ActiveRecord::Base
     args = query.strip.split
     if args.size > 0
       result =
-        'first_name LIKE ? OR last_name LIKE ? OR nickname LIKE ?' +
-        ' OR first_name LIKE ? OR last_name LIKE ? OR nickname LIKE ?' * (args.size - 1)
-      args.map! { |w| ["#{w}", "#{w}", "#{w}"] }.flatten!
+        'first_name ILIKE ? OR last_name ILIKE ? OR nickname ILIKE ?' +
+        ' OR first_name ILIKE ? OR last_name ILIKE ? OR nickname ILIKE ?' * (args.size - 1)
+      args.map! { |w| ["%#{w}%", "%#{w}%", "%#{w}%"] }.flatten!
       User.where(result, *args)
     end
   end
