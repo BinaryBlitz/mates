@@ -18,6 +18,9 @@
 #  photo         :string
 #  event_type_id :integer
 #  user_limit    :integer          default(1)
+#  min_age       :integer
+#  max_age       :integer
+#  gender        :string(1)
 #
 
 class EventTest < ActiveSupport::TestCase
@@ -65,5 +68,44 @@ class EventTest < ActiveSupport::TestCase
 
     @event.user_limit = 0
     assert_not @event.valid?
+  end
+
+  test 'age filters' do
+    @event.min_age = nil
+    @event.max_age = nil
+    assert @event.valid?
+
+    @event.min_age = nil
+    @event.max_age = 42
+    assert @event.valid?
+
+    @event.min_age = 42
+    @event.max_age = nil
+    assert @event.valid?
+
+    @event.min_age = 1
+    @event.max_age = 42
+    assert @event.valid?
+
+    @event.min_age = 64
+    @event.max_age = 42
+    assert @event.invalid?
+  end
+
+  test 'gender filter' do
+    @event.gender = nil
+    assert @event.valid?
+
+    @event.gender = 'm'
+    assert @event.valid?
+
+    @event.gender = 'M'
+    assert @event.valid?
+
+    @event.gender = 'Hello'
+    assert @event.invalid?
+
+    @event.gender = ''
+    assert @event.invalid?
   end
 end

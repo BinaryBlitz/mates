@@ -18,6 +18,9 @@
 #  photo         :string
 #  event_type_id :integer
 #  user_limit    :integer          default(1)
+#  min_age       :integer
+#  max_age       :integer
+#  gender        :string(1)
 #
 
 class Event < ActiveRecord::Base
@@ -41,6 +44,17 @@ class Event < ActiveRecord::Base
   validates :name, presence: true, length: { maximum: 30 }
   validates :city, presence: true, length: { maximum: 30 }
   validates :user_limit, numericality: { greater_than: 0 }, allow_blank: true
+
+  #  Filter validations
+  validates :gender, length: { is: 1 }, inclusion: { in: %w(m M f F) }, allow_nil: true
+
+  validates :min_age, numericality: { greater_than: 0 }, allow_nil: true
+  validates :max_age, numericality: { less_than_or_equal_to: 100 }, allow_nil: true
+
+  validates :min_age, numericality: { less_than_or_equal_to: :max_age },
+                      if: 'max_age.present?', allow_nil: true
+  validates :max_age, numericality: { greater_than_or_equal_to: :min_age },
+                      if: 'min_age.present?', allow_nil: true
 
   mount_base64_uploader :photo, PhotoUploader
 
