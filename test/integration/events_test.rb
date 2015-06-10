@@ -61,6 +61,9 @@ class EventsTest < ActionDispatch::IntegrationTest
     get "/api/events/#{@event.id}/proposals", api_token: stranger.api_token
     assert_response :unauthorized
 
+    get "/api/events/#{@event.id}/submissions", api_token: stranger.api_token
+    assert_response :unauthorized
+
     delete "/api/events/#{@event.id}/leave", api_token: api_token
     assert_response :unauthorized
   end
@@ -74,7 +77,7 @@ class EventsTest < ActionDispatch::IntegrationTest
     refute @event.users.include?(bad_user)
   end
 
-  test 'join' do
+  test 'users can join events' do
     user = users(:baz)
 
     post "/api/events/#{@event.id}/join", api_token: user.api_token
@@ -85,5 +88,10 @@ class EventsTest < ActionDispatch::IntegrationTest
     post "/api/events/#{@event.id}/join", api_token: user.api_token
     assert_response :created
     assert @event.users.include?(user)
+  end
+
+  test 'event submissions' do
+    get "/api/events/#{@event.id}/submissions", api_token: api_token
+    assert_response :success
   end
 end

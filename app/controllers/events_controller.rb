@@ -61,6 +61,12 @@ class EventsController < ApplicationController
     @proposals = @event.proposals
   end
 
+  def submissions
+    authorize @event
+    @submissions = @event.submissions
+    render 'submissions/index'
+  end
+
   def feed
     @events = Event.feed_for(current_user)
     render :index

@@ -28,6 +28,7 @@ Rails.application.routes.draw do
       end
       member do
         get :proposals
+        get :submissions
         post :join
         delete :remove
         delete :leave
@@ -38,6 +39,7 @@ Rails.application.routes.draw do
     resources :invites, except: [:new, :edit]
     resources :proposals, except: [:index, :new, :edit]
     resources :memberships, except: [:new, :edit]
+    resources :submissions, except: [:new, :edit]
   end
 
   # The priority is based upon order of creation: first created -> highest priority.
