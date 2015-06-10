@@ -34,6 +34,9 @@ class Event < ActiveRecord::Base
   has_many :invites, dependent: :destroy
   has_many :invited_users, through: :invites, source: :user
 
+  has_many :submissions, dependent: :destroy
+  has_many :submitted_users, through: :submissions, source: :user
+
   has_many :memberships, dependent: :destroy
   has_many :users, through: :memberships
 

@@ -42,6 +42,9 @@ class User < ActiveRecord::Base
   has_many :invites, dependent: :destroy
   has_many :invited_events, through: :invites, source: :event
 
+  has_many :submissions, dependent: :destroy
+  has_many :submitted_events, through: :submissions, source: :event
+
   has_many :comments, dependent: :destroy
 
   has_secure_password

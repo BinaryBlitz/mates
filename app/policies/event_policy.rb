@@ -15,6 +15,10 @@ class EventPolicy < ApplicationPolicy
     update?
   end
 
+  def submissions?
+    update?
+  end
+
   def leave?
     record.admin != user
   end
