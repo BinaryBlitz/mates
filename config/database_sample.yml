@@ -6,7 +6,7 @@ default: &default
 
 development:
   <<: *default
-  username: danya
+  username: dan
   database: party_app
 
 # Warning: The database defined as "test" will be erased and
@@ -14,7 +14,7 @@ development:
 # Do not set this db to the same as development or production.
 test:
   <<: *default
-  username: danya
+  username: dan
   database: party_app_test
 
 production:
