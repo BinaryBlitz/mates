@@ -11,6 +11,9 @@ if policy(@event).update?
   json.invites @event.invites do |invite|
     json.partial! 'invites/invite', invite: invite
   end
+  json.submissions @event.submissions do |submission|
+    json.partial! 'submissions/submission', submission: submission
+  end
 end
 
 json.comments @event.comments do |comment|
