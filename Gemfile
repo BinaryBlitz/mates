@@ -14,6 +14,7 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 
 gem 'phony_rails'
 gem 'ffaker'
+gem 'rpush'
 
 # Attachments
 gem 'carrierwave'

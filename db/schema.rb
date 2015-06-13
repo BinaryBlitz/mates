@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150610163550) do
+ActiveRecord::Schema.define(version: 20150613124446) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -26,6 +26,16 @@ ActiveRecord::Schema.define(version: 20150610163550) do
 
   add_index "comments", ["event_id"], name: "index_comments_on_event_id", using: :btree
   add_index "comments", ["user_id"], name: "index_comments_on_user_id", using: :btree
+
+  create_table "device_tokens", force: :cascade do |t|
+    t.string   "token"
+    t.string   "platform"
+    t.integer  "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "device_tokens", ["user_id"], name: "index_device_tokens_on_user_id", using: :btree
 
   create_table "event_types", force: :cascade do |t|
     t.string   "name"
@@ -148,6 +158,7 @@ ActiveRecord::Schema.define(version: 20150610163550) do
     t.string   "phone_number"
   end
 
+  add_foreign_key "device_tokens", "users"
   add_foreign_key "submissions", "events"
   add_foreign_key "submissions", "users"
 end
