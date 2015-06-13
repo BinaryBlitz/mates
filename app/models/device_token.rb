@@ -15,7 +15,7 @@ class DeviceToken < ActiveRecord::Base
 
   validates :token, presence: true
   validates :user, presence: true
-  validates :platform, presence: true
+  validates :platform, presence: true, inclusion: { in: %w(ios android) }
 
   belongs_to :user
 

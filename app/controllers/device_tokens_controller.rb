@@ -2,8 +2,13 @@ class DeviceTokensController < ApplicationController
   before_action :set_device_token
 
   def create
-    current_user.device_tokens.create(device_token_params)
-    head :created
+    device_token = current_user.device_tokens.new(device_token_params)
+
+    if device_token.save
+      head :created
+    else
+      render json: device_token.errors, status: :unprocessable_entity
+    end
   end
 
   def destroy
