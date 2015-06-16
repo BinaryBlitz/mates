@@ -104,7 +104,8 @@ class UsersController < ApplicationController
     params.require(:user).permit(
       :first_name, :last_name, :nickname,
       :password, :password_confirmation, :birthday,
-      :gender, :city, :avatar, :phone_number
+      :gender, :city, :avatar, :phone_number,
+      :vk_url, :facebook_url, :twitter_url, :instagram_url
     )
   end
 end
