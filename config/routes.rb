@@ -18,6 +18,7 @@ Rails.application.routes.draw do
     resources :friend_requests, except: [:show, :new, :edit]
     resources :friends, only: [:index, :destroy]
     resources :favorites, only: [:index]
+    resources :device_tokens, only: [:create, :destroy], param: :token
 
     # Events
     resources :events, except: [:new, :edit] do
