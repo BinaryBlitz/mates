@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150613124446) do
+ActiveRecord::Schema.define(version: 20150616114046) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -156,6 +156,10 @@ ActiveRecord::Schema.define(version: 20150613124446) do
     t.string   "password_digest"
     t.string   "city"
     t.string   "phone_number"
+    t.string   "vk_url"
+    t.string   "facebook_url"
+    t.string   "twitter_url"
+    t.string   "instagram_url"
   end
 
   add_foreign_key "device_tokens", "users"

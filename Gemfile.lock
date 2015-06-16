@@ -176,6 +176,9 @@ GEM
     thread_safe (0.3.5)
     tzinfo (1.2.2)
       thread_safe (~> 0.1)
+    validate_url (1.0.0)
+      activemodel (>= 3.0.0)
+      addressable
     vkontakte_api (1.4.3)
       faraday (~> 0.9.0)
       faraday_middleware (~> 0.9.1)
@@ -211,6 +214,7 @@ DEPENDENCIES
   rpush
   sdoc (~> 0.4.0)
   spring
+  validate_url
   vkontakte_api
   web-console (~> 2.0)
 
