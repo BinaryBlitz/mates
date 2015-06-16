@@ -1,3 +1,3 @@
 json.array!(@invites) do |invite|
-  json.extract! invite, :id
+  json.partial! 'invites/invite', invite: invite
 end

@@ -7,7 +7,7 @@ namespace :db do
         last_name: FFaker::Name.last_name,
         nickname: FFaker::Internet.user_name,
         birthday: FFaker::Time.date,
-        gender: FFaker::Boolean.random,
+        gender: %w(f m).sample,
         password: FFaker::Internet.password,
         city: FFaker::AddressUS.city
         # avatar_url: FFaker::Avatar.image,
@@ -45,9 +45,11 @@ namespace :db do
         address: FFaker::AddressUS.street_address,
         event_type: EventType.all.sample,
         user_limit: rand(100) + 1,
-        visibility: ['public', 'private', 'friends'].sample,
+        visibility: %w(public private friends).sample,
+        min_age: rand(20) + 1,
+        max_age: rand(20) + 20,
+        gender: [nil, 'm', 'f'].sample,
         admin: User.all.sample
-        # photo: FFaker::Avatar.image,
       )
     end
 
@@ -55,9 +57,9 @@ namespace :db do
     Event.all.each do |event|
       limit = event.user_limit / 3
       users = User.all.sample(limit)
-      event.users << users.pop(limit / 3)
-      event.invited_users << users.pop(limit / 3)
-      users.pop(limit / 3).each { |user| event.propose(user, event.admin) }
+      users.pop(limit / 3).each { |u| event.users << u unless event.users.include?(u) }
+      users.pop(limit / 3).each { |u| event.invited_users << u unless event.invited_users.include?(u) }
+      users.pop(limit / 3).each { |u| event.propose(u, event.admin) }
     end
   end
 

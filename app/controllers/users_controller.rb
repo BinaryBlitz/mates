@@ -1,7 +1,8 @@
 class UsersController < ApplicationController
   skip_before_action :restrict_access,
                      only: [:create, :authenticate, :authenticate_vk, :authenticate_fb]
-  before_action :set_user, only: [:show, :update, :destroy, :events, :friends]
+  before_action :set_user,
+                only: [:show, :update, :destroy, :events, :friends, :favorite, :unfavorite]
 
   # GET /users
   def index
@@ -74,6 +75,21 @@ class UsersController < ApplicationController
   def friends
     @friends = @user.friends
     render 'friends/index'
+  end
+
+  def favorite
+    current_user.favorited_users << @user
+    head :created
+  end
+
+  def unfavorite
+    current_user.favorited_users.destroy(@user)
+    head :no_content
+  end
+
+  def search
+    @users = User.search_by_name(params[:name])
+    render :index
   end
 
   private

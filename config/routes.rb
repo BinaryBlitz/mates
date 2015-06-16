@@ -6,23 +6,31 @@ Rails.application.routes.draw do
         post 'authenticate'
         post 'authenticate_vk'
         post 'authenticate_fb'
+        get 'search'
       end
       member do
         get 'events'
         get 'friends'
+        post 'favorite'
+        delete 'unfavorite'
       end
     end
     resources :friend_requests, except: [:show, :new, :edit]
     resources :friends, only: [:index, :destroy]
+    resources :favorites, only: [:index]
+    resources :device_tokens, only: [:create, :destroy], param: :token
 
     # Events
     resources :events, except: [:new, :edit] do
       collection do
         get :owned
         get :feed
+        get :search
       end
       member do
         get :proposals
+        get :submissions
+        post :join
         delete :remove
         delete :leave
       end
@@ -32,6 +40,7 @@ Rails.application.routes.draw do
     resources :invites, except: [:new, :edit]
     resources :proposals, except: [:index, :new, :edit]
     resources :memberships, except: [:new, :edit]
+    resources :submissions, except: [:new, :edit]
   end
 
   # The priority is based upon order of creation: first created -> highest priority.

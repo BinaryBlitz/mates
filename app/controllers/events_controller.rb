@@ -61,9 +61,26 @@ class EventsController < ApplicationController
     @proposals = @event.proposals
   end
 
+  def submissions
+    authorize @event
+    @submissions = @event.submissions
+    render 'submissions/index'
+  end
+
   def feed
     @events = Event.feed_for(current_user)
     render :index
+  end
+
+  def join
+    membership = Membership.new(user: current_user, event: @event)
+    authorize membership, :create?
+
+    if membership.save
+      head :created
+    else
+      render json: membership.errors, status: :unprocessable_entity
+    end
   end
 
   private
@@ -77,7 +94,8 @@ class EventsController < ApplicationController
       .permit(
         :name, :start_at, :end_at,
         :city, :address, :latitude, :longitude,
-        :info, :visible, :photo, :event_type_id
+        :info, :visible, :photo, :event_type_id, :user_limit,
+        :min_age, :max_age, :gender
       )
   end
 end

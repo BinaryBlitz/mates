@@ -19,11 +19,9 @@ class EventsTest < ActionDispatch::IntegrationTest
   test 'should create, read, update and destroy event' do
     assert_difference('Event.count') do
       post '/api/events', api_token: api_token, event: {
-        admin_id: @event.admin_id,
-        name: 'new',
-        city: 'new',
-        event_type_id: @event.event_type.id,
-        user_limit: 1
+        name: 'new', city: 'new',
+        event_type_id: @event.event_type.id, user_limit: 2,
+        min_age: @event.min_age, max_age: @event.max_age, gender: @event.gender
       }
     end
     assert @event.admin.events.include?(Event.last)
@@ -61,6 +59,9 @@ class EventsTest < ActionDispatch::IntegrationTest
     get "/api/events/#{@event.id}/proposals", api_token: stranger.api_token
     assert_response :unauthorized
 
+    get "/api/events/#{@event.id}/submissions", api_token: stranger.api_token
+    assert_response :unauthorized
+
     delete "/api/events/#{@event.id}/leave", api_token: api_token
     assert_response :unauthorized
   end
@@ -72,5 +73,28 @@ class EventsTest < ActionDispatch::IntegrationTest
     delete "/api/events/#{@event.id}/remove", api_token: api_token, user_id: bad_user.id
     assert_response :no_content
     refute @event.users.include?(bad_user)
+  end
+
+  test 'users can join events' do
+    user = users(:baz)
+
+    post "/api/events/#{@event.id}/join", api_token: user.api_token
+    assert_response :unauthorized
+    refute @event.users.include?(user)
+
+    user.update(birthday: Date.today - 20.years, password: 'foobar')
+    post "/api/events/#{@event.id}/join", api_token: user.api_token
+    assert_response :created
+    assert @event.users.include?(user)
+  end
+
+  test 'event proposals' do
+    get "/api/events/#{@event.id}/proposals", api_token: api_token
+    assert_response :success
+  end
+
+  test 'event submissions' do
+    get "/api/events/#{@event.id}/submissions", api_token: api_token
+    assert_response :success
   end
 end

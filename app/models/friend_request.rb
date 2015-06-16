@@ -32,11 +32,11 @@ class FriendRequest < ActiveRecord::Base
 
   def not_friends
     return unless user
-    errors.add(:friend, "is already added") if user.friends.include?(friend)
+    errors.add(:friend, 'is already added') if user.friends.include?(friend)
   end
 
   def not_pending
     return unless friend
-    errors.add(:friend, "already requested friendship") if friend.pending_friends.include?(user)
+    errors.add(:friend, 'already requested friendship') if friend.pending_friends.include?(user)
   end
 end

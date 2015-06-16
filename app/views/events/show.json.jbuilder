@@ -5,11 +5,14 @@ json.users @event.users do |user|
 end
 
 if policy(@event).update?
-  json.proposed_users @event.proposed_users do |proposed_user|
-    json.partial! 'users/user', user: proposed_user
+  json.proposals @event.proposals do |proposal|
+    json.partial! 'proposals/proposal', proposal: proposal
   end
-  json.invited_users @event.invited_users do |invited_user|
-    json.partial! 'users/user', user: invited_user
+  json.invites @event.invites do |invite|
+    json.partial! 'invites/invite', invite: invite
+  end
+  json.submissions @event.submissions do |submission|
+    json.partial! 'submissions/submission', submission: submission
   end
 end
 

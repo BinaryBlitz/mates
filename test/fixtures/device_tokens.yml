@@ -1,0 +1,9 @@
+ios:
+  token: <%= SecureRandom.hex %>
+  platform: ios
+  user: foo
+
+android:
+  token: <%= SecureRandom.hex %>
+  platform: android
+  user: baz
