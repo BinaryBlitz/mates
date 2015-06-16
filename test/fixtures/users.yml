@@ -7,7 +7,7 @@
 #  last_name       :string
 #  nickname        :string
 #  birthday        :date
-#  gender          :string
+#  gender          :string           default("m")
 #  api_token       :string
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null

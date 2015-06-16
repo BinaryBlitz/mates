@@ -63,8 +63,8 @@ class Event < ActiveRecord::Base
 
   PREVIEW_USERS_COUNT = 2
 
-  scope :past_events, -> { where('ends_at < ?', Time.now) }
-  scope :upcoming, -> { where('starts_at >= ?', Time.now) }
+  scope :past_events, -> { where('ends_at < ?', Time.zone.now) }
+  scope :upcoming, -> { where('starts_at >= ?', Time.zone.now) }
   scope :not_attended_by, -> (user) { where.not(id: user.event_ids) }
 
   def preview_users
@@ -89,9 +89,9 @@ class Event < ActiveRecord::Base
       .pluck('id')
   end
 
-  # Events attended by users from past events
+  # Events that users from past common events will attend
   def self.find_by_past_event_attendees(current_user)
-    includes(:memberships)
+    joins(:memberships)
       .where(memberships: { user_id: User.find_by_common_events(current_user) })
       .not_attended_by(current_user).upcoming.distinct
       .pluck('id')

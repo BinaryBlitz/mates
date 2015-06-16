@@ -7,7 +7,7 @@
 #  last_name       :string
 #  nickname        :string
 #  birthday        :date
-#  gender          :string
+#  gender          :string           default("m")
 #  api_token       :string
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
@@ -46,6 +46,7 @@ class User < ActiveRecord::Base
   has_many :submitted_events, through: :submissions, source: :event
 
   has_many :comments, dependent: :destroy
+  has_many :device_tokens, dependent: :destroy
 
   has_secure_password
   has_secure_token :api_token
@@ -64,7 +65,7 @@ class User < ActiveRecord::Base
 
   # Users that attended same events as the current user
   def self.find_by_common_events(user)
-    includes(:memberships)
+    joins(:memberships)
       .where(memberships: { event_id: user.events })
       .where(memberships: { event_id: Event.past_events })
       .where.not(memberships: { user_id: user.friends })
@@ -77,12 +78,18 @@ class User < ActiveRecord::Base
 
     args = query.strip.split
     if args.size > 0
-      result =
-        'first_name ILIKE ? OR last_name ILIKE ? OR nickname ILIKE ?' +
-        ' OR first_name ILIKE ? OR last_name ILIKE ? OR nickname ILIKE ?' * (args.size - 1)
-      args.map! { |w| ["%#{w}%", "%#{w}%", "%#{w}%"] }.flatten!
-      User.where(result, *args)
+      fuzzy_search_by_name(args)
+    else
+      User.None
     end
+  end
+
+  def self.fuzzy_search_by_name(args)
+    query =
+      'first_name ILIKE ? OR last_name ILIKE ? OR nickname ILIKE ?' +
+      ' OR first_name ILIKE ? OR last_name ILIKE ? OR nickname ILIKE ?' * (args.size - 1)
+    args.map! { |w| ["%#{w}%", "%#{w}%", "%#{w}%"] }.flatten!
+    User.where(query, *args)
   end
 
   def favorite?(user)
@@ -100,8 +107,8 @@ class User < ActiveRecord::Base
   def age
     return 0 unless birthday
 
-    age = Date.today.year - birthday.year
-    age -= 1 if Date.today < birthday + age.years
+    age = Time.zone.today.year - birthday.year
+    age -= 1 if Time.zone.today < birthday + age.years
     age
   end
 
