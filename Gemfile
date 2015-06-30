@@ -30,13 +30,14 @@ gem 'has_secure_token'
 gem 'bcrypt', '~> 3.1.7'
 
 # Use Unicorn as the app server
-# gem 'unicorn'
+gem 'unicorn'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
 gem 'annotate', group: :development
-
+# Use old version because of the manifest bug
+gem 'sprockets', '2.12.3'
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
@@ -46,6 +47,9 @@ group :development, :test do
   gem 'spring'
   # Mocking
   gem 'mocha'
+
+  gem 'capistrano'
+  gem "rvm-capistrano", require: false
 end
 
 group :production do
