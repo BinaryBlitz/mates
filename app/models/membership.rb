@@ -32,6 +32,6 @@ class Membership < ActiveRecord::Base
 
   def notify_removal
     options = { action: 'USER_REMOVED', membership: as_json }
-    Notifier.new(user, "Вас исключили из #{event}", options).push
+    Notifier.new(user, "Вы исключены из #{event}", options).push
   end
 end

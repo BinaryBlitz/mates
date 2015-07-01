@@ -3,12 +3,12 @@ class Notifier
     @device_tokens = user.device_tokens
     @message = message
     @options = options
+
+    Rails.logger.debug "#{Time.zone.now} Notifying #{user} with message: #{@message}"
   end
 
   def push
     return if @device_tokens.blank? || @message.blank?
-
-    Rails.logger.debug "Notifying: #{@message}"
 
     android_tokens = @device_tokens.where(platform: 'android')
     push_android_notifications(android_tokens)
@@ -24,6 +24,8 @@ class Notifier
     n.registration_ids = tokens.map(&:token)
     n.data = { message: @message }.merge(@options)
     n.save!
+
+    Rails.logger.debug "#{Time.zone.now} Android notification: #{@message}, options: #{@options}"
   end
 
   def push_apple_notifications(tokens)
@@ -34,6 +36,8 @@ class Notifier
       n.alert = @message
       n.data = @options
       n.save!
+
+      Rails.logger.debug "#{Time.zone.now} Apple notification: #{@message}, options: #{@options}"
     end
   end
 end

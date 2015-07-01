@@ -10,6 +10,8 @@
 #
 
 class FriendRequest < ActiveRecord::Base
+  after_create :notify_friend
+
   belongs_to :user
   belongs_to :friend, class_name: 'User'
 
@@ -21,10 +23,21 @@ class FriendRequest < ActiveRecord::Base
 
   def accept
     user.friends << friend
+    notify_accepted
     destroy
   end
 
   private
+
+  def notify_friend
+    options = { action: 'FRIEND_REQUEST', friend_request: as_json }
+    Notifier.new(friend, "#{user} хочет добавить вас в друзья", options).push
+  end
+
+  def notify_accepted
+    options = { action: 'FRIEND_REQUEST_ACCEPTED', friend_request: as_json }
+    Notifier.new(user, "#{friend} принял вашу заявку в друзья", options).push
+  end
 
   def not_self
     errors.add(:friend, "can't be equal to user") if user == friend

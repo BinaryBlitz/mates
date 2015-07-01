@@ -11,7 +11,6 @@
 
 class Submission < ActiveRecord::Base
   after_create :notify_admin
-  after_destroy :notify_approval
 
   belongs_to :user
   belongs_to :event
@@ -24,6 +23,7 @@ class Submission < ActiveRecord::Base
 
   def accept
     event.users << user
+    notify_approval
     destroy
   end
 
