@@ -221,7 +221,19 @@ ActiveRecord::Schema.define(version: 20150630232002) do
     t.string   "instagram_url"
   end
 
+  add_foreign_key "comments", "events"
+  add_foreign_key "comments", "users"
   add_foreign_key "device_tokens", "users"
+  add_foreign_key "events", "event_types"
+  add_foreign_key "favorites", "users"
+  add_foreign_key "friend_requests", "users"
+  add_foreign_key "friendships", "users"
+  add_foreign_key "invites", "events"
+  add_foreign_key "invites", "users"
+  add_foreign_key "memberships", "events"
+  add_foreign_key "memberships", "users"
+  add_foreign_key "proposals", "events"
+  add_foreign_key "proposals", "users"
   add_foreign_key "submissions", "events"
   add_foreign_key "submissions", "users"
 end
