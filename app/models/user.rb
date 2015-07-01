@@ -129,7 +129,7 @@ class User < ActiveRecord::Base
   end
 
   def notify_message(message, sender)
-    Notifier.new(device_tokens, message, action: 'MESSAGE', sender: sender.as_json)
+    Notifier.new(self, message, action: 'MESSAGE', sender: sender.as_json)
   end
 
   private

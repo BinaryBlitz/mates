@@ -15,6 +15,22 @@ baz = User.create(
   gender: 'f', password: 'bazqux', phone_number: '+74995555558')
 baz.update(api_token: 'baz')
 
+# Google Cloud Messaging
+gcm = Rpush::Gcm::App.new
+gcm.name = 'android_app'
+gcm.auth_key = Rails.application.secrets.gcm_auth_key
+gcm.connections = 1
+gcm.save!
+
+# Apple Push Notification Service
+# apns = Rpush::Apns::App.new
+# apns.name = 'ios_app'
+# apns.certificate = File.read('/path/to/sandbox.pem')
+# apns.environment = 'sandbox'
+# apns.password = 'certificate password'
+# apns.connections = 1
+# apns.save!
+
 # Event types
 EventType.create([
   { name: 'Bar / Club' }, { name: 'Cafe' }, { name: 'Cinema' }, { name: 'Theater' },
