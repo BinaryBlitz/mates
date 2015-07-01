@@ -2,7 +2,8 @@ class UsersController < ApplicationController
   skip_before_action :restrict_access,
                      only: [:create, :authenticate, :authenticate_vk, :authenticate_fb]
   before_action :set_user,
-                only: [:show, :update, :destroy, :events, :friends, :favorite, :unfavorite]
+                only: [:show, :update, :destroy, :events, :friends,
+                       :favorite, :unfavorite, :notify]
 
   # GET /users
   def index
@@ -90,6 +91,17 @@ class UsersController < ApplicationController
   def search
     @users = User.search_by_name(params[:name])
     render :index
+  end
+
+  def notify
+    message = params[:message]
+
+    if message.blank?
+      head :unprocessable_entity
+    else
+      @user.notify_message(message, current_user)
+      head :created
+    end
   end
 
   private
