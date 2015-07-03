@@ -22,6 +22,8 @@ class Membership < ActiveRecord::Base
   private
 
   def notify_followers
+    return if user == event.admin
+
     user.followers.each do |follower|
       Notifier.new(
         follower, "#{user} присоединился к #{event}",
