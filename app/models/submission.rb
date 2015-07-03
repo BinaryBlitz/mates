@@ -19,6 +19,7 @@ class Submission < ActiveRecord::Base
   validates :event, presence: true, uniqueness: { scope: :user }
   validate :not_visited
   validate :not_invited
+  validate :can_already_join
   validate :cannot_join
 
   def accept
@@ -47,7 +48,11 @@ class Submission < ActiveRecord::Base
     errors.add(:user, 'is already invited') if user.invited_events.include?(event)
   end
 
+  def can_already_join
+    errors.add(:user, 'can already join the event') if event.invited_users.include?(user)
+  end
+
   def cannot_join
-    errors.add(:user, 'can already join the event') if event.valid_user?(user)
+    errors.add(:user, 'cannot join the event') unless event.valid_user?(user)
   end
 end
