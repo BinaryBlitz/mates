@@ -141,7 +141,7 @@ class Event < ActiveRecord::Base
   def notify_members
     users.each do |user|
       options = { action: 'EVENT_UPDATED', event: as_json }
-      Notifier.new(user, "Событие обновлено: #{event}", options).push
+      Notifier.new(user, "Событие обновлено: #{self}", options).push
     end
   end
 end

@@ -8,7 +8,7 @@ class Notifier
   end
 
   def push
-    return if @device_tokens.blank? || @message.blank?
+    return if @message.blank?
 
     android_tokens = @device_tokens.where(platform: 'android')
     push_android_notifications(android_tokens)
@@ -19,6 +19,8 @@ class Notifier
   private
 
   def push_android_notifications(tokens)
+    return if tokens.blank?
+
     n = Rpush::Gcm::Notification.new
     n.app = Rpush::Gcm::App.find_by_name('android_app')
     n.registration_ids = tokens.map(&:token)
@@ -29,9 +31,11 @@ class Notifier
   end
 
   def push_apple_notifications(tokens)
+    return if tokens.blank?
+
     tokens.each do |token|
       n = Rpush::Apns::Notification.new
-      n.app = Rpush::Apns::App.find_by_name("ios_app")
+      n.app = Rpush::Apns::App.find_by_name('ios_app')
       n.device_token = token
       n.alert = @message
       n.data = @options
