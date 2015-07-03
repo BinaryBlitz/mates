@@ -1,9 +1,5 @@
-json.extract! submission, :id
+json.extract! submission, :id, :event_id
 
 json.user do
   json.partial! 'users/user', user: submission.user
-end
-
-json.event do
-  json.partial! 'events/event', event: submission.event
 end
