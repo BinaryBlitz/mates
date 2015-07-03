@@ -31,7 +31,7 @@ class Submission < ActiveRecord::Base
 
   def notify_admin
     options = { action: 'NEW_SUBMISSION', submission: as_json }
-    Notifier.new(event.admin.device_tokens, "Новая заявка от #{user} на #{event}", options).push
+    Notifier.new(event.admin, "Новая заявка от #{user} на #{event}", options).push
   end
 
   def notify_approval
