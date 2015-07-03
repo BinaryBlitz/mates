@@ -10,6 +10,8 @@
 #
 
 class Submission < ActiveRecord::Base
+  after_create :notify_admin
+
   belongs_to :user
   belongs_to :event
 
@@ -21,10 +23,21 @@ class Submission < ActiveRecord::Base
 
   def accept
     event.users << user
+    notify_approval
     destroy
   end
 
   private
+
+  def notify_admin
+    options = { action: 'NEW_SUBMISSION', submission: as_json }
+    Notifier.new(event.admin, "Новая заявка от #{user} на #{event}", options).push
+  end
+
+  def notify_approval
+    options = { action: 'SUBMISSION_APPROVED', submission: as_json }
+    Notifier.new(user, "Ваша заявка на #{event.name} была одобрена", options).push
+  end
 
   def not_visited
     errors.add(:event, 'is already visited') if user.events.include?(event)

@@ -11,6 +11,7 @@ Rails.application.routes.draw do
       member do
         get 'events'
         get 'friends'
+        post 'notify'
         post 'favorite'
         delete 'unfavorite'
       end

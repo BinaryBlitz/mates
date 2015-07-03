@@ -42,6 +42,9 @@ class User < ActiveRecord::Base
   has_many :favorites, dependent: :destroy
   has_many :favorited_users, through: :favorites, source: :favorited
 
+  has_many :inverse_favorites, class_name: 'Favorite', foreign_key: :favorited_id
+  has_many :followers, through: :inverse_favorites, source: :user
+
   has_many :owned_events, dependent: :destroy, foreign_key: :admin_id, class_name: 'Event'
   has_many :events, through: :memberships
   has_many :memberships, dependent: :destroy
@@ -119,6 +122,14 @@ class User < ActiveRecord::Base
     age = Time.zone.today.year - birthday.year
     age -= 1 if Time.zone.today < birthday + age.years
     age
+  end
+
+  def to_s
+    "#{first_name} #{last_name}"
+  end
+
+  def notify_message(message, sender)
+    Notifier.new(self, message, action: 'MESSAGE', sender: sender.as_json).push
   end
 
   private
