@@ -14,9 +14,3 @@ end
 json.admin do
   json.partial! 'users/user', user: event.admin
 end
-
-if submission = event.submissions.find_by(user: current_user)
-  json.submission do
-    json.partial! 'submissions/submission', submission: submission
-  end
-end
