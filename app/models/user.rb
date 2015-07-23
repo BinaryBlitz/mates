@@ -24,6 +24,8 @@
 #
 
 class User < ActiveRecord::Base
+  after_create :set_online
+
   validates :first_name, presence: true, length: { maximum: 20 }
   validates :last_name, presence: true, length: { maximum: 20 }
   validates :nickname, presence: true, length: { maximum: 20 }, unless: :oauth?
@@ -60,13 +62,17 @@ class User < ActiveRecord::Base
   has_many :comments, dependent: :destroy
   has_many :device_tokens, dependent: :destroy
 
+  has_many :messages, -> (object) { where('creator_id = ? OR user_id = ?', object.id, object.id) }
+  has_many :incoming_messages, class_name: 'Message'
+  has_many :outgoing_messages, class_name: 'Message', foreign_key: 'creator_id'
+
   has_secure_password
   has_secure_token :api_token
 
   mount_base64_uploader :avatar, AvatarUploader
 
-  phony_normalize :phone_number, default_country_code: 'RU'
-  validates :phone_number, phony_plausible: true
+  # phony_normalize :phone_number, default_country_code: 'RU'
+  # validates :phone_number, phony_plausible: true
 
   include Authenticable
 
@@ -132,7 +138,15 @@ class User < ActiveRecord::Base
     Notifier.new(self, message, action: 'MESSAGE', sender: sender.as_json).push
   end
 
+  def online?
+    visited_at && visited_at > 1.minute.ago
+  end
+
   private
+
+  def set_online
+    touch(:visited_at)
+  end
 
   def oauth?
     vk_id || facebook_id
