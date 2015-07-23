@@ -2,7 +2,7 @@ class MessagesController < ApplicationController
   skip_before_action :restrict_access, only: [:create]
 
   def index
-    @messages = current_user.messages
+    @messages = current_user.messages.by_user(params[:user_id])
   end
 
   def create
