@@ -43,12 +43,12 @@ class UsersController < ApplicationController
   end
 
   def authenticate
-    @user = User.find_by(nickname: params[:nickname])
+    @user = User.find_by(email: params[:email])
 
     if @user && @user.authenticate(params[:password])
       render :authenticate, location: @user
     else
-      render json: { error: 'Invalid nickname / password combination' }, status: :unauthorized
+      render json: { error: 'Invalid email / password combination' }, status: :unauthorized
     end
   end
 
@@ -114,7 +114,7 @@ class UsersController < ApplicationController
   # Never trust parameters from the scary internet, only allow the white list through.
   def user_params
     params.require(:user).permit(
-      :first_name, :last_name, :nickname,
+      :first_name, :last_name, :email,
       :password, :password_confirmation, :birthday,
       :gender, :city, :avatar, :phone_number,
       :vk_url, :facebook_url, :twitter_url, :instagram_url

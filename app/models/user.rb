@@ -5,7 +5,6 @@
 #  id              :integer          not null, primary key
 #  first_name      :string
 #  last_name       :string
-#  nickname        :string
 #  birthday        :date
 #  gender          :string           default("m")
 #  api_token       :string
@@ -21,6 +20,8 @@
 #  facebook_url    :string
 #  twitter_url     :string
 #  instagram_url   :string
+#  visited_at      :datetime
+#  email           :string
 #
 
 class User < ActiveRecord::Base
@@ -28,7 +29,7 @@ class User < ActiveRecord::Base
 
   validates :first_name, presence: true, length: { maximum: 20 }
   validates :last_name, presence: true, length: { maximum: 20 }
-  validates :nickname, presence: true, length: { maximum: 20 }, unless: :oauth?
+  validates :email, email: true, uniqueness: true, allow_blank: true
   validates :password, presence: true, length: { minimum: 6 }
   validates :gender, length: { is: 1 }, inclusion: { in: %w(f m) }, allow_nil: true
 
