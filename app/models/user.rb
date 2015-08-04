@@ -105,9 +105,9 @@ class User < ActiveRecord::Base
 
   def self.fuzzy_search_by_name(args)
     query =
-      'first_name ILIKE ? OR last_name ILIKE ? OR nickname ILIKE ?' +
-      ' OR first_name ILIKE ? OR last_name ILIKE ? OR nickname ILIKE ?' * (args.size - 1)
-    args.map! { |w| ["%#{w}%", "%#{w}%", "%#{w}%"] }.flatten!
+      'first_name ILIKE ? OR last_name ILIKE ?' +
+      ' OR first_name ILIKE ? OR last_name ILIKE ?' * (args.size - 1)
+    args.map! { |w| ["%#{w}%", "%#{w}%"] }.flatten!
     User.where(query, *args)
   end
 
