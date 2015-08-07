@@ -37,9 +37,6 @@ class UserTest < ActiveSupport::TestCase
 
     result = User.search_by_name(@user.last_name)
     assert result.include?(@user)
-
-    result = User.search_by_name(@user.nickname)
-    assert result.include?(@user)
   end
 
   test 'search should handle incorrect input' do

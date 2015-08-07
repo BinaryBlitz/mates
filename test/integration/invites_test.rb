@@ -2,28 +2,30 @@ require 'test_helper'
 
 class InvitesTest < ActionDispatch::IntegrationTest
   setup do
-    @invitee = users(:baz)
+    @invite = invites(:invite)
+    @invitee = users(:invitee)
     @event = events(:party)
   end
 
-  test 'should create, accept, decline invites' do
-    # Invite user to the event
-    post '/api/invites', api_token: api_token, invite: { user_id: @invitee.id, event_id: @event.id }
+  test 'invite' do
+    post '/api/invites', api_token: api_token, invite: { user_id: users(:baz).id, event_id: @event.id }
     assert_response :created
     assert @invitee.invited_events.include?(@event)
+  end
 
-    # Get the list of events
+  test 'list' do
     get '/api/invites', api_token: @invitee.api_token
     assert_response :success
     assert_not_nil assigns(:invites)
+  end
 
-    # Accept the invite
+  test 'accept' do
     patch "/api/invites/#{Invite.last.id}", api_token: @invitee.api_token
     assert_response :no_content
     assert @invitee.events.include?(@event)
+  end
 
-    # Invite user to the event and decline the invite
-    post '/api/invites', api_token: api_token, invite: { user_id: @invitee.id, event_id: @event.id }
+  test 'decline' do
     delete "/api/invites/#{Invite.last.id}", api_token: api_token
     refute @invitee.invited_events.include?(@event)
   end

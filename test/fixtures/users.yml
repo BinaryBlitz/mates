@@ -44,6 +44,7 @@ baz:
   phone_number: +74995555556
   gender: f
   api_token: <%= SecureRandom.hex %>
+  password_digest: <%= BCrypt::Password.create('foobar', cost: 4) %>
 
 john:
   first_name: John
@@ -53,3 +54,10 @@ john:
   phone_number: +74995555557
   gender: m
   api_token: <%= SecureRandom.hex %>
+  password_digest: <%= BCrypt::Password.create('foobar', cost: 4) %>
+
+invitee:
+  first_name: Invi
+  last_name: Tee
+  email: invi@tee.com
+  password_digest: <%= BCrypt::Password.create('foobar', cost: 4) %>
