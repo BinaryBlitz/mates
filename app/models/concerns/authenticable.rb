@@ -8,7 +8,8 @@ module Authenticable
 
       user || create!(
         first_name: vk_user.first_name, last_name: vk_user.last_name, password: SecureRandom.hex,
-        email: vk_user.email, vk_id: vk_user.uid, remote_avatar_url: vk_user.photo_max_orig,
+        email: vk_user.email, vk_id: vk_user.uid,
+        remote_avatar_url: vk_user.photo_max_orig,
         birthday: format_vk_date(vk_user.bdate)
       )
     end
