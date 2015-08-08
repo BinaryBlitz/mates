@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150804210254) do
+ActiveRecord::Schema.define(version: 20150808195658) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -209,6 +209,16 @@ ActiveRecord::Schema.define(version: 20150804210254) do
 
   add_index "rpush_notifications", ["delivered", "failed"], name: "index_rpush_notifications_multi", where: "((NOT delivered) AND (NOT failed))", using: :btree
 
+  create_table "searches", force: :cascade do |t|
+    t.string   "name"
+    t.integer  "event_type_id"
+    t.string   "visibility"
+    t.datetime "min_starts_at"
+    t.datetime "max_starts_at"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+  end
+
   create_table "submissions", force: :cascade do |t|
     t.integer  "user_id"
     t.integer  "event_id"
@@ -240,6 +250,7 @@ ActiveRecord::Schema.define(version: 20150804210254) do
     t.string   "instagram_url"
     t.datetime "visited_at"
     t.string   "email"
+    t.string   "avatar_original"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
