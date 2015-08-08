@@ -5,7 +5,7 @@ namespace :db do
       User.create!(
         first_name: FFaker::Name.first_name,
         last_name: FFaker::Name.last_name,
-        nickname: FFaker::Internet.user_name,
+        email: FFaker::Internet.email,
         birthday: FFaker::Time.date,
         gender: %w(f m).sample,
         password: FFaker::Internet.password,

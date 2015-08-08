@@ -118,7 +118,7 @@ class UsersController < ApplicationController
       :password, :password_confirmation, :birthday,
       :gender, :city, :avatar, :phone_number,
       :vk_url, :facebook_url, :twitter_url, :instagram_url,
-      photos_attributes: [:id, :_destroy]
+      photos_attributes: [:id, :image, :_destroy]
     )
   end
 end
