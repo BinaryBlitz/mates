@@ -22,6 +22,7 @@
 #  instagram_url   :string
 #  visited_at      :datetime
 #  email           :string
+#  avatar_original :string
 #
 
 require 'test_helper'
