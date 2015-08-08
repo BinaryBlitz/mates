@@ -47,7 +47,7 @@ class UsersTest < ActionDispatch::IntegrationTest
   test 'should authenticate by email' do
     post '/api/users/authenticate', email: @user.email, password: 'foobar'
     assert_response :success
-    assert_not_nil json_response['api_token']
+    assert_not_nil json_response[:api_token]
   end
 
   test 'should authorize users' do

@@ -101,12 +101,13 @@ class EventsTest < ActionDispatch::IntegrationTest
   test 'search by name' do
     post '/api/searches', api_token: api_token, search: { name: @event.name }
     assert_response :created
+    # byebug
     assert_equal @event.name, json_response.first[:name]
   end
 
   test 'search by category' do
-    post '/api/searches', api_token: api_token, search: { category_id: @event.category_id }
+    post '/api/searches', api_token: api_token, search: { event_type_id: @event.event_type_id }
     assert_response :created
-    assert_equal @event.category_id, json_response.first[:category_id]
+    assert_equal @event.event_type_id, json_response.first[:event_type][:id]
   end
 end
