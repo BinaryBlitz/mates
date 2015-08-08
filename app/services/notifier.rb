@@ -26,8 +26,9 @@ class Notifier
     n.registration_ids = tokens.map(&:token)
     n.data = { message: @message }.merge(@options)
     n.save!
-
-    Rails.logger.debug "#{Time.zone.now} Android notification: #{@message}, options: #{@options}"
+    Rails.logger.debug "#{Time.zone.now} GCM notification: #{@message}, options: #{@options}"
+  rescue
+    Rails.logger.debug "#{Time.zone.now} Failed GCM notification: #{@message}, options: #{@options}"
   end
 
   def push_apple_notifications(tokens)

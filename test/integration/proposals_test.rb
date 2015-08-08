@@ -41,9 +41,9 @@ class ProposalsTest < ActionDispatch::IntegrationTest
          api_token: api_token, proposal: { user_id: @proposed_user.id, event_id: @event.id }
 
     patch "/api/proposals/#{Proposal.last.id}", api_token: stranger.api_token
-    assert_response :unauthorized
+    assert_response :forbidden
 
     delete "/api/proposals/#{Proposal.last.id}", api_token: stranger.api_token
-    assert_response :unauthorized
+    assert_response :forbidden
   end
 end

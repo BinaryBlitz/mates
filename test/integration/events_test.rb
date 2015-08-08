@@ -48,22 +48,22 @@ class EventsTest < ActionDispatch::IntegrationTest
     stranger = users(:baz)
 
     patch "/api/events/#{@event.id}", api_token: stranger.api_token
-    assert_response :unauthorized
+    assert_response :forbidden
 
     delete "/api/events/#{@event.id}", api_token: stranger.api_token
-    assert_response :unauthorized
+    assert_response :forbidden
 
     delete "/api/events/#{@event.id}/remove", api_token: stranger.api_token
-    assert_response :unauthorized
+    assert_response :forbidden
 
     get "/api/events/#{@event.id}/proposals", api_token: stranger.api_token
-    assert_response :unauthorized
+    assert_response :forbidden
 
     get "/api/events/#{@event.id}/submissions", api_token: stranger.api_token
-    assert_response :unauthorized
+    assert_response :forbidden
 
     delete "/api/events/#{@event.id}/leave", api_token: api_token
-    assert_response :unauthorized
+    assert_response :forbidden
   end
 
   test 'should remove users from event' do
@@ -79,7 +79,7 @@ class EventsTest < ActionDispatch::IntegrationTest
     user = users(:baz)
 
     post "/api/events/#{@event.id}/join", api_token: user.api_token
-    assert_response :unauthorized
+    assert_response :forbidden
     refute @event.users.include?(user)
 
     user.update(birthday: Date.today - 20.years, password: 'foobar')

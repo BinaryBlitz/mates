@@ -2,13 +2,15 @@ require 'test_helper'
 
 class InvitesTest < ActionDispatch::IntegrationTest
   setup do
-    @invite = invites(:invite)
-    @invitee = users(:invitee)
     @event = events(:party)
+    @invitee = users(:invitee)
+    @invite = invites(:invite)
   end
 
-  test 'invite' do
-    post '/api/invites', api_token: api_token, invite: { user_id: users(:baz).id, event_id: @event.id }
+  test 'create' do
+    post '/api/invites', api_token: @event.admin.api_token, invite: {
+      user_id: users(:baz).id, event_id: @event.id
+    }
     assert_response :created
     assert @invitee.invited_events.include?(@event)
   end
@@ -35,9 +37,9 @@ class InvitesTest < ActionDispatch::IntegrationTest
     stranger = users(:john)
 
     patch "/api/invites/#{Invite.last.id}", api_token: stranger.api_token
-    assert_response :unauthorized
+    assert_response :forbidden
 
     delete "/api/invites/#{Invite.last.id}", api_token: stranger.api_token
-    assert_response :unauthorized
+    assert_response :forbidden
   end
 end

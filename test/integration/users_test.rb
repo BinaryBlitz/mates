@@ -54,10 +54,10 @@ class UsersTest < ActionDispatch::IntegrationTest
     stranger = users(:john)
 
     patch "/api/users/#{@user.id}", api_token: stranger.api_token
-    assert_response :unauthorized
+    assert_response :forbidden
 
     delete "/api/users/#{@user.id}", api_token: stranger.api_token
-    assert_response :unauthorized
+    assert_response :forbidden
   end
 
   test "should get user's friends" do
