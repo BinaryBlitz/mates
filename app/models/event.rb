@@ -67,7 +67,6 @@ class Event < ActiveRecord::Base
 
   scope :past_events, -> { where('ends_at < ?', Time.zone.now) }
   scope :upcoming, -> { where('starts_at >= ?', Time.zone.now) }
-  scope :not_attended_by, -> (user) { where.not(id: user.event_ids) }
 
   def preview_users
     users.where.not(id: admin.id).limit(PREVIEW_USERS_COUNT)
