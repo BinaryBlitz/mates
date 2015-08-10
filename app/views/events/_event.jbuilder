@@ -3,14 +3,12 @@ json.extract! event,
               :visibility, :created_at, :address, :user_limit, :photo_url,
               :min_age, :max_age, :gender
 
-json.owned current_user.owned_events.include?(event)
-json.visited current_user.events.include?(event)
-json.invited current_user.invited_events.include?(event)
+json.extract! event, :event_type_id
 
-json.event_type do
-  json.partial! 'event_types/event_type', event_type: event.event_type
-end
+# json.event_type do
+#   json.partial! 'event_types/event_type', event_type: event.event_type
+# end
 
 json.admin do
-  json.partial! 'users/user', user: event.admin
+  json.extract! event.admin, :id, :first_name, :last_name
 end

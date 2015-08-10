@@ -39,6 +39,8 @@ class User < ActiveRecord::Base
   validates :twitter_url, url: { allow_blank: true }
   validates :instagram_url, url: { allow_blank: true }
 
+  has_one :feed, dependent: :destroy
+
   has_many :photos, dependent: :destroy
   accepts_nested_attributes_for :photos, allow_destroy: true
 
