@@ -10,6 +10,9 @@
 #
 
 class Invite < ActiveRecord::Base
+  after_create :notify_invitee
+  after_destroy :notify_admin
+
   belongs_to :user
   belongs_to :event
 
@@ -20,5 +23,17 @@ class Invite < ActiveRecord::Base
   def accept
     user.events << event
     destroy
+  end
+
+  private
+
+  def notify_invitee
+    options = { action: 'INVITE', invite: as_json }
+    Notifier.new(user, "Вас пригласили на событие: #{event}", options).push
+  end
+
+  def notify_admin
+    options = { action: 'INVITE_ACCEPTED', invite: as_json }
+    Notifier.new(event.admin, "#{user} согласился на участие в #{event}", options).push
   end
 end

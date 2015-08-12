@@ -2,7 +2,8 @@ class UsersController < ApplicationController
   skip_before_action :restrict_access,
                      only: [:create, :authenticate, :authenticate_vk, :authenticate_fb]
   before_action :set_user,
-                only: [:show, :update, :destroy, :events, :friends, :favorite, :unfavorite]
+                only: [:show, :update, :destroy, :events, :friends,
+                       :favorite, :unfavorite, :notify]
 
   # GET /users
   def index
@@ -18,7 +19,7 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
 
     if @user.save
-      render :show, status: :created, location: @user
+      render :authenticate, status: :created, location: @user
     else
       render json: @user.errors, status: :unprocessable_entity
     end
@@ -42,12 +43,12 @@ class UsersController < ApplicationController
   end
 
   def authenticate
-    @user = User.find_by(nickname: params[:nickname])
+    @user = User.find_by(email: params[:email])
 
     if @user && @user.authenticate(params[:password])
       render :authenticate, location: @user
     else
-      render json: { error: 'Invalid nickname / password combination' }, status: :unauthorized
+      render json: { error: 'Invalid email / password combination' }, status: :unauthorized
     end
   end
 
@@ -92,6 +93,17 @@ class UsersController < ApplicationController
     render :index
   end
 
+  def notify
+    message = params[:message]
+
+    if message.blank?
+      head :unprocessable_entity
+    else
+      @user.notify_message(message, current_user)
+      head :created
+    end
+  end
+
   private
 
   # Use callbacks to share common setup or constraints between actions.
@@ -102,9 +114,11 @@ class UsersController < ApplicationController
   # Never trust parameters from the scary internet, only allow the white list through.
   def user_params
     params.require(:user).permit(
-      :first_name, :last_name, :nickname,
+      :first_name, :last_name, :email,
       :password, :password_confirmation, :birthday,
-      :gender, :city, :avatar, :phone_number
+      :gender, :city, :avatar, :phone_number,
+      :vk_url, :facebook_url, :twitter_url, :instagram_url,
+      photos_attributes: [:id, :image, :_destroy]
     )
   end
 end

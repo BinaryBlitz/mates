@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.2.1'
+gem 'rails', '4.2.3'
 
 # Use PostgreSQL
 gem 'pg'
@@ -15,6 +15,7 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'phony_rails'
 gem 'ffaker'
 gem 'rpush'
+gem 'validate_url'
 
 # Attachments
 gem 'carrierwave'
@@ -27,15 +28,19 @@ gem 'koala'
 gem 'pundit'
 gem 'has_secure_token'
 gem 'bcrypt', '~> 3.1.7'
+gem 'email_validator'
 
 # Use Unicorn as the app server
-# gem 'unicorn'
+gem 'unicorn'
+
+gem 'mqtt'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
 gem 'annotate', group: :development
-
+# Use old version because of the manifest bug
+gem 'sprockets', '2.12.3'
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
@@ -45,6 +50,9 @@ group :development, :test do
   gem 'spring'
   # Mocking
   gem 'mocha'
+
+  gem 'capistrano'
+  gem "rvm-capistrano", require: false
 end
 
 group :production do

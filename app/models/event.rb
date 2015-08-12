@@ -25,6 +25,8 @@
 
 class Event < ActiveRecord::Base
   after_create :attend
+  after_create :notify_followers
+  after_update :notify_members
 
   belongs_to :admin, class_name: 'User'
   belongs_to :event_type
@@ -119,9 +121,27 @@ class Event < ActiveRecord::Base
     valid_gender?(new_user.gender) && valid_age?(new_user.age)
   end
 
+  def to_s
+    "#{name}"
+  end
+
   private
 
   def attend
     admin.events << self
+  end
+
+  def notify_followers
+    admin.followers.each do |follower|
+      options = { action: 'NEW_EVENT', event: as_json }
+      Notifier.new(follower, "Новое событие от #{admin}: #{name}", options).push
+    end
+  end
+
+  def notify_members
+    users.each do |user|
+      options = { action: 'EVENT_UPDATED', event: as_json }
+      Notifier.new(user, "Событие обновлено: #{self}", options).push
+    end
   end
 end

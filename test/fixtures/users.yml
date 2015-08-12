@@ -5,7 +5,6 @@
 #  id              :integer          not null, primary key
 #  first_name      :string
 #  last_name       :string
-#  nickname        :string
 #  birthday        :date
 #  gender          :string           default("m")
 #  api_token       :string
@@ -17,6 +16,13 @@
 #  password_digest :string
 #  city            :string
 #  phone_number    :string
+#  vk_url          :string
+#  facebook_url    :string
+#  twitter_url     :string
+#  instagram_url   :string
+#  visited_at      :datetime
+#  email           :string
+#  avatar_original :string
 #
 
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
@@ -24,7 +30,7 @@
 foo:
   first_name: Foo
   last_name: Bar
-  nickname: foobar
+  email: foo@bar.com
   birthday: 2015-04-18
   gender: m
   phone_number: +74995555555
@@ -34,17 +40,25 @@ foo:
 baz:
   first_name: Baz
   last_name: Qux
-  nickname: bazqux
+  email: baz@qux.com
   birthday: 2015-04-18
   phone_number: +74995555556
   gender: f
   api_token: <%= SecureRandom.hex %>
+  password_digest: <%= BCrypt::Password.create('foobar', cost: 4) %>
 
 john:
   first_name: John
   last_name: Doe
-  nickname: johndoe
+  email: john@doe.com
   birthday: 2015-04-18
   phone_number: +74995555557
   gender: m
   api_token: <%= SecureRandom.hex %>
+  password_digest: <%= BCrypt::Password.create('foobar', cost: 4) %>
+
+invitee:
+  first_name: Invi
+  last_name: Tee
+  email: invi@tee.com
+  password_digest: <%= BCrypt::Password.create('foobar', cost: 4) %>

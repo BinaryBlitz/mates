@@ -36,9 +36,9 @@ class FriendRequestsTest < ActionDispatch::IntegrationTest
     post '/api/friend_requests', api_token: api_token, friend_id: @friend.id
 
     patch "/api/friend_requests/#{FriendRequest.last.id}", api_token: stranger.api_token
-    assert_response :unauthorized
+    assert_response :forbidden
 
     delete "/api/friend_requests/#{FriendRequest.last.id}", api_token: stranger.api_token
-    assert_response :unauthorized
+    assert_response :forbidden
   end
 end

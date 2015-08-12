@@ -2,28 +2,32 @@ require 'test_helper'
 
 class InvitesTest < ActionDispatch::IntegrationTest
   setup do
-    @invitee = users(:baz)
     @event = events(:party)
+    @invitee = users(:invitee)
+    @invite = invites(:invite)
   end
 
-  test 'should create, accept, decline invites' do
-    # Invite user to the event
-    post '/api/invites', api_token: api_token, invite: { user_id: @invitee.id, event_id: @event.id }
+  test 'create' do
+    post '/api/invites', api_token: @event.admin.api_token, invite: {
+      user_id: users(:baz).id, event_id: @event.id
+    }
     assert_response :created
     assert @invitee.invited_events.include?(@event)
+  end
 
-    # Get the list of events
+  test 'list' do
     get '/api/invites', api_token: @invitee.api_token
     assert_response :success
     assert_not_nil assigns(:invites)
+  end
 
-    # Accept the invite
+  test 'accept' do
     patch "/api/invites/#{Invite.last.id}", api_token: @invitee.api_token
     assert_response :no_content
     assert @invitee.events.include?(@event)
+  end
 
-    # Invite user to the event and decline the invite
-    post '/api/invites', api_token: api_token, invite: { user_id: @invitee.id, event_id: @event.id }
+  test 'decline' do
     delete "/api/invites/#{Invite.last.id}", api_token: api_token
     refute @invitee.invited_events.include?(@event)
   end
@@ -33,9 +37,9 @@ class InvitesTest < ActionDispatch::IntegrationTest
     stranger = users(:john)
 
     patch "/api/invites/#{Invite.last.id}", api_token: stranger.api_token
-    assert_response :unauthorized
+    assert_response :forbidden
 
     delete "/api/invites/#{Invite.last.id}", api_token: stranger.api_token
-    assert_response :unauthorized
+    assert_response :forbidden
   end
 end

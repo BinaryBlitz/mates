@@ -15,6 +15,7 @@ Rails.application.routes.draw do
       member do
         get 'events'
         get 'friends'
+        post 'notify'
         post 'favorite'
         delete 'unfavorite'
       end
@@ -23,6 +24,7 @@ Rails.application.routes.draw do
     resources :friends, only: [:index, :destroy]
     resources :favorites, only: [:index]
     resources :device_tokens, only: [:create, :destroy], param: :token
+    resources :messages, only: [:index, :create]
 
     # Events
     resources :events, except: [:new, :edit] do
@@ -45,6 +47,7 @@ Rails.application.routes.draw do
     resources :proposals, except: [:index, :new, :edit]
     resources :memberships, except: [:new, :edit]
     resources :submissions, except: [:new, :edit]
+    resources :searches, only: [:create, :show]
   end
 
   # The priority is based upon order of creation: first created -> highest priority.

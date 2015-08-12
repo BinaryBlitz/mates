@@ -15,7 +15,7 @@ class UsersTest < ActionDispatch::IntegrationTest
     post '/api/users', user: {
       first_name: 'Foo',
       last_name: 'Bar',
-      nickname: 'Foobar',
+      email: 'foo1@bar.com',
       password: 'foobar',
       password_confirmation: 'foobar'
     }
@@ -44,20 +44,20 @@ class UsersTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
-  test 'should authenticate by nickname' do
-    post '/api/users/authenticate', nickname: @user.nickname, password: 'foobar'
+  test 'should authenticate by email' do
+    post '/api/users/authenticate', email: @user.email, password: 'foobar'
     assert_response :success
-    assert_not_nil json_response['api_token']
+    assert_not_nil json_response[:api_token]
   end
 
   test 'should authorize users' do
     stranger = users(:john)
 
     patch "/api/users/#{@user.id}", api_token: stranger.api_token
-    assert_response :unauthorized
+    assert_response :forbidden
 
     delete "/api/users/#{@user.id}", api_token: stranger.api_token
-    assert_response :unauthorized
+    assert_response :forbidden
   end
 
   test "should get user's friends" do

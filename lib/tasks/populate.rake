@@ -5,7 +5,7 @@ namespace :db do
       User.create!(
         first_name: FFaker::Name.first_name,
         last_name: FFaker::Name.last_name,
-        nickname: FFaker::Internet.user_name,
+        email: FFaker::Internet.email,
         birthday: FFaker::Time.date,
         gender: %w(f m).sample,
         password: FFaker::Internet.password,
@@ -44,7 +44,7 @@ namespace :db do
         info: FFaker::HipsterIpsum.sentence,
         address: FFaker::AddressUS.street_address,
         event_type: EventType.all.sample,
-        user_limit: rand(100) + 1,
+        user_limit: rand(100) + 2,
         visibility: %w(public private friends).sample,
         min_age: rand(20) + 1,
         max_age: rand(20) + 20,

@@ -24,7 +24,7 @@
 #
 
 party:
-  name: Foo
+  name: Party
   starts_at: <%= Time.zone.now %>
   ends_at: <%= 10.days.from_now %>
   city: Moscow
