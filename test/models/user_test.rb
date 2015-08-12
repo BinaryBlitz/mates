@@ -5,7 +5,6 @@
 #  id              :integer          not null, primary key
 #  first_name      :string
 #  last_name       :string
-#  nickname        :string
 #  birthday        :date
 #  gender          :string           default("m")
 #  api_token       :string
@@ -17,6 +16,13 @@
 #  password_digest :string
 #  city            :string
 #  phone_number    :string
+#  vk_url          :string
+#  facebook_url    :string
+#  twitter_url     :string
+#  instagram_url   :string
+#  visited_at      :datetime
+#  email           :string
+#  avatar_original :string
 #
 
 require 'test_helper'
@@ -31,9 +37,6 @@ class UserTest < ActiveSupport::TestCase
     assert result.include?(@user)
 
     result = User.search_by_name(@user.last_name)
-    assert result.include?(@user)
-
-    result = User.search_by_name(@user.nickname)
     assert result.include?(@user)
   end
 

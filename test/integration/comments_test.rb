@@ -38,12 +38,12 @@ class CommentsTest < ActionDispatch::IntegrationTest
     post "/api/events/#{@event.id}/comments", api_token: stranger.api_token, comment: {
       content: "Hello!"
     }
-    assert_response :unauthorized
+    assert_response :forbidden
 
     patch "/api/events/#{@event.id}/comments/#{@comment.id}", api_token: stranger.api_token
-    assert_response :unauthorized
+    assert_response :forbidden
 
     delete "/api/events/#{@event.id}/comments/#{@comment.id}", api_token: stranger.api_token
-    assert_response :unauthorized
+    assert_response :forbidden
   end
 end

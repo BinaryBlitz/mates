@@ -14,6 +14,10 @@ class FriendRequestTest < ActiveSupport::TestCase
     @friend_request = FriendRequest.create(user: users(:foo), friend: users(:baz))
   end
 
+  test 'valid' do
+    assert @friend_request.valid?
+  end
+
   test 'invalid without user' do
     @friend_request.user = nil
     assert @friend_request.invalid?

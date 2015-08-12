@@ -26,6 +26,6 @@ class ApplicationController < ActionController::Base
   private
 
   def user_not_authorized
-    head :unauthorized
+    head :forbidden
   end
 end
