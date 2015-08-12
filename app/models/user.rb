@@ -39,6 +39,8 @@ class User < ActiveRecord::Base
   validates :twitter_url, url: { allow_blank: true }
   validates :instagram_url, url: { allow_blank: true }
 
+  has_one :feed, dependent: :destroy
+
   has_many :photos, dependent: :destroy
   accepts_nested_attributes_for :photos, allow_destroy: true
 
@@ -53,8 +55,8 @@ class User < ActiveRecord::Base
   has_many :followers, through: :inverse_favorites, source: :user
 
   has_many :owned_events, dependent: :destroy, foreign_key: :admin_id, class_name: 'Event'
-  has_many :events, through: :memberships
   has_many :memberships, dependent: :destroy
+  has_many :events, through: :memberships
 
   has_many :proposals, dependent: :destroy
   has_many :proposed_events, through: :proposals, source: :event
@@ -84,16 +86,6 @@ class User < ActiveRecord::Base
   def remove_friend(friend)
     friendships.find_by(friend: friend).destroy
     friend.friendships.find_by(friend: self).destroy
-  end
-
-  # Users that attended same events as the current user
-  def self.find_by_common_events(user)
-    joins(:memberships)
-      .where(memberships: { event_id: user.events })
-      .where(memberships: { event_id: Event.past_events })
-      .where.not(memberships: { user_id: user.friends })
-      .where.not(memberships: { user_id: user })
-      .distinct.pluck('id')
   end
 
   def self.search_by_name(query)

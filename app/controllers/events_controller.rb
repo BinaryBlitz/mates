@@ -68,7 +68,8 @@ class EventsController < ApplicationController
   end
 
   def feed
-    @events = Event.feed_for(current_user)
+    feed = current_user.feed || current_user.create_feed
+    @events = feed.events
     render :index
   end
 
