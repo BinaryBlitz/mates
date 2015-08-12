@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  namespace :web do
+    resources :events, only: :show
+  end
+
   scope '/api', defaults: { format: :json } do
     # Users
     resources :users, except: [:new, :edit] do
