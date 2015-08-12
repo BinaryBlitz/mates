@@ -26,11 +26,13 @@ ActiveRecord::Schema.define(version: 20150827182950) do
     t.string   "content"
     t.integer  "user_id"
     t.integer  "event_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+    t.integer  "respondent_id"
   end
 
   add_index "comments", ["event_id"], name: "index_comments_on_event_id", using: :btree
+  add_index "comments", ["respondent_id"], name: "index_comments_on_respondent_id", using: :btree
   add_index "comments", ["user_id"], name: "index_comments_on_user_id", using: :btree
 
   create_table "device_tokens", force: :cascade do |t|
