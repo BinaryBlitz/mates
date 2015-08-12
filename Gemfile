@@ -30,6 +30,10 @@ gem 'has_secure_token'
 gem 'bcrypt', '~> 3.1.7'
 gem 'email_validator'
 
+# Front end
+gem 'sass-rails'
+gem 'bootstrap-sass'
+
 # Use Unicorn as the app server
 gem 'unicorn'
 
@@ -46,7 +50,7 @@ group :development, :test do
   gem 'byebug'
   # Access an IRB console on exception pages or by using <%= console %> in views
   gem 'web-console', '~> 2.0'
-  # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
+  # Spring speeds up development by keeping your application running in the background.
   gem 'spring'
   # Mocking
   gem 'mocha'
