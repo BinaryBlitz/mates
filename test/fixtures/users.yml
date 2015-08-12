@@ -5,7 +5,6 @@
 #  id              :integer          not null, primary key
 #  first_name      :string
 #  last_name       :string
-#  nickname        :string
 #  birthday        :date
 #  gender          :string           default("m")
 #  api_token       :string
@@ -21,6 +20,8 @@
 #  facebook_url    :string
 #  twitter_url     :string
 #  instagram_url   :string
+#  visited_at      :datetime
+#  email           :string
 #
 
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
@@ -28,7 +29,7 @@
 foo:
   first_name: Foo
   last_name: Bar
-  nickname: foobar
+  email: foo@bar.com
   birthday: 2015-04-18
   gender: m
   phone_number: +74995555555
@@ -38,7 +39,7 @@ foo:
 baz:
   first_name: Baz
   last_name: Qux
-  nickname: bazqux
+  email: baz@qux.com
   birthday: 2015-04-18
   phone_number: +74995555556
   gender: f
@@ -47,7 +48,7 @@ baz:
 john:
   first_name: John
   last_name: Doe
-  nickname: johndoe
+  email: john@doe.com
   birthday: 2015-04-18
   phone_number: +74995555557
   gender: m

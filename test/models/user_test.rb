@@ -5,7 +5,6 @@
 #  id              :integer          not null, primary key
 #  first_name      :string
 #  last_name       :string
-#  nickname        :string
 #  birthday        :date
 #  gender          :string           default("m")
 #  api_token       :string
@@ -21,6 +20,8 @@
 #  facebook_url    :string
 #  twitter_url     :string
 #  instagram_url   :string
+#  visited_at      :datetime
+#  email           :string
 #
 
 require 'test_helper'

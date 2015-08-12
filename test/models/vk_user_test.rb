@@ -28,6 +28,6 @@ class VKTest < ActiveSupport::TestCase
   def vk_user
     stub(
       first_name: 'Foo', last_name: 'Bar', screen_name: 'FooBar', photo: nil, uid: 2,
-      bdate: '01.02.1990')
+      bdate: '01.02.1990', email: 'test@vk.com')
   end
 end

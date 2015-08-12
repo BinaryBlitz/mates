@@ -28,6 +28,7 @@ gem 'koala'
 gem 'pundit'
 gem 'has_secure_token'
 gem 'bcrypt', '~> 3.1.7'
+gem 'email_validator'
 
 # Use Unicorn as the app server
 gem 'unicorn'
