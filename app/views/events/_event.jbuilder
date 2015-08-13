@@ -5,10 +5,6 @@ json.extract! event,
 
 json.extract! event, :event_type_id
 
-# json.event_type do
-#   json.partial! 'event_types/event_type', event_type: event.event_type
-# end
-
 json.admin do
   json.extract! event.admin, :id, :first_name, :last_name
 end

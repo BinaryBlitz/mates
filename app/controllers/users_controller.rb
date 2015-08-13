@@ -2,8 +2,7 @@ class UsersController < ApplicationController
   skip_before_action :restrict_access,
                      only: [:create, :authenticate, :authenticate_vk, :authenticate_fb]
   before_action :set_user,
-                only: [:show, :update, :destroy, :events, :friends,
-                       :favorite, :unfavorite, :notify]
+                only: [:show, :update, :destroy, :events, :friend, :favorite, :unfavorite, :notify]
 
   # GET /users
   def index
