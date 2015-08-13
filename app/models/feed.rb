@@ -1,3 +1,13 @@
+# == Schema Information
+#
+# Table name: feeds
+#
+#  id         :integer          not null, primary key
+#  user_id    :integer
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#
+
 class Feed < ActiveRecord::Base
   belongs_to :user
 
@@ -5,8 +15,9 @@ class Feed < ActiveRecord::Base
 
   # TODO: Cache this thing
   def events
-    ids = (user_events + events_of_friends + events_of_friends_of_friends).uniq
-    Event.where(id: ids).includes(:admin)
+    # ids = (user_events + events_of_friends + events_of_friends_of_friends).uniq
+    # Event.where(id: ids).includes(:admin)
+    Event.all
   end
 
   private
