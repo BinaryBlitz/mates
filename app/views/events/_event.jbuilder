@@ -3,6 +3,8 @@ json.extract! event,
               :visibility, :created_at, :address, :user_limit, :photo_url,
               :min_age, :max_age, :gender
 
+json.user_count event.users.count
+
 json.extract! event, :event_type_id
 
 json.admin do
