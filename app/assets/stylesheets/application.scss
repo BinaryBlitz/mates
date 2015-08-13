@@ -1,0 +1,63 @@
+@import 'bootstrap-sprockets';
+@import 'bootstrap';
+
+.container > .panel {
+  margin-top: 50px;
+}
+
+.btn-circle {
+  width: 30px;
+  height: 30px;
+  text-align: center;
+  padding: 6px 0;
+  font-size: 12px;
+  line-height: 1.428571429;
+  border-radius: 15px;
+}
+.btn-circle.btn-lg {
+  width: 50px;
+  height: 50px;
+  padding: 10px 16px;
+  font-size: 18px;
+  line-height: 1.33;
+  border-radius: 25px;
+}
+.btn-circle.btn-xl {
+  width: 70px;
+  height: 70px;
+  padding: 10px 16px;
+  font-size: 24px;
+  line-height: 1.33;
+  border-radius: 35px;
+}
+
+.event-info {
+  color: #444;
+}
+
+.event-title {
+  vertical-align: middle;
+  margin-left: 20px;
+  color: #555;
+}
+
+.event-date {
+  // margin-top: 20px;
+  font-size: 13.5pt;
+}
+
+.user-avatars {
+  margin-top: 15px;
+
+  li {
+    img {
+      height: 50px;
+      width: 50px;
+      border-radius: 50%;
+    }
+  }
+}
+
+.event-map {
+  margin-top: 20px;
+}

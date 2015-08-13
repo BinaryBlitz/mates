@@ -15,8 +15,9 @@ class Feed < ActiveRecord::Base
 
   # TODO: Cache this thing
   def events
-    ids = (user_events + events_of_friends + events_of_friends_of_friends).uniq
-    Event.where(id: ids).includes(:admin)
+    # ids = (user_events + events_of_friends + events_of_friends_of_friends).uniq
+    # Event.where(id: ids).includes(:admin)
+    Event.all
   end
 
   private

@@ -101,6 +101,10 @@ class Event < ActiveRecord::Base
     "#{name}"
   end
 
+  def to_location
+    "#{latitude},#{longitude}"
+  end
+
   private
 
   def attend
