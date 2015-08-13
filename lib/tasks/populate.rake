@@ -33,11 +33,9 @@ namespace :db do
 
     # Events
     80.times do
-      time = random_start_date
       Event.create!(
         name: FFaker::Movie.title[0...30],
-        starts_at: time,
-        ends_at: time + 2.hours,
+        starts_at: random_start_date,
         city: FFaker::AddressUS.city,
         latitude: FFaker::Geolocation.lat,
         longitude: FFaker::Geolocation.lng,

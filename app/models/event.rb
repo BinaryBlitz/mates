@@ -5,7 +5,6 @@
 #  id            :integer          not null, primary key
 #  name          :string
 #  starts_at     :datetime
-#  ends_at       :datetime
 #  city          :string
 #  latitude      :float
 #  longitude     :float

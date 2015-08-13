@@ -108,6 +108,6 @@ class EventsTest < ActionDispatch::IntegrationTest
   test 'search by category' do
     post '/api/searches', api_token: api_token, search: { event_type_id: @event.event_type_id }
     assert_response :created
-    assert_equal @event.event_type_id, json_response.first[:event_type][:id]
+    assert_equal @event.event_type_id, json_response.first[:event_type_id]
   end
 end

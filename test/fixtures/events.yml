@@ -5,7 +5,6 @@
 #  id            :integer          not null, primary key
 #  name          :string
 #  starts_at     :datetime
-#  ends_at       :datetime
 #  city          :string
 #  latitude      :float
 #  longitude     :float
@@ -26,7 +25,6 @@
 party:
   name: Party
   starts_at: <%= Time.zone.now %>
-  ends_at: <%= 10.days.from_now %>
   city: Moscow
   address: Bolshaya Nikitskaya
   latitude: 1.0
