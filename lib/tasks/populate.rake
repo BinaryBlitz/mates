@@ -9,22 +9,22 @@ namespace :db do
         birthday: FFaker::Time.date,
         gender: %w(f m).sample,
         password: FFaker::Internet.password,
-        city: FFaker::AddressUS.city
-        # avatar_url: FFaker::Avatar.image,
+        city: FFaker::AddressUS.city,
+        remote_avatar_url: FFaker::Avatar.image,
       )
     end
 
     # Friends
     User.all.each do |user|
-      users = User.all.sample(8)
+      users = User.all.sample(10)
 
       # Friend requests
-      users.pop(4).each do |friend|
+      users.pop(5).each do |friend|
         user.pending_friends << friend unless user.friends.include?(friend) || user == friend || friend.pending_friends.include?(user)
       end
 
       # Friendships
-      users.pop(4).each do |friend|
+      users.pop(5).each do |friend|
         unless user.friends.include?(friend) || user == friend || friend.pending_friends.include?(user)
           user.friends << friend
         end
@@ -32,7 +32,7 @@ namespace :db do
     end
 
     # Events
-    80.times do
+    100.times do
       Event.create!(
         name: FFaker::Movie.title[0...30],
         starts_at: random_start_date,

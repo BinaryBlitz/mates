@@ -2,15 +2,11 @@ class UsersController < ApplicationController
   skip_before_action :restrict_access,
                      only: [:create, :authenticate, :authenticate_vk, :authenticate_fb]
   before_action :set_user,
-                only: [:show, :update, :destroy, :events, :friend, :favorite, :unfavorite, :notify]
-
-  # GET /users
-  def index
-    @users = User.all
-  end
+                only: [:update, :destroy, :events, :friend, :favorite, :unfavorite, :notify]
 
   # GET /users/1
   def show
+    @user = User.includes(:friends, :photos).find(params[:id])
   end
 
   # POST /users
@@ -113,8 +109,7 @@ class UsersController < ApplicationController
   # Never trust parameters from the scary internet, only allow the white list through.
   def user_params
     params.require(:user).permit(
-      :first_name, :last_name, :email,
-      :password, :password_confirmation, :birthday,
+      :first_name, :last_name, :email, :password, :birthday,
       :gender, :city, :avatar, :phone_number,
       :vk_url, :facebook_url, :twitter_url, :instagram_url,
       photos_attributes: [:id, :image, :_destroy]
