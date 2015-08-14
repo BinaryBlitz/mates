@@ -78,11 +78,12 @@ class EventsTest < ActionDispatch::IntegrationTest
   test 'users can join events' do
     user = users(:baz)
 
+    user.update!(birthday: 15.years.ago)
     post "/api/events/#{@event.id}/join", api_token: user.api_token
     assert_response :forbidden
     refute @event.users.include?(user)
 
-    user.update(birthday: Date.today - 20.years, password: 'foobar')
+    user.update!(birthday: 20.years.ago)
     post "/api/events/#{@event.id}/join", api_token: user.api_token
     assert_response :created
     assert @event.users.include?(user)

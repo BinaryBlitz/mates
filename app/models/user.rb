@@ -31,7 +31,7 @@ class User < ActiveRecord::Base
   validates :first_name, presence: true, length: { maximum: 20 }
   validates :last_name, presence: true, length: { maximum: 20 }
   validates :email, email: true, uniqueness: true, allow_blank: true
-  validates :password, presence: true, length: { minimum: 6 }
+  validates :password, presence: true, on: :create, length: { minimum: 6 }
   validates :gender, length: { is: 1 }, inclusion: { in: %w(f m) }, allow_nil: true
 
   validates :vk_url, url: { allow_blank: true }
@@ -73,7 +73,7 @@ class User < ActiveRecord::Base
   has_many :incoming_messages, class_name: 'Message'
   has_many :outgoing_messages, class_name: 'Message', foreign_key: 'creator_id'
 
-  has_secure_password
+  has_secure_password validations: false
   has_secure_token :api_token
 
   mount_base64_uploader :avatar, AvatarUploader

@@ -31,7 +31,7 @@ foo:
   first_name: Foo
   last_name: Bar
   email: foo@bar.com
-  birthday: 2015-04-18
+  birthday: <%= 18.years.ago %>
   gender: m
   phone_number: +74995555555
   api_token: <%= SecureRandom.hex %>
@@ -41,7 +41,7 @@ baz:
   first_name: Baz
   last_name: Qux
   email: baz@qux.com
-  birthday: 2015-04-18
+  birthday: <%= 18.years.ago %>
   phone_number: +74995555556
   gender: f
   api_token: <%= SecureRandom.hex %>

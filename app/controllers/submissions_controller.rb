@@ -37,6 +37,6 @@ class SubmissionsController < ApplicationController
   end
 
   def submission_params
-    params.require(:submission).permit(:event_id)
+    params.permit(:event_id)
   end
 end

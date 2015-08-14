@@ -4,13 +4,7 @@ class UsersTest < ActionDispatch::IntegrationTest
   setup do
     @user = users(:foo)
   end
-
-  test 'should list users' do
-    get '/api/users/', api_token: api_token
-    assert_response :success
-    assert_not_nil assigns(:users)
-  end
-
+  
   test 'should create user' do
     post '/api/users', user: {
       first_name: 'Foo',
