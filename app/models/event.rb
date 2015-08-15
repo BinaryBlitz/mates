@@ -46,7 +46,7 @@ class Event < ActiveRecord::Base
   validates :admin, presence: true
   validates :event_type, presence: true
   validates :name, presence: true, length: { maximum: 30 }
-  validates :city, presence: true, length: { maximum: 30 }
+  validates :city, presence: true
   validates :user_limit, numericality: { greater_than: 1 }, allow_blank: true
 
   #  Filter validations
@@ -61,6 +61,8 @@ class Event < ActiveRecord::Base
                       if: 'min_age.present?', allow_nil: true
 
   mount_base64_uploader :photo, PhotoUploader
+
+  has_secure_token :sharing_token
 
   PREVIEW_USERS_COUNT = 2
 

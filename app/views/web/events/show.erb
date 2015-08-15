@@ -26,9 +26,6 @@
       <div class="event-date">
         <i class="glyphicon glyphicon-time"></i>
         <%= @event.starts_at.strftime("%B %d at %I:%M") %>
-        <% if @event.ends_at %>
-          to <%= @event.ends_at.strftime("%B %d at %I:%M") %>
-        <% end %>
       </div>
 
       <hr>
@@ -44,9 +41,9 @@
           <!-- Avatars -->
           <div class="col-xs-9">
             <ul class="user-avatars list-inline">
-              <li><img src="http://placehold.it/50x50"></li>
-              <li><img src="http://placehold.it/50x50"></li>
-              <li><img src="http://placehold.it/50x50"></li>
+              <% @event.users.each do |user| %>
+                <li><img src="http://placehold.it/50x50"></li>
+              <% end %>
             </ul>
           </div>
 
@@ -64,11 +61,11 @@
       <hr>
 
       <!-- Description -->
-      <div class="event-description">
-        <p>
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-        </p>
-      </div>
+      <% if @event.info %>
+        <div class="event-description">
+          <p><%= @event.info %></p>
+        </div>
+      <% end %>
 
       <!-- Map -->
       <div class="event-map text-center">

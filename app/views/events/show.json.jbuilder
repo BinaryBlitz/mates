@@ -1,5 +1,7 @@
 json.partial! 'event', event: @event
 
+json.sharing_url web_event_url(@event)
+
 json.users @event.users do |user|
   json.partial! 'users/user', user: user
 end

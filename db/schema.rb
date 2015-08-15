@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150813114524) do
+ActiveRecord::Schema.define(version: 20150815120239) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -61,6 +61,7 @@ ActiveRecord::Schema.define(version: 20150813114524) do
     t.integer  "min_age"
     t.integer  "max_age"
     t.string   "gender",        limit: 1
+    t.string   "sharing_token"
   end
 
   add_index "events", ["admin_id"], name: "index_events_on_admin_id", using: :btree

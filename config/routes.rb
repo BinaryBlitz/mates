@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   namespace :web do
-    resources :events, only: :show
+    resources :events, only: :show, param: :sharing_token
   end
 
   scope '/api', defaults: { format: :json } do
