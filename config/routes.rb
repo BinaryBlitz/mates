@@ -24,7 +24,9 @@ Rails.application.routes.draw do
     resources :friends, only: [:index, :destroy]
     resources :favorites, only: [:index]
     resources :device_tokens, only: [:create, :destroy], param: :token
-    resources :messages, only: [:index, :create]
+    resources :messages, only: [:index, :create] do
+      delete :clean_up, on: :collection
+    end
 
     # Events
     resources :events, except: [:new, :edit] do
