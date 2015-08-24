@@ -20,6 +20,7 @@
 #  min_age       :integer
 #  max_age       :integer
 #  gender        :string(1)
+#  sharing_token :string
 #
 
 party:

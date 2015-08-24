@@ -12,6 +12,6 @@ class SearchesController < ApplicationController
 
   def search_params
     params.require(:search)
-      .permit(:name, :event_type_id, :visibility, :min_starts_at, :max_starts_at)
+      .permit(:name, :event_type_id, :visibility, :min_starts_at, :max_starts_at, dates: [])
   end
 end
