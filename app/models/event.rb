@@ -20,6 +20,7 @@
 #  min_age       :integer
 #  max_age       :integer
 #  gender        :string(1)
+#  sharing_token :string
 #
 
 class Event < ActiveRecord::Base
@@ -68,6 +69,13 @@ class Event < ActiveRecord::Base
 
   scope :past_events, -> { where('ends_at < ?', Time.zone.now) }
   scope :upcoming, -> { where('starts_at >= ?', Time.zone.now) }
+  scope :on_date, -> (date) { where(starts_at: (date.beginning_of_day)..(date.end_of_day)) }
+
+  def self.on_dates(dates)
+    query = 'starts_at BETWEEN ? AND ?' + ' OR starts_at BETWEEN ? AND ?' * (dates.size - 1)
+    dates.map! { |date| [date.beginning_of_day, date.end_of_day] }.flatten!
+    Event.where(query, *dates)
+  end
 
   def preview_users
     users.where.not(id: admin.id).limit(PREVIEW_USERS_COUNT)

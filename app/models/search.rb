@@ -10,6 +10,7 @@
 #  max_starts_at :datetime
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
+#  dates         :date             is an Array
 #
 
 class Search < ActiveRecord::Base
@@ -26,6 +27,7 @@ class Search < ActiveRecord::Base
     events = events.where(visibility: visibility) if visibility.present?
     events = events.where('starts_at >= ?', min_starts_at) if min_starts_at.present?
     events = events.where('starts_at <= ?', max_starts_at) if max_starts_at.present?
+    events = events.on_dates(dates) if dates.present?
     events
   end
 end
