@@ -11,6 +11,9 @@
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
 #  dates         :date             is an Array
+#  latitude      :float
+#  longitude     :float
+#  distance      :integer
 #
 
 class Search < ActiveRecord::Base
@@ -28,6 +31,11 @@ class Search < ActiveRecord::Base
     events = events.where('starts_at >= ?', min_starts_at) if min_starts_at.present?
     events = events.where('starts_at <= ?', max_starts_at) if max_starts_at.present?
     events = events.on_dates(dates) if dates.present?
+    events = events.near([latitude, longitude], distance) if location_present?
     events
+  end
+
+  def location_present?
+    latitude.present? && longitude.present? && distance.present?
   end
 end
