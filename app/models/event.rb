@@ -65,6 +65,8 @@ class Event < ActiveRecord::Base
 
   has_secure_token :sharing_token
 
+  geocoded_by :address
+
   PREVIEW_USERS_COUNT = 2
 
   scope :past_events, -> { where('ends_at < ?', Time.zone.now) }

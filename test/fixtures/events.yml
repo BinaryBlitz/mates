@@ -28,8 +28,8 @@ party:
   starts_at: <%= Time.zone.now %>
   city: Moscow
   address: Bolshaya Nikitskaya
-  latitude: 1.0
-  longitude: 1.0
+  latitude: 0.0
+  longitude: 0.0
   info: Great party
   visibility: public
   admin: foo

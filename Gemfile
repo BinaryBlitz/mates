@@ -16,6 +16,7 @@ gem 'phony_rails'
 gem 'ffaker'
 gem 'rpush'
 gem 'validate_url'
+gem 'geocoder'
 
 # Attachments
 gem 'carrierwave'
