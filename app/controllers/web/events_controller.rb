@@ -4,6 +4,6 @@ class Web::EventsController < ApplicationController
   layout 'web/layouts/application'
 
   def show
-    @event = Event.find(params[:sharing_token])
+    @event = Event.find_by!(sharing_token: params[:sharing_token])
   end
 end
