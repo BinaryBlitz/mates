@@ -17,6 +17,7 @@ gem 'ffaker'
 gem 'rpush'
 gem 'validate_url'
 gem 'geocoder'
+gem 'enumerize'
 
 # Attachments
 gem 'carrierwave'
