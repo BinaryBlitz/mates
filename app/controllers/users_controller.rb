@@ -110,7 +110,7 @@ class UsersController < ApplicationController
   def user_params
     params.require(:user).permit(
       :first_name, :last_name, :email, :password, :birthday,
-      :gender, :city, :avatar, :phone_number,
+      :gender, :city, :avatar, :remove_avatar, :phone_number,
       :vk_url, :facebook_url, :twitter_url, :instagram_url,
       photos_attributes: [:id, :image, :_destroy],
       preference_attributes: [
