@@ -31,13 +31,15 @@ class User < ActiveRecord::Base
   validates :first_name, presence: true, length: { maximum: 20 }
   validates :last_name, presence: true, length: { maximum: 20 }
   validates :email, email: true, uniqueness: true, allow_blank: true
-  validates :password, presence: true, length: { minimum: 6 }
+  validates :password, presence: true, on: :create, length: { minimum: 6 }
   validates :gender, length: { is: 1 }, inclusion: { in: %w(f m) }, allow_nil: true
 
   validates :vk_url, url: { allow_blank: true }
   validates :facebook_url, url: { allow_blank: true }
   validates :twitter_url, url: { allow_blank: true }
   validates :instagram_url, url: { allow_blank: true }
+
+  has_one :feed, dependent: :destroy
 
   has_many :photos, dependent: :destroy
   accepts_nested_attributes_for :photos, allow_destroy: true
@@ -53,8 +55,8 @@ class User < ActiveRecord::Base
   has_many :followers, through: :inverse_favorites, source: :user
 
   has_many :owned_events, dependent: :destroy, foreign_key: :admin_id, class_name: 'Event'
-  has_many :events, through: :memberships
   has_many :memberships, dependent: :destroy
+  has_many :events, through: :memberships
 
   has_many :proposals, dependent: :destroy
   has_many :proposed_events, through: :proposals, source: :event
@@ -71,7 +73,7 @@ class User < ActiveRecord::Base
   has_many :incoming_messages, class_name: 'Message'
   has_many :outgoing_messages, class_name: 'Message', foreign_key: 'creator_id'
 
-  has_secure_password
+  has_secure_password validations: false
   has_secure_token :api_token
 
   mount_base64_uploader :avatar, AvatarUploader
@@ -84,16 +86,6 @@ class User < ActiveRecord::Base
   def remove_friend(friend)
     friendships.find_by(friend: friend).destroy
     friend.friendships.find_by(friend: self).destroy
-  end
-
-  # Users that attended same events as the current user
-  def self.find_by_common_events(user)
-    joins(:memberships)
-      .where(memberships: { event_id: user.events })
-      .where(memberships: { event_id: Event.past_events })
-      .where.not(memberships: { user_id: user.friends })
-      .where.not(memberships: { user_id: user })
-      .distinct.pluck('id')
   end
 
   def self.search_by_name(query)

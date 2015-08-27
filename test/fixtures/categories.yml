@@ -1,6 +1,6 @@
 # == Schema Information
 #
-# Table name: event_types
+# Table name: categories
 #
 #  id         :integer          not null, primary key
 #  name       :string
@@ -8,8 +8,8 @@
 #  updated_at :datetime         not null
 #
 
-class EventType < ActiveRecord::Base
-  has_many :event_types, dependent: :destroy
+cinema:
+  name: Cinema
 
-  validates :name, presence: true, uniqueness: { case_sensitive: false }
-end
+cafe:
+  name: Cafe

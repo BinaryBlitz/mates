@@ -5,7 +5,6 @@
 #  id            :integer          not null, primary key
 #  name          :string
 #  starts_at     :datetime
-#  ends_at       :datetime
 #  city          :string
 #  latitude      :float
 #  longitude     :float
@@ -16,25 +15,25 @@
 #  address       :string
 #  admin_id      :integer
 #  photo         :string
-#  event_type_id :integer
+#  category_id   :integer
 #  user_limit    :integer          default(1)
 #  min_age       :integer
 #  max_age       :integer
 #  gender        :string(1)
+#  sharing_token :string
 #
 
 party:
   name: Party
   starts_at: <%= Time.zone.now %>
-  ends_at: <%= 10.days.from_now %>
   city: Moscow
   address: Bolshaya Nikitskaya
-  latitude: 1.0
-  longitude: 1.0
+  latitude: 0.0
+  longitude: 0.0
   info: Great party
   visibility: public
   admin: foo
-  event_type: cafe
+  category: cafe
   user_limit: 5
   min_age: 18
 
@@ -42,5 +41,5 @@ finale:
   name: Champions League Finale
   admin: baz
   city: Berlin
-  event_type: cinema
+  category: cinema
   user_limit: 70000

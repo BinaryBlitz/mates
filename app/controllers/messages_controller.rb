@@ -16,6 +16,11 @@ class MessagesController < ApplicationController
     end
   end
 
+  def clean_up
+    current_user.messages.destroy_all
+    head :no_content
+  end
+
   private
 
   def message_params

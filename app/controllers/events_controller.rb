@@ -68,7 +68,8 @@ class EventsController < ApplicationController
   end
 
   def feed
-    @events = Event.feed_for(current_user)
+    feed = current_user.feed || current_user.create_feed
+    @events = feed.events
     render :index
   end
 
@@ -92,9 +93,8 @@ class EventsController < ApplicationController
   def events_params
     params.require(:event)
       .permit(
-        :name, :starts_at, :ends_at,
-        :city, :address, :latitude, :longitude,
-        :info, :visible, :photo, :event_type_id, :user_limit,
+        :name, :starts_at, :city, :address, :latitude, :longitude,
+        :info, :visible, :photo, :category_id, :user_limit,
         :min_age, :max_age, :gender
       )
   end

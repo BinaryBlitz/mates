@@ -6,9 +6,3 @@ json.extract! user,
 json.avatar_thumb_url user.avatar.thumb.url
 
 json.phone_number user.phone_number.try(:phony_formatted, format: :international)
-
-if current_user
-  json.is_favorite current_user.favorite?(user)
-  json.is_pending_friend current_user.pending_friend?(user)
-  json.is_friend current_user.friend?(user)
-end

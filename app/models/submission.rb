@@ -53,6 +53,6 @@ class Submission < ActiveRecord::Base
   end
 
   def cannot_join
-    errors.add(:user, 'cannot join the event') unless event.valid_user?(user)
+    errors.add(:user, 'cannot join the event because of limitations') unless event.valid_user?(user)
   end
 end

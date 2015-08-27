@@ -2,21 +2,37 @@ require 'test_helper'
 
 class SubmissionsTest < ActionDispatch::IntegrationTest
   setup do
-    @user = users(:baz)
+    @guest = users(:baz)
     @event = events(:party)
   end
 
-  test 'should create, update and destroy submissions' do
-    @user.update(birthday: Date.today, password: 'foobar')
+  test 'cannot submit with invalid age or gender' do
+    @guest.update!(birthday: 15.years.ago)
+    post '/api/submissions', api_token: @guest.api_token, event_id: @event.id
+    assert_response 422
+  end
 
-    post '/api/submissions', api_token: @user.api_token, submission: { event_id: @event.id }
+  test 'create with valid age' do
+    post '/api/submissions', api_token: @guest.api_token, event_id: @event.id
     assert_response :created
+  end
 
-    get '/api/submissions', api_token: @user.api_token
+  test 'list' do
+    @guest.submissions.create!(event: @event)
+    get '/api/submissions', api_token: @guest.api_token
     assert_response :success
+    assert_equal @guest.submissions.count, json_response.size
+  end
 
-    patch "/api/submissions/#{Submission.last.id}", api_token: api_token
+  test 'accept' do
+    submission = @guest.submissions.create!(event: @event)
+    patch "/api/submissions/#{submission.id}", api_token: @event.admin.api_token
     assert_response :no_content
-    assert @event.users.include?(@user)
+  end
+
+  test 'decline or cancel' do
+    submission = @guest.submissions.create!(event: @event)
+    delete "/api/submissions/#{submission.id}", api_token: @event.admin.api_token
+    assert_response :no_content
   end
 end

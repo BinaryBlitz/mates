@@ -5,7 +5,6 @@
 #  id            :integer          not null, primary key
 #  name          :string
 #  starts_at     :datetime
-#  ends_at       :datetime
 #  city          :string
 #  latitude      :float
 #  longitude     :float
@@ -16,11 +15,12 @@
 #  address       :string
 #  admin_id      :integer
 #  photo         :string
-#  event_type_id :integer
+#  category_id   :integer
 #  user_limit    :integer          default(1)
 #  min_age       :integer
 #  max_age       :integer
 #  gender        :string(1)
+#  sharing_token :string
 #
 
 class EventTest < ActiveSupport::TestCase
@@ -32,6 +32,8 @@ class EventTest < ActiveSupport::TestCase
     assert @event.valid?
   end
 
+<<<<<<< ours
+=======
   test 'admin_id should be present' do
     @event.admin_id = nil
     assert_not @event.valid?
@@ -43,7 +45,7 @@ class EventTest < ActiveSupport::TestCase
   end
 
   test 'target should be present' do
-    @event.event_type = nil
+    @event.category = nil
     assert_not @event.valid?
   end
 
@@ -62,6 +64,7 @@ class EventTest < ActiveSupport::TestCase
     assert_not @event.valid?
   end
 
+>>>>>>> theirs
   test 'user limit should be positive' do
     @event.user_limit = -1
     assert_not @event.valid?
@@ -92,6 +95,7 @@ class EventTest < ActiveSupport::TestCase
     assert @event.invalid?
   end
 
+  # TODO: Use enumerations
   test 'gender filter' do
     @event.gender = nil
     assert @event.valid?
@@ -114,5 +118,17 @@ class EventTest < ActiveSupport::TestCase
     @event.gender = 'f'
     assert_not @event.valid_gender?(nil)
     assert_not @event.valid_gender?('m')
+  end
+
+  test 'on_date scope' do
+    date = @event.starts_at.to_date
+    events = Event.on_date(date)
+    assert_includes events, @event
+  end
+
+  test 'on_dates scope' do
+    dates = [@event.starts_at.to_date]
+    events = Event.on_dates(dates)
+    assert_includes events, @event
   end
 end

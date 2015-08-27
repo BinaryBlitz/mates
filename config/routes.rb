@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   namespace :web do
-    resources :events, only: :show
+    resources :events, only: :show, param: :sharing_token
   end
 
   scope '/api', defaults: { format: :json } do
@@ -24,7 +24,9 @@ Rails.application.routes.draw do
     resources :friends, only: [:index, :destroy]
     resources :favorites, only: [:index]
     resources :device_tokens, only: [:create, :destroy], param: :token
-    resources :messages, only: [:index, :create]
+    resources :messages, only: [:index, :create] do
+      delete :clean_up, on: :collection
+    end
 
     # Events
     resources :events, except: [:new, :edit] do
@@ -42,7 +44,7 @@ Rails.application.routes.draw do
       end
       resources :comments, except: [:new, :edit]
     end
-    resources :event_types, only: [:index]
+    resources :categories, only: [:index]
     resources :invites, except: [:new, :edit]
     resources :proposals, except: [:index, :new, :edit]
     resources :memberships, except: [:new, :edit]

@@ -11,10 +11,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150808195658) do
+ActiveRecord::Schema.define(version: 20150825001548) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "categories", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "comments", force: :cascade do |t|
     t.string   "content"
@@ -37,35 +43,29 @@ ActiveRecord::Schema.define(version: 20150808195658) do
 
   add_index "device_tokens", ["user_id"], name: "index_device_tokens_on_user_id", using: :btree
 
-  create_table "event_types", force: :cascade do |t|
-    t.string   "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "events", force: :cascade do |t|
     t.string   "name"
     t.datetime "starts_at"
-    t.datetime "ends_at"
     t.string   "city"
     t.float    "latitude"
     t.float    "longitude"
     t.text     "info"
     t.string   "visibility"
-    t.datetime "created_at",                          null: false
-    t.datetime "updated_at",                          null: false
+    t.datetime "created_at",                        null: false
+    t.datetime "updated_at",                        null: false
     t.string   "address"
     t.integer  "admin_id"
     t.string   "photo"
-    t.integer  "event_type_id"
-    t.integer  "user_limit",              default: 1
+    t.integer  "category_id"
+    t.integer  "user_limit",            default: 1
     t.integer  "min_age"
     t.integer  "max_age"
     t.string   "gender",        limit: 1
+    t.string   "sharing_token"
   end
 
   add_index "events", ["admin_id"], name: "index_events_on_admin_id", using: :btree
-  add_index "events", ["event_type_id"], name: "index_events_on_event_type_id", using: :btree
+  add_index "events", ["category_id"], name: "index_events_on_category_id", using: :btree
 
   create_table "favorites", force: :cascade do |t|
     t.integer  "user_id"
@@ -77,6 +77,14 @@ ActiveRecord::Schema.define(version: 20150808195658) do
   add_index "favorites", ["favorited_id"], name: "index_favorites_on_favorited_id", using: :btree
   add_index "favorites", ["user_id", "favorited_id"], name: "index_favorites_on_user_id_and_favorited_id", unique: true, using: :btree
   add_index "favorites", ["user_id"], name: "index_favorites_on_user_id", using: :btree
+
+  create_table "feeds", force: :cascade do |t|
+    t.integer  "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "feeds", ["user_id"], name: "index_feeds_on_user_id", using: :btree
 
   create_table "friend_requests", force: :cascade do |t|
     t.integer  "user_id"
@@ -211,12 +219,16 @@ ActiveRecord::Schema.define(version: 20150808195658) do
 
   create_table "searches", force: :cascade do |t|
     t.string   "name"
-    t.integer  "event_type_id"
+    t.integer  "category_id"
     t.string   "visibility"
     t.datetime "min_starts_at"
     t.datetime "max_starts_at"
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
+    t.date     "dates",                      array: true
+    t.float    "latitude"
+    t.float    "longitude"
+    t.integer  "distance"
   end
 
   create_table "submissions", force: :cascade do |t|
@@ -258,7 +270,7 @@ ActiveRecord::Schema.define(version: 20150808195658) do
   add_foreign_key "comments", "events"
   add_foreign_key "comments", "users"
   add_foreign_key "device_tokens", "users"
-  add_foreign_key "events", "event_types"
+  add_foreign_key "events", "categories"
   add_foreign_key "favorites", "users"
   add_foreign_key "friend_requests", "users"
   add_foreign_key "friendships", "users"
