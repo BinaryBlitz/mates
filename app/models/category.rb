@@ -9,7 +9,8 @@
 #
 
 class Category < ActiveRecord::Base
-  has_many :categories, dependent: :destroy
+  has_many :events, dependent: :destroy
+  has_many :secondary_events, class_name: 'Event', foreign_key: 'extra_category_id'
 
   validates :name, presence: true, uniqueness: { case_sensitive: false }
 end

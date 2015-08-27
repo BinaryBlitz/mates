@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150825001548) do
+ActiveRecord::Schema.define(version: 20150827162739) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -51,21 +51,23 @@ ActiveRecord::Schema.define(version: 20150825001548) do
     t.float    "longitude"
     t.text     "info"
     t.string   "visibility"
-    t.datetime "created_at",                        null: false
-    t.datetime "updated_at",                        null: false
+    t.datetime "created_at",                              null: false
+    t.datetime "updated_at",                              null: false
     t.string   "address"
     t.integer  "admin_id"
     t.string   "photo"
     t.integer  "category_id"
-    t.integer  "user_limit",            default: 1
+    t.integer  "user_limit",                  default: 1
     t.integer  "min_age"
     t.integer  "max_age"
-    t.string   "gender",        limit: 1
+    t.string   "gender",            limit: 1
     t.string   "sharing_token"
+    t.integer  "extra_category_id"
   end
 
   add_index "events", ["admin_id"], name: "index_events_on_admin_id", using: :btree
   add_index "events", ["category_id"], name: "index_events_on_category_id", using: :btree
+  add_index "events", ["extra_category_id"], name: "index_events_on_extra_category_id", using: :btree
 
   create_table "favorites", force: :cascade do |t|
     t.integer  "user_id"
