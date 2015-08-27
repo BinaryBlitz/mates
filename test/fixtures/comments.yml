@@ -2,12 +2,13 @@
 #
 # Table name: comments
 #
-#  id         :integer          not null, primary key
-#  content    :string
-#  user_id    :integer
-#  event_id   :integer
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
+#  id            :integer          not null, primary key
+#  content       :string
+#  user_id       :integer
+#  event_id      :integer
+#  created_at    :datetime         not null
+#  updated_at    :datetime         not null
+#  respondent_id :integer
 #
 
 comment:

@@ -75,6 +75,8 @@ class User < ActiveRecord::Base
   has_many :submitted_events, through: :submissions, source: :event
 
   has_many :comments, dependent: :destroy
+  has_many :mentions, class_name: 'Comment', foreign_key: :respondent_id
+
   has_many :device_tokens, dependent: :destroy
 
   has_many :messages, -> (object) { where('creator_id = ? OR user_id = ?', object.id, object.id) }
