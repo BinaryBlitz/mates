@@ -50,7 +50,7 @@ class Event < ActiveRecord::Base
   validates :category, presence: true
   validates :name, presence: true, length: { maximum: 30 }
   validates :city, presence: true
-  validates :user_limit, numericality: { greater_than: 1 }, allow_blank: true
+  validates :user_limit, numericality: { greater_than: 1, allow_nil: true }
   validate :extra_category, :not_equal_to_category
 
   #  Filter validations
