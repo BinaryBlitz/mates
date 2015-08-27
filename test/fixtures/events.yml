@@ -15,7 +15,7 @@
 #  address       :string
 #  admin_id      :integer
 #  photo         :string
-#  event_type_id :integer
+#  category_id   :integer
 #  user_limit    :integer          default(1)
 #  min_age       :integer
 #  max_age       :integer
@@ -33,7 +33,7 @@ party:
   info: Great party
   visibility: public
   admin: foo
-  event_type: cafe
+  category: cafe
   user_limit: 5
   min_age: 18
 
@@ -41,5 +41,5 @@ finale:
   name: Champions League Finale
   admin: baz
   city: Berlin
-  event_type: cinema
+  category: cinema
   user_limit: 70000

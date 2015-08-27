@@ -15,7 +15,7 @@
 #  address       :string
 #  admin_id      :integer
 #  photo         :string
-#  event_type_id :integer
+#  category_id   :integer
 #  user_limit    :integer          default(1)
 #  min_age       :integer
 #  max_age       :integer
@@ -32,6 +32,39 @@ class EventTest < ActiveSupport::TestCase
     assert @event.valid?
   end
 
+<<<<<<< ours
+=======
+  test 'admin_id should be present' do
+    @event.admin_id = nil
+    assert_not @event.valid?
+  end
+
+  test 'name should be present' do
+    @event.name = ''
+    assert_not @event.valid?
+  end
+
+  test 'target should be present' do
+    @event.category = nil
+    assert_not @event.valid?
+  end
+
+  test 'at least it should have city' do
+    @event.city = ''
+    assert_not @event.valid?
+  end
+
+  test 'name should be no longer than 30 characters' do
+    @event.name = 'a' * 31
+    assert_not @event.valid?
+  end
+
+  test 'city should be no longer than 30 characters' do
+    @event.city = 'a' * 31
+    assert_not @event.valid?
+  end
+
+>>>>>>> theirs
   test 'user limit should be positive' do
     @event.user_limit = -1
     assert_not @event.valid?

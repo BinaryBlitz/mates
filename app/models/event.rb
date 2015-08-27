@@ -15,7 +15,7 @@
 #  address       :string
 #  admin_id      :integer
 #  photo         :string
-#  event_type_id :integer
+#  category_id   :integer
 #  user_limit    :integer          default(1)
 #  min_age       :integer
 #  max_age       :integer
@@ -29,7 +29,7 @@ class Event < ActiveRecord::Base
   after_update :notify_members
 
   belongs_to :admin, class_name: 'User'
-  belongs_to :event_type
+  belongs_to :category
 
   has_many :proposals, dependent: :destroy
   has_many :proposed_users, through: :proposals, source: :user
@@ -45,7 +45,7 @@ class Event < ActiveRecord::Base
   has_many :comments, dependent: :destroy
 
   validates :admin, presence: true
-  validates :event_type, presence: true
+  validates :category, presence: true
   validates :name, presence: true, length: { maximum: 30 }
   validates :city, presence: true
   validates :user_limit, numericality: { greater_than: 1 }, allow_blank: true
