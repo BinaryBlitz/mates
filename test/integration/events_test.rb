@@ -12,7 +12,7 @@ class EventsTest < ActionDispatch::IntegrationTest
   end
 
   test 'should get event types' do
-    get '/api/event_types', api_token: api_token
+    get '/api/categories', api_token: api_token
     assert_response :success
   end
 
@@ -20,7 +20,7 @@ class EventsTest < ActionDispatch::IntegrationTest
     assert_difference('Event.count') do
       post '/api/events', api_token: api_token, event: {
         name: 'new', city: 'new',
-        event_type_id: @event.event_type.id, user_limit: 2,
+        category_id: @event.category.id, user_limit: 2,
         min_age: @event.min_age, max_age: @event.max_age, gender: @event.gender
       }
     end
@@ -107,8 +107,8 @@ class EventsTest < ActionDispatch::IntegrationTest
   end
 
   test 'search by category' do
-    post '/api/searches', api_token: api_token, search: { event_type_id: @event.event_type_id }
+    post '/api/searches', api_token: api_token, search: { category_id: @event.category_id }
     assert_response :created
-    assert_equal @event.event_type_id, json_response.first[:event_type_id]
+    assert_equal @event.category_id, json_response.first[:category_id]
   end
 end

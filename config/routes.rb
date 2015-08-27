@@ -44,7 +44,7 @@ Rails.application.routes.draw do
       end
       resources :comments, except: [:new, :edit]
     end
-    resources :event_types, only: [:index]
+    resources :categories, only: [:index]
     resources :invites, except: [:new, :edit]
     resources :proposals, except: [:index, :new, :edit]
     resources :memberships, except: [:new, :edit]
