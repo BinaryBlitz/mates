@@ -41,6 +41,14 @@ class User < ActiveRecord::Base
 
   has_one :feed, dependent: :destroy
 
+  # Preferences
+  has_one :preference, dependent: :destroy
+  accepts_nested_attributes_for :preference
+
+  def preferences
+    preference || create_preference
+  end
+
   has_many :photos, dependent: :destroy
   accepts_nested_attributes_for :photos, allow_destroy: true
 

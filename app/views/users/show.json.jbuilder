@@ -6,6 +6,10 @@ if current_user
   json.is_friend current_user.friend?(@user)
 end
 
+if @user == current_user
+  json.preferences @user.preferences
+end
+
 json.events @user.events, partial: 'events/event', as: :event
 json.friends @user.friends, partial: 'users/user', as: :user
 

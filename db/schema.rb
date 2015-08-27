@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150827162739) do
+ActiveRecord::Schema.define(version: 20150827182950) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -148,6 +148,20 @@ ActiveRecord::Schema.define(version: 20150827162739) do
 
   add_index "photos", ["user_id"], name: "index_photos_on_user_id", using: :btree
 
+  create_table "preferences", force: :cascade do |t|
+    t.integer  "user_id"
+    t.boolean  "notifications_friends",   default: true
+    t.boolean  "notifications_favorites", default: true
+    t.boolean  "notifications_events",    default: true
+    t.boolean  "notifications_messages",  default: true
+    t.string   "visibility_photos",       default: "public"
+    t.string   "visibility_events",       default: "public"
+    t.datetime "created_at",                                 null: false
+    t.datetime "updated_at",                                 null: false
+  end
+
+  add_index "preferences", ["user_id"], name: "index_preferences_on_user_id", using: :btree
+
   create_table "proposals", force: :cascade do |t|
     t.integer  "user_id"
     t.integer  "event_id"
@@ -281,6 +295,7 @@ ActiveRecord::Schema.define(version: 20150827162739) do
   add_foreign_key "memberships", "events"
   add_foreign_key "memberships", "users"
   add_foreign_key "messages", "users"
+  add_foreign_key "preferences", "users"
   add_foreign_key "proposals", "events"
   add_foreign_key "proposals", "users"
   add_foreign_key "submissions", "events"

@@ -112,7 +112,12 @@ class UsersController < ApplicationController
       :first_name, :last_name, :email, :password, :birthday,
       :gender, :city, :avatar, :phone_number,
       :vk_url, :facebook_url, :twitter_url, :instagram_url,
-      photos_attributes: [:id, :image, :_destroy]
+      photos_attributes: [:id, :image, :_destroy],
+      preference_attributes: [
+        :notifications_friends, :notifications_favorites,
+        :notifications_events, :notifications_messages,
+        :visibility_photos, :visibility_events
+      ]
     )
   end
 end

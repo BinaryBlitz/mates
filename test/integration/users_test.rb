@@ -4,7 +4,7 @@ class UsersTest < ActionDispatch::IntegrationTest
   setup do
     @user = users(:foo)
   end
-  
+
   test 'should create user' do
     post '/api/users', user: {
       first_name: 'Foo',
@@ -29,6 +29,14 @@ class UsersTest < ActionDispatch::IntegrationTest
       password_confirmation: 'foobar'
     }
     assert_response :success
+  end
+
+  test 'update preferences' do
+    assert_equal true, @user.preferences.notifications_friends
+    patch "/api/users/#{@user.id}.json", api_token: api_token, user: {
+      preference_attributes: { notifications_friends: false }
+    }
+    assert_equal false, @user.reload.preferences.notifications_friends
   end
 
   test 'should destroy user' do
