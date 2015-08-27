@@ -8,3 +8,7 @@ json.user_count event.users.count
 json.admin do
   json.extract! event.admin, :id, :first_name, :last_name
 end
+
+json.users event.preview_users do |user|
+  json.partial! 'users/user', user: user
+end

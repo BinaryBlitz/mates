@@ -70,7 +70,7 @@ class Event < ActiveRecord::Base
 
   geocoded_by :address
 
-  PREVIEW_USERS_COUNT = 2
+  PREVIEW_USERS_COUNT = 4
 
   scope :past_events, -> { where('ends_at < ?', Time.zone.now) }
   scope :upcoming, -> { where('starts_at >= ?', Time.zone.now) }
@@ -83,7 +83,7 @@ class Event < ActiveRecord::Base
   end
 
   def preview_users
-    users.where.not(id: admin.id).limit(PREVIEW_USERS_COUNT)
+    users.where.not(id: admin.id).order('RANDOM()').limit(PREVIEW_USERS_COUNT)
   end
 
   def propose(proposed_user, creator)

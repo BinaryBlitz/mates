@@ -6,6 +6,12 @@ class EventsController < ApplicationController
     @events = current_user.events
   end
 
+  def feed
+    feed = current_user.feed || current_user.create_feed
+    @events = feed.events
+    render :index
+  end
+
   def show
   end
 
@@ -65,12 +71,6 @@ class EventsController < ApplicationController
     authorize @event
     @submissions = @event.submissions
     render 'submissions/index'
-  end
-
-  def feed
-    feed = current_user.feed || current_user.create_feed
-    @events = feed.events
-    render :index
   end
 
   def join
