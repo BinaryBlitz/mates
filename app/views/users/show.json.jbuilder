@@ -7,8 +7,8 @@ json.phone_number @user.phone_number.try(:phony_formatted, format: :internationa
 
 if current_user
   json.is_favorite current_user.favorite?(@user)
-  json.is_pending_friend current_user.pending_friend?(@user)
   json.is_friend current_user.friend?(@user)
+  json.friend_request current_user.friend_request_to_or_from(@user)
 end
 
 if @user == current_user

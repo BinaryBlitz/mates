@@ -58,6 +58,7 @@ class User < ActiveRecord::Base
   accepts_nested_attributes_for :interests, allow_destroy: true
 
   has_many :friend_requests, dependent: :destroy
+  has_many :inverse_friend_requests, class_name: 'FriendRequest', foreign_key: :friend_id
   has_many :pending_friends, through: :friend_requests, source: :friend
   has_many :friendships, dependent: :destroy
   has_many :friends, through: :friendships
@@ -101,6 +102,12 @@ class User < ActiveRecord::Base
   def remove_friend(friend)
     friendships.find_by(friend: friend).destroy
     friend.friendships.find_by(friend: self).destroy
+  end
+
+  def friend_request_to_or_from(current_user)
+    outgoing = friend_requests.find_by(friend: current_user)
+    incoming = inverse_friend_requests.find_by(user: current_user)
+    outgoing || incoming
   end
 
   def self.search_by_name(query)
