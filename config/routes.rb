@@ -10,6 +10,7 @@ Rails.application.routes.draw do
         post 'authenticate'
         post 'authenticate_vk'
         post 'authenticate_fb'
+        post 'authenticate_phone_number'
         get 'search'
       end
       member do

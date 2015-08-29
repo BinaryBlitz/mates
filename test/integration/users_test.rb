@@ -61,6 +61,13 @@ class UsersTest < ActionDispatch::IntegrationTest
     assert_not_nil json_response[:api_token]
   end
 
+  test 'authenticate with phone number' do
+    post '/api/users/authenticate_phone_number',
+      phone_number: @user.phone_number, password: 'foobar'
+    assert_response :success
+    assert_not_nil json_response[:api_token]
+  end
+
   test 'should authorize users' do
     stranger = users(:john)
 

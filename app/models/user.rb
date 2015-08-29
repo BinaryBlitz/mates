@@ -34,6 +34,8 @@ class User < ActiveRecord::Base
   validates :password, presence: true, on: :create, length: { minimum: 6 }
   validates :gender, length: { is: 1 }, inclusion: { in: %w(f m) }, allow_nil: true
 
+  validate :login_present
+
   validates :vk_url, url: { allow_blank: true }
   validates :facebook_url, url: { allow_blank: true }
   validates :twitter_url, url: { allow_blank: true }
@@ -94,8 +96,8 @@ class User < ActiveRecord::Base
 
   mount_base64_uploader :avatar, AvatarUploader
 
-  # phony_normalize :phone_number, default_country_code: 'RU'
-  # validates :phone_number, phony_plausible: true
+  phony_normalize :phone_number, default_country_code: 'RU'
+  validates :phone_number, phony_plausible: true
 
   include Authenticable
 
@@ -162,6 +164,13 @@ class User < ActiveRecord::Base
   end
 
   private
+
+  def login_present
+    return if phone_number.present? || email.present?
+
+    errors.add(:email, '(phone_number) must be present')
+    errors.add(:phone_number, '(email) must be present')
+  end
 
   def set_online
     touch(:visited_at)

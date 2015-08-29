@@ -41,7 +41,7 @@ class UsersController < ApplicationController
     @user = User.find_by(email: params[:email])
 
     if @user && @user.authenticate(params[:password])
-      render :authenticate, location: @user
+      render :authenticate
     else
       render json: { error: 'Invalid email / password combination' }, status: :unauthorized
     end
@@ -52,7 +52,7 @@ class UsersController < ApplicationController
     vk = VkontakteApi::Client.new(params[:token])
     @user = User.find_or_create_from_vk(vk)
 
-    render :authenticate, location: @user
+    render :authenticate
   end
 
   def authenticate_fb
@@ -60,7 +60,17 @@ class UsersController < ApplicationController
     graph = Koala::Facebook::API.new(params[:token])
     @user = User.find_or_create_from_fb(graph)
 
-    render :authenticate, location: @user
+    render :authenticate
+  end
+
+  def authenticate_phone_number
+    @user = User.find_by(phone_number: params[:phone_number])
+
+    if @user && @user.authenticate(params[:password])
+      render :authenticate
+    else
+      render json: { error: 'Invalid phone number / password combination' }, status: :unauthorized
+    end
   end
 
   def events
