@@ -33,7 +33,7 @@ gcm.save!
 
 # Event types
 Category.create!([
-  { name: 'Bar / Club' }, { name: 'Cafe' }, { name: 'Cinema' }, { name: 'Theater' },
+  { name: 'Bar / Club' }, { name: 'Cafe' }, { name: 'Movie' }, { name: 'Theater' },
   { name: 'Show' }, { name: 'Concert' }, { name: 'Tabletop games' }, { name: 'Active' },
   { name: 'Walk' }, { name: 'Outing' }, { name: 'Party' }, { name: 'Other' }
 ])

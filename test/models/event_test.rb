@@ -40,7 +40,7 @@ class EventTest < ActiveSupport::TestCase
     @event.extra_category = nil
     assert @event.valid?
 
-    @event.extra_category = categories(:cinema)
+    @event.extra_category = categories(:movie)
     assert @event.valid?
   end
 

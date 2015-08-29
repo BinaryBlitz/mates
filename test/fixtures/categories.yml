@@ -8,8 +8,8 @@
 #  updated_at :datetime         not null
 #
 
-cinema:
-  name: Cinema
+movie:
+  name: Movie
 
 cafe:
   name: Cafe

@@ -37,10 +37,11 @@ party:
   category: cafe
   user_limit: 5
   min_age: 18
+  sharing_token: <%= SecureRandom.base58(24) %>
 
 finale:
   name: Champions League Finale
   admin: baz
   city: Berlin
-  category: cinema
+  category: movie
   user_limit: 70000
