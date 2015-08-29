@@ -52,6 +52,11 @@ class User < ActiveRecord::Base
   has_many :photos, dependent: :destroy
   accepts_nested_attributes_for :photos, allow_destroy: true
 
+  # Interests
+  has_many :interests, dependent: :destroy
+  has_many :categories, through: :interests
+  accepts_nested_attributes_for :interests, allow_destroy: true
+
   has_many :friend_requests, dependent: :destroy
   has_many :pending_friends, through: :friend_requests, source: :friend
   has_many :friendships, dependent: :destroy

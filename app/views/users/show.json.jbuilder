@@ -21,3 +21,7 @@ json.friends @user.friends, partial: 'users/user', as: :user
 json.photos @user.photos do |photo|
   json.extract! photo, :id, :image_url
 end
+
+json.interests @user.interests do |interest|
+  json.extract! interest, :id, :category_id
+end

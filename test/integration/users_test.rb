@@ -39,6 +39,15 @@ class UsersTest < ActionDispatch::IntegrationTest
     assert_equal false, @user.reload.preferences.notifications_friends
   end
 
+  test 'update interests' do
+    assert_difference '@user.interests.count' do
+      patch "/api/users/#{@user.id}.json", api_token: @user.api_token, user: {
+        interests_attributes: [ { category_id: categories(:cafe).id } ]
+      }
+    end
+    assert_response :ok
+  end
+
   test 'should destroy user' do
     assert_difference('User.count', -1) do
       delete "/api/users/#{@user.id}", api_token: @user.api_token
