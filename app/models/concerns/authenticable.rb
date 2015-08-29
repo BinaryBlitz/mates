@@ -3,14 +3,16 @@ module Authenticable
 
   module ClassMethods
     def find_or_create_from_vk(vk)
-      vk_user = vk.users.get(fields: [:photo_max_orig, :screen_name, :bdate, :email]).first
+      vk_user = vk.users.get(
+        fields: [:photo_max_orig, :screen_name, :bdate, :email, :domain]).first
       user = find_by(vk_id: vk_user.uid)
 
       user || create!(
         first_name: vk_user.first_name, last_name: vk_user.last_name, password: SecureRandom.hex,
         email: vk_user.email, vk_id: vk_user.uid,
         remote_avatar_url: vk_user.photo_max_orig,
-        birthday: format_vk_date(vk_user.bdate)
+        birthday: format_vk_date(vk_user.bdate),
+        vk_url: "http://vk.com/#{vk_user.domain}"
       )
     end
 
