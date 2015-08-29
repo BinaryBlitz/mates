@@ -89,6 +89,10 @@ class Event < ActiveRecord::Base
     users.where.not(id: admin.id).order('RANDOM()').limit(PREVIEW_USERS_COUNT)
   end
 
+  def friend_count(current_user)
+    users.where(id: current_user.friends.ids).count
+  end
+
   def propose(proposed_user, creator)
     proposals.create(user: proposed_user, creator: creator)
   end

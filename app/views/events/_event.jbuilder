@@ -4,11 +4,8 @@ json.extract! event,
               :min_age, :max_age, :gender, :category_id, :extra_category_id
 
 json.user_count event.users.count
+json.friend_count event.friend_count(current_user)
 
 json.admin do
   json.partial! 'users/user', user: event.admin
-end
-
-json.users event.preview_users do |user|
-  json.partial! 'users/user', user: user
 end
