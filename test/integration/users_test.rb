@@ -48,6 +48,11 @@ class UsersTest < ActionDispatch::IntegrationTest
     assert_response :ok
   end
 
+  test 'list available events' do
+    get "/api/users/#{@user.id}/available_events.json", api_token: @user.api_token
+    assert_response :success
+  end
+
   test 'should destroy user' do
     assert_difference('User.count', -1) do
       delete "/api/users/#{@user.id}", api_token: @user.api_token

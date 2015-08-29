@@ -52,6 +52,11 @@ class EventsTest < ActionDispatch::IntegrationTest
     assert_equal categories(:movie).id, json_response[:extra_category_id]
   end
 
+  test 'list friends available for invite' do
+    get  "/api/events/#{@event.id}/available_friends", api_token: @event.admin.api_token
+    assert_response :success
+  end
+
   test 'should get feed' do
     get '/api/events/feed', api_token: api_token
     assert_response :success

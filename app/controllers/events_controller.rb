@@ -84,6 +84,11 @@ class EventsController < ApplicationController
     end
   end
 
+  def available_friends
+    @users = current_user.friends - @event.users - @event.submitted_users - @event.invited_users
+    render 'users/index'
+  end
+
   private
 
   def set_event

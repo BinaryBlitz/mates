@@ -2,7 +2,10 @@ class UsersController < ApplicationController
   skip_before_action :restrict_access,
                      only: [:create, :authenticate, :authenticate_vk, :authenticate_fb]
   before_action :set_user,
-                only: [:update, :destroy, :events, :friends, :favorite, :unfavorite, :notify]
+                only: [
+                  :update, :destroy, :events, :friends, :favorite, :unfavorite,
+                  :notify, :available_events
+                ]
 
   # GET /users/1
   def show
@@ -107,6 +110,11 @@ class UsersController < ApplicationController
       @user.notify_message(message, current_user)
       head :created
     end
+  end
+
+  def available_events
+    @events = current_user.events - @user.events - @user.invited_events - @user.submitted_events
+    render 'events/index'
   end
 
   private
