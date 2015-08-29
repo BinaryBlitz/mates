@@ -7,7 +7,8 @@ class FBTest < ActiveSupport::TestCase
       "name" => 'NewFooBar',
       "picture" => { "data" => { "url" => nil}},
       "id" => 12,
-      "email" => 'test@facebook.com'
+      "email" => 'test@facebook.com',
+      "link" => 'https://www.facebook.com/zuck'
     )
 
     assert_difference('User.count') do
