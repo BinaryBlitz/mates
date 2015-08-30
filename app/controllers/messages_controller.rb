@@ -2,7 +2,15 @@ class MessagesController < ApplicationController
   skip_before_action :restrict_access, only: [:create]
 
   def index
-    @messages = current_user.messages.includes(:creator, :user).by_user(params[:user_id])
+    incoming = current_user.incoming_messages.includes(:creator, :user)
+    outgoing = current_user.outgoing_messages.includes(:creator, :user)
+
+    if params[:user_id].present?
+      incoming = incoming.where(creator: params[:user_id])
+      outgoing = outgoing.where(user: params[:user_id])
+    end
+
+    @messages = incoming + outgoing
   end
 
   def create

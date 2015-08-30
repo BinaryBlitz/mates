@@ -87,7 +87,6 @@ class User < ActiveRecord::Base
 
   has_many :device_tokens, dependent: :destroy
 
-  has_many :messages, -> (object) { where('creator_id = ? OR user_id = ?', object.id, object.id) }
   has_many :incoming_messages, class_name: 'Message'
   has_many :outgoing_messages, class_name: 'Message', foreign_key: 'creator_id'
 
