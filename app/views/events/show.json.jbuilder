@@ -8,7 +8,8 @@ end
 
 json.owned current_user.owned_events.include?(@event)
 json.visited current_user.events.include?(@event)
-json.invited current_user.invited_events.include?(@event)
+json.invite current_user.invites.find_by(event: @event)
+json.submission current_user.submissions.find_by(event: @event)
 
 if policy(@event).update?
   json.proposals @event.proposals do |proposal|
