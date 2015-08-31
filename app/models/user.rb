@@ -165,7 +165,7 @@ class User < ActiveRecord::Base
   private
 
   def login_present
-    return if phone_number.present? || email.present?
+    return if phone_number.present? || email.present? || oauth?
 
     errors.add(:email, '(phone_number) must be present')
     errors.add(:phone_number, '(email) must be present')
