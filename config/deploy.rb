@@ -23,7 +23,6 @@ role :db,  domain, :primary => true
 
 before 'deploy:setup', 'rvm:install_rvm', 'rvm:install_ruby'
 
-
 after 'deploy:update_code', :roles => :app do
   run "rm -f #{current_release}/config/secrets.yml"
   run "ln -nfs #{deploy_to}/shared/config/secrets.yml #{current_release}/config/secrets.yml"
@@ -33,11 +32,45 @@ after 'deploy:update_code', :roles => :app do
   run "cd #{current_release}; bundle exec rake db:migrate RAILS_ENV=#{rails_env}"
 end
 
-before "deploy:assets:precompile", "deploy:link_db"
+after 'deploy:update_code', 'mqtt:restart', 'rpush:start'
 
+namespace :mqtt do
+  task :stop do
+    run "cd #{current_release}; bundle exec ruby lib/mqtt_daemon_control.rb stop"
+  end
+
+  task :start do
+    run "cd #{current_release}; bundle exec ruby lib/mqtt_daemon_control.rb start"
+  end
+
+  task :restart do
+    stop
+    start
+    # 'ruby lib/mqtt_daemon_control.rb stop; ruby lib/mqtt_daemon_control.rb run'
+  end
+end
+
+namespace :rpush do
+  task :stop do
+    run "cd #{current_release}; bundle exec rpush stop --rails-env=#{rails_env}"
+  end
+
+  task :start do
+    run "cd #{current_release}; bundle exec rpush start --rails-env=#{rails_env}"
+  end
+
+  task :restart do
+    stop
+    start
+    # "rpush stop --rails-env=#{rails_env}; rpush start --rails-env=#{rails_env}"
+  end
+end
+
+before "deploy:assets:precompile", "deploy:link_db"
 
 set :keep_releases, 3
 after "deploy:restart", "deploy:cleanup"
+
 
 namespace :deploy do
   task :link_db do

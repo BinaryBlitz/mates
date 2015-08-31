@@ -40,6 +40,7 @@ gem 'bootstrap-sass'
 gem 'unicorn'
 
 gem 'mqtt'
+gem 'daemons'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
