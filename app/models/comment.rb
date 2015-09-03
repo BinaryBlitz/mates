@@ -22,7 +22,6 @@ class Comment < ActiveRecord::Base
   validates :user, presence: true
   validates :event, presence: true
 
-  validate :respondent_not_author
   validate :respondent_membership
 
   private
@@ -39,12 +38,6 @@ class Comment < ActiveRecord::Base
 
     options = { action: 'NEW_MENTION', comment: as_json }
     Notifier.new(respondent, "#{user} упомянул вас в комментарии к #{event}", options).push
-  end
-
-  def respondent_not_author
-    return unless respondent
-
-    errors.add(:respondent, "can't be equal to user") if respondent == user
   end
 
   def respondent_membership

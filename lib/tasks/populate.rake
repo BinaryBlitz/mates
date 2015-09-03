@@ -10,7 +10,7 @@ namespace :db do
         gender: %w(f m).sample,
         password: FFaker::Internet.password,
         city: FFaker::AddressUS.city,
-        remote_avatar_url: FFaker::Avatar.image,
+        remote_avatar_url: FFaker::Avatar.image
       )
     end
 
