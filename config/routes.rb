@@ -37,6 +37,7 @@ Rails.application.routes.draw do
         get 'owned'
         get 'feed'
         get 'search'
+        get 'by_token'
       end
       member do
         get 'proposals'

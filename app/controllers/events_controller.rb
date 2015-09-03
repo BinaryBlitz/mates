@@ -1,5 +1,5 @@
 class EventsController < ApplicationController
-  before_action :set_event, except: [:index, :create, :owned, :feed]
+  before_action :set_event, except: [:index, :create, :owned, :feed, :by_token]
 
   # Participated events
   def index
@@ -13,6 +13,11 @@ class EventsController < ApplicationController
   end
 
   def show
+  end
+
+  def by_token
+    @event = Event.find_by(sharing_token: params[:sharing_token])
+    render :show
   end
 
   def create

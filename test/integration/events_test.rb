@@ -33,6 +33,11 @@ class EventsTest < ActionDispatch::IntegrationTest
     assert_not_nil assigns(:event)
   end
 
+  test 'show with sharing token' do
+    get "/api/events/by_token.json", api_token: api_token, sharing_token: @event.sharing_token
+    assert_response :success
+  end
+
   test 'update' do
     patch "/api/events/#{@event.id}", api_token: @event.admin.api_token, event: { name: 'New name' }
     assert_response :ok
