@@ -11,6 +11,7 @@ Rails.application.routes.draw do
         post 'authenticate_vk'
         post 'authenticate_fb'
         post 'authenticate_phone_number'
+        post 'authenticate_layer'
         get 'search'
       end
       member do

@@ -32,23 +32,7 @@ after 'deploy:update_code', :roles => :app do
   run "cd #{current_release}; bundle exec rake db:migrate RAILS_ENV=#{rails_env}"
 end
 
-after 'deploy:update_code', 'mqtt:restart', 'rpush:start'
-
-namespace :mqtt do
-  task :stop do
-    run "cd #{current_release}; bundle exec ruby lib/mqtt_daemon_control.rb stop"
-  end
-
-  task :start do
-    run "cd #{current_release}; bundle exec ruby lib/mqtt_daemon_control.rb start"
-  end
-
-  task :restart do
-    stop
-    start
-    # 'ruby lib/mqtt_daemon_control.rb stop; ruby lib/mqtt_daemon_control.rb run'
-  end
-end
+after 'deploy:update_code', 'rpush:start'
 
 namespace :rpush do
   task :stop do

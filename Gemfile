@@ -31,6 +31,7 @@ gem 'pundit'
 gem 'has_secure_token'
 gem 'bcrypt', '~> 3.1.7'
 gem 'email_validator'
+gem 'layer-identity_token'
 
 # Front end
 gem 'sass-rails'
@@ -38,9 +39,6 @@ gem 'bootstrap-sass'
 
 # Use Unicorn as the app server
 gem 'unicorn'
-
-gem 'mqtt'
-gem 'daemons'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development

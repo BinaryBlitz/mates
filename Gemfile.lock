@@ -69,7 +69,6 @@ GEM
       activesupport (>= 3.2.0)
       carrierwave (>= 0.8.0, < 0.11.0)
     coderay (1.1.0)
-    daemons (1.2.3)
     debug_inspector (0.0.2)
     email_validator (1.6.0)
       activemodel
@@ -105,6 +104,8 @@ GEM
       addressable
       faraday
       multi_json
+    layer-identity_token (0.1.0)
+      jwt (~> 1.4, >= 1.4.1)
     loofah (2.0.3)
       nokogiri (>= 1.5.9)
     mail (2.6.3)
@@ -117,7 +118,6 @@ GEM
     minitest (5.8.0)
     mocha (1.1.0)
       metaclass (~> 0.0.1)
-    mqtt (0.3.1)
     multi_json (1.11.2)
     multi_xml (0.5.5)
     multipart-post (2.0.0)
@@ -251,7 +251,6 @@ DEPENDENCIES
   capistrano
   carrierwave
   carrierwave-base64
-  daemons
   email_validator
   enumerize
   ffaker
@@ -259,9 +258,9 @@ DEPENDENCIES
   has_secure_token
   jbuilder (~> 2.0)
   koala
+  layer-identity_token
   mini_magick
   mocha
-  mqtt
   pg
   phony_rails
   pry-rails
