@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.2.3'
+gem 'rails', '4.2.4'
 
 # Use PostgreSQL
 gem 'pg'
@@ -57,6 +57,7 @@ group :development, :test do
   gem 'spring'
   # Mocking
   gem 'mocha'
+  gem 'pry-rails'
 
   gem 'capistrano'
   gem "rvm-capistrano", require: false
