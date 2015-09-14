@@ -23,9 +23,8 @@ class Proposal < ActiveRecord::Base
 
   # Admin accepts the proposal and invites the user
   def accept
-    event.invited_users << user
-    # Push the notification
     destroy
+    event.invites.find_or_create_by(user: user)
   end
 
   private
