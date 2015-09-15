@@ -31,7 +31,7 @@ class Search < ActiveRecord::Base
     events = events.where('starts_at >= ?', min_starts_at) if min_starts_at.present?
     events = events.where('starts_at <= ?', max_starts_at) if max_starts_at.present?
     events = events.on_dates(dates) if dates.present?
-    events = events.near([latitude, longitude], distance) if location_present?
+    events = events.near([latitude, longitude], distance, units: :km) if location_present?
 
     if category_id.present?
       events = events.where('category_id IS :id OR extra_category_id IS :id', id: category_id)
