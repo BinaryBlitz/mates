@@ -26,9 +26,11 @@ class UsersController < ApplicationController
   # PATCH/PUT /users/1
   def update
     authorize @user
-    if @user.update(user_params)
+
+    if authenticated? && @user.update(user_params)
       render :show, status: :ok, location: @user
     else
+      @user.errors.add(:current_password, "is incorrect") if user_params[:password].present?
       render json: @user.errors, status: :unprocessable_entity
     end
   end
@@ -147,5 +149,9 @@ class UsersController < ApplicationController
         :visibility_photos, :visibility_events
       ]
     )
+  end
+
+  def authenticated?
+    user_params[:password].blank? || @user.authenticate(params[:user][:current_password])
   end
 end
