@@ -11,7 +11,6 @@
 
 class Invite < ActiveRecord::Base
   after_create :notify_invitee
-  after_destroy :notify_admin
 
   belongs_to :user
   belongs_to :event
@@ -22,6 +21,7 @@ class Invite < ActiveRecord::Base
   # User accepts the invite and joins the event
   def accept
     user.events << event
+    notify_adminy
     destroy
   end
 
