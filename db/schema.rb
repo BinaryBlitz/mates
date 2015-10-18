@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150825001548) do
+ActiveRecord::Schema.define(version: 20150831164548) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -26,11 +26,13 @@ ActiveRecord::Schema.define(version: 20150825001548) do
     t.string   "content"
     t.integer  "user_id"
     t.integer  "event_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+    t.integer  "respondent_id"
   end
 
   add_index "comments", ["event_id"], name: "index_comments_on_event_id", using: :btree
+  add_index "comments", ["respondent_id"], name: "index_comments_on_respondent_id", using: :btree
   add_index "comments", ["user_id"], name: "index_comments_on_user_id", using: :btree
 
   create_table "device_tokens", force: :cascade do |t|
@@ -51,21 +53,23 @@ ActiveRecord::Schema.define(version: 20150825001548) do
     t.float    "longitude"
     t.text     "info"
     t.string   "visibility"
-    t.datetime "created_at",                        null: false
-    t.datetime "updated_at",                        null: false
+    t.datetime "created_at",                              null: false
+    t.datetime "updated_at",                              null: false
     t.string   "address"
     t.integer  "admin_id"
     t.string   "photo"
     t.integer  "category_id"
-    t.integer  "user_limit",            default: 1
+    t.integer  "user_limit",                  default: 1
     t.integer  "min_age"
     t.integer  "max_age"
-    t.string   "gender",        limit: 1
+    t.string   "gender",            limit: 1
     t.string   "sharing_token"
+    t.integer  "extra_category_id"
   end
 
   add_index "events", ["admin_id"], name: "index_events_on_admin_id", using: :btree
   add_index "events", ["category_id"], name: "index_events_on_category_id", using: :btree
+  add_index "events", ["extra_category_id"], name: "index_events_on_extra_category_id", using: :btree
 
   create_table "favorites", force: :cascade do |t|
     t.integer  "user_id"
@@ -106,6 +110,16 @@ ActiveRecord::Schema.define(version: 20150825001548) do
   add_index "friendships", ["friend_id"], name: "index_friendships_on_friend_id", using: :btree
   add_index "friendships", ["user_id"], name: "index_friendships_on_user_id", using: :btree
 
+  create_table "interests", force: :cascade do |t|
+    t.integer  "category_id"
+    t.integer  "user_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  add_index "interests", ["category_id"], name: "index_interests_on_category_id", using: :btree
+  add_index "interests", ["user_id"], name: "index_interests_on_user_id", using: :btree
+
   create_table "invites", force: :cascade do |t|
     t.integer  "user_id"
     t.integer  "event_id"
@@ -145,6 +159,20 @@ ActiveRecord::Schema.define(version: 20150825001548) do
   end
 
   add_index "photos", ["user_id"], name: "index_photos_on_user_id", using: :btree
+
+  create_table "preferences", force: :cascade do |t|
+    t.integer  "user_id"
+    t.boolean  "notifications_friends",   default: true
+    t.boolean  "notifications_favorites", default: true
+    t.boolean  "notifications_events",    default: true
+    t.boolean  "notifications_messages",  default: true
+    t.string   "visibility_photos",       default: "public"
+    t.string   "visibility_events",       default: "public"
+    t.datetime "created_at",                                 null: false
+    t.datetime "updated_at",                                 null: false
+  end
+
+  add_index "preferences", ["user_id"], name: "index_preferences_on_user_id", using: :btree
 
   create_table "proposals", force: :cascade do |t|
     t.integer  "user_id"
@@ -229,6 +257,7 @@ ActiveRecord::Schema.define(version: 20150825001548) do
     t.float    "latitude"
     t.float    "longitude"
     t.integer  "distance"
+    t.integer  "category_ids",               array: true
   end
 
   create_table "submissions", force: :cascade do |t|
@@ -279,6 +308,7 @@ ActiveRecord::Schema.define(version: 20150825001548) do
   add_foreign_key "memberships", "events"
   add_foreign_key "memberships", "users"
   add_foreign_key "messages", "users"
+  add_foreign_key "preferences", "users"
   add_foreign_key "proposals", "events"
   add_foreign_key "proposals", "users"
   add_foreign_key "submissions", "events"

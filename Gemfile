@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.2.3'
+gem 'rails', '4.2.4'
 
 # Use PostgreSQL
 gem 'pg'
@@ -17,6 +17,7 @@ gem 'ffaker'
 gem 'rpush'
 gem 'validate_url'
 gem 'geocoder'
+gem 'enumerize'
 
 # Attachments
 gem 'carrierwave'
@@ -30,6 +31,7 @@ gem 'pundit'
 gem 'has_secure_token'
 gem 'bcrypt', '~> 3.1.7'
 gem 'email_validator'
+gem 'layer-identity_token'
 
 # Front end
 gem 'sass-rails'
@@ -37,8 +39,6 @@ gem 'bootstrap-sass'
 
 # Use Unicorn as the app server
 gem 'unicorn'
-
-gem 'mqtt'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
@@ -55,6 +55,7 @@ group :development, :test do
   gem 'spring'
   # Mocking
   gem 'mocha'
+  gem 'pry-rails'
 
   gem 'capistrano'
   gem "rvm-capistrano", require: false

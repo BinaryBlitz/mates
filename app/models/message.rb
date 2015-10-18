@@ -20,8 +20,6 @@ class Message < ActiveRecord::Base
   validates :creator, presence: true
   validates :content, presence: true
 
-  scope :by_user, -> (u) { where('user_id = ? OR creator_id = ?', u, u) }
-
   private
 
   def push

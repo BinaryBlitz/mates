@@ -1,12 +1,23 @@
 class EventsController < ApplicationController
-  before_action :set_event, except: [:index, :create, :owned, :feed]
+  before_action :set_event, except: [:index, :create, :owned, :feed, :by_token]
 
   # Participated events
   def index
     @events = current_user.events
   end
 
+  def feed
+    feed = current_user.feed || current_user.create_feed
+    @events = feed.events
+    render :index
+  end
+
   def show
+  end
+
+  def by_token
+    @event = Event.find_by(sharing_token: params[:sharing_token])
+    render :show
   end
 
   def create
@@ -67,12 +78,6 @@ class EventsController < ApplicationController
     render 'submissions/index'
   end
 
-  def feed
-    feed = current_user.feed || current_user.create_feed
-    @events = feed.events
-    render :index
-  end
-
   def join
     membership = Membership.new(user: current_user, event: @event)
     authorize membership, :create?
@@ -82,6 +87,11 @@ class EventsController < ApplicationController
     else
       render json: membership.errors, status: :unprocessable_entity
     end
+  end
+
+  def available_friends
+    @users = current_user.friends - @event.users - @event.submitted_users - @event.invited_users
+    render 'users/index'
   end
 
   private
@@ -94,8 +104,8 @@ class EventsController < ApplicationController
     params.require(:event)
       .permit(
         :name, :starts_at, :city, :address, :latitude, :longitude,
-        :info, :visible, :photo, :category_id, :user_limit,
-        :min_age, :max_age, :gender
+        :info, :visible, :photo, :category_id, :extra_category_id, :user_limit,
+        :min_age, :max_age, :gender, :visibility
       )
   end
 end

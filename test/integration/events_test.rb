@@ -16,26 +16,49 @@ class EventsTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
-  test 'should create, read, update and destroy event' do
+  test 'create' do
     assert_difference('Event.count') do
       post '/api/events', api_token: api_token, event: {
-        name: 'new', city: 'new',
-        category_id: @event.category.id, user_limit: 2,
+        name: @event.name, city: @event.city,
+        category_id: @event.category.id, user_limit: @event.user_limit,
         min_age: @event.min_age, max_age: @event.max_age, gender: @event.gender
       }
     end
     assert @event.admin.events.include?(Event.last)
+  end
 
-    get "/api/events/#{Event.last.id}", api_token: api_token
+  test 'show' do
+    get "/api/events/#{@event.id}.json", api_token: api_token
     assert_response :success
     assert_not_nil assigns(:event)
+  end
 
-    patch "/api/events/#{Event.last.id}", api_token: api_token, event: { name: 'edit' }
+  test 'show with sharing token' do
+    get "/api/events/by_token.json", api_token: api_token, sharing_token: @event.sharing_token
     assert_response :success
+  end
 
+  test 'update' do
+    patch "/api/events/#{@event.id}", api_token: @event.admin.api_token, event: { name: 'New name' }
+    assert_response :ok
+  end
+
+  test 'destroy' do
     assert_difference('Event.count', -1) do
-      delete "/api/events/#{Event.last.id}", api_token: api_token
+      delete "/api/events/#{@event.id}", api_token: @event.admin.api_token
     end
+    assert_response :success
+  end
+
+  test 'set extra category' do
+    patch "/api/events/#{@event.id}", api_token: @event.admin.api_token, event: {
+      extra_category_id: categories(:movie).id
+    }
+    assert_equal categories(:movie).id, json_response[:extra_category_id]
+  end
+
+  test 'list friends available for invite' do
+    get  "/api/events/#{@event.id}/available_friends", api_token: @event.admin.api_token
     assert_response :success
   end
 

@@ -2,25 +2,26 @@
 #
 # Table name: events
 #
-#  id            :integer          not null, primary key
-#  name          :string
-#  starts_at     :datetime
-#  city          :string
-#  latitude      :float
-#  longitude     :float
-#  info          :text
-#  visibility    :string
-#  created_at    :datetime         not null
-#  updated_at    :datetime         not null
-#  address       :string
-#  admin_id      :integer
-#  photo         :string
-#  category_id   :integer
-#  user_limit    :integer          default(1)
-#  min_age       :integer
-#  max_age       :integer
-#  gender        :string(1)
-#  sharing_token :string
+#  id                :integer          not null, primary key
+#  name              :string
+#  starts_at         :datetime
+#  city              :string
+#  latitude          :float
+#  longitude         :float
+#  info              :text
+#  visibility        :string
+#  created_at        :datetime         not null
+#  updated_at        :datetime         not null
+#  address           :string
+#  admin_id          :integer
+#  photo             :string
+#  category_id       :integer
+#  user_limit        :integer          default(1)
+#  min_age           :integer
+#  max_age           :integer
+#  gender            :string(1)
+#  sharing_token     :string
+#  extra_category_id :integer
 #
 
 party:
@@ -36,10 +37,11 @@ party:
   category: cafe
   user_limit: 5
   min_age: 18
+  sharing_token: <%= SecureRandom.base58(24) %>
 
 finale:
   name: Champions League Finale
   admin: baz
   city: Berlin
-  category: cinema
+  category: movie
   user_limit: 70000

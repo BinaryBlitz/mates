@@ -2,25 +2,26 @@
 #
 # Table name: events
 #
-#  id            :integer          not null, primary key
-#  name          :string
-#  starts_at     :datetime
-#  city          :string
-#  latitude      :float
-#  longitude     :float
-#  info          :text
-#  visibility    :string
-#  created_at    :datetime         not null
-#  updated_at    :datetime         not null
-#  address       :string
-#  admin_id      :integer
-#  photo         :string
-#  category_id   :integer
-#  user_limit    :integer          default(1)
-#  min_age       :integer
-#  max_age       :integer
-#  gender        :string(1)
-#  sharing_token :string
+#  id                :integer          not null, primary key
+#  name              :string
+#  starts_at         :datetime
+#  city              :string
+#  latitude          :float
+#  longitude         :float
+#  info              :text
+#  visibility        :string
+#  created_at        :datetime         not null
+#  updated_at        :datetime         not null
+#  address           :string
+#  admin_id          :integer
+#  photo             :string
+#  category_id       :integer
+#  user_limit        :integer          default(1)
+#  min_age           :integer
+#  max_age           :integer
+#  gender            :string(1)
+#  sharing_token     :string
+#  extra_category_id :integer
 #
 
 class Event < ActiveRecord::Base
@@ -30,6 +31,7 @@ class Event < ActiveRecord::Base
 
   belongs_to :admin, class_name: 'User'
   belongs_to :category
+  belongs_to :extra_category, class_name: 'Category'
 
   has_many :proposals, dependent: :destroy
   has_many :proposed_users, through: :proposals, source: :user
@@ -48,7 +50,11 @@ class Event < ActiveRecord::Base
   validates :category, presence: true
   validates :name, presence: true, length: { maximum: 30 }
   validates :city, presence: true
-  validates :user_limit, numericality: { greater_than: 1 }, allow_blank: true
+  validates :user_limit, numericality: { greater_than: 1, allow_nil: true }
+  validate :extra_category, :not_equal_to_category
+
+  extend Enumerize
+  enumerize :visibility, in: [:public, :friends, :friends_of_friends, :private]
 
   #  Filter validations
   validates :gender, length: { is: 1 }, inclusion: { in: %w(f m) }, allow_nil: true
@@ -67,7 +73,7 @@ class Event < ActiveRecord::Base
 
   geocoded_by :address
 
-  PREVIEW_USERS_COUNT = 2
+  PREVIEW_USERS_COUNT = 4
 
   scope :past_events, -> { where('ends_at < ?', Time.zone.now) }
   scope :upcoming, -> { where('starts_at >= ?', Time.zone.now) }
@@ -80,7 +86,11 @@ class Event < ActiveRecord::Base
   end
 
   def preview_users
-    users.where.not(id: admin.id).limit(PREVIEW_USERS_COUNT)
+    users.where.not(id: admin.id).order('RANDOM()').limit(PREVIEW_USERS_COUNT)
+  end
+
+  def friend_count(current_user)
+    users.where(id: current_user.friends.ids).count
   end
 
   def propose(proposed_user, creator)
@@ -118,6 +128,11 @@ class Event < ActiveRecord::Base
   end
 
   private
+
+  def not_equal_to_category
+    return unless category && extra_category
+    errors.add(:extra_category, "can't be equal to category") if category == extra_category
+  end
 
   def attend
     admin.events << self

@@ -14,6 +14,8 @@ class Feed < ActiveRecord::Base
   validates :user, presence: true
 
   # TODO: Cache this thing
+  # TODO: Take limitations and visibility into account
+  # TODO: Exclude owned, participated and pending events
   def events
     # ids = (user_events + events_of_friends + events_of_friends_of_friends).uniq
     # Event.where(id: ids).includes(:admin)

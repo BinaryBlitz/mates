@@ -20,8 +20,8 @@ class ProposalsController < ApplicationController
   # Accept the proposal
   def update
     authorize @proposal
-    @proposal.accept
-    head :no_content
+    @invite = @proposal.accept
+    render 'invites/show', status: :created, location: @invite
   end
 
   # Decline or cancel proposal

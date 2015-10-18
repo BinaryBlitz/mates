@@ -34,6 +34,8 @@ class User < ActiveRecord::Base
   validates :password, presence: true, on: :create, length: { minimum: 6 }
   validates :gender, length: { is: 1 }, inclusion: { in: %w(f m) }, allow_nil: true
 
+  validate :login_present
+
   validates :vk_url, url: { allow_blank: true }
   validates :facebook_url, url: { allow_blank: true }
   validates :twitter_url, url: { allow_blank: true }
@@ -41,10 +43,24 @@ class User < ActiveRecord::Base
 
   has_one :feed, dependent: :destroy
 
+  # Preferences
+  has_one :preference, dependent: :destroy
+  accepts_nested_attributes_for :preference
+
+  def preferences
+    preference || create_preference
+  end
+
   has_many :photos, dependent: :destroy
   accepts_nested_attributes_for :photos, allow_destroy: true
 
+  # Interests
+  has_many :interests, dependent: :destroy
+  has_many :categories, through: :interests
+  accepts_nested_attributes_for :interests, allow_destroy: true
+
   has_many :friend_requests, dependent: :destroy
+  has_many :inverse_friend_requests, class_name: 'FriendRequest', foreign_key: :friend_id
   has_many :pending_friends, through: :friend_requests, source: :friend
   has_many :friendships, dependent: :destroy
   has_many :friends, through: :friendships
@@ -67,9 +83,10 @@ class User < ActiveRecord::Base
   has_many :submitted_events, through: :submissions, source: :event
 
   has_many :comments, dependent: :destroy
+  has_many :mentions, class_name: 'Comment', foreign_key: :respondent_id
+
   has_many :device_tokens, dependent: :destroy
 
-  has_many :messages, -> (object) { where('creator_id = ? OR user_id = ?', object.id, object.id) }
   has_many :incoming_messages, class_name: 'Message'
   has_many :outgoing_messages, class_name: 'Message', foreign_key: 'creator_id'
 
@@ -78,14 +95,20 @@ class User < ActiveRecord::Base
 
   mount_base64_uploader :avatar, AvatarUploader
 
-  # phony_normalize :phone_number, default_country_code: 'RU'
-  # validates :phone_number, phony_plausible: true
+  phony_normalize :phone_number, default_country_code: 'RU'
+  validates :phone_number, phony_plausible: true
 
   include Authenticable
 
   def remove_friend(friend)
     friendships.find_by(friend: friend).destroy
     friend.friendships.find_by(friend: self).destroy
+  end
+
+  def friend_request_to_or_from(current_user)
+    outgoing = friend_requests.find_by(friend: current_user)
+    incoming = inverse_friend_requests.find_by(user: current_user)
+    outgoing || incoming
   end
 
   def self.search_by_name(query)
@@ -140,6 +163,13 @@ class User < ActiveRecord::Base
   end
 
   private
+
+  def login_present
+    return if phone_number.present? || email.present? || oauth?
+
+    errors.add(:email, '(phone_number) must be present')
+    errors.add(:phone_number, '(email) must be present')
+  end
 
   def set_online
     touch(:visited_at)

@@ -13,9 +13,9 @@ class SearchesController < ApplicationController
   def search_params
     params.require(:search)
       .permit(
-        :name, :category_id, :visibility,
+        :name, :visibility,
         :min_starts_at, :max_starts_at,
         :latitude, :longitude, :distance,
-        dates: [])
+        dates: [], category_ids: [])
   end
 end

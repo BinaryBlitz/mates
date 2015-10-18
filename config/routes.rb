@@ -10,11 +10,14 @@ Rails.application.routes.draw do
         post 'authenticate'
         post 'authenticate_vk'
         post 'authenticate_fb'
+        post 'authenticate_phone_number'
+        post 'authenticate_layer'
         get 'search'
       end
       member do
         get 'events'
         get 'friends'
+        get 'available_events'
         post 'notify'
         post 'favorite'
         delete 'unfavorite'
@@ -31,16 +34,18 @@ Rails.application.routes.draw do
     # Events
     resources :events, except: [:new, :edit] do
       collection do
-        get :owned
-        get :feed
-        get :search
+        get 'owned'
+        get 'feed'
+        get 'search'
+        get 'by_token'
       end
       member do
-        get :proposals
-        get :submissions
-        post :join
-        delete :remove
-        delete :leave
+        get 'proposals'
+        get 'submissions'
+        get 'available_friends'
+        post 'join'
+        delete 'remove'
+        delete 'leave'
       end
       resources :comments, except: [:new, :edit]
     end

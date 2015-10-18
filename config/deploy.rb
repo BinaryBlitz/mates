@@ -23,18 +23,28 @@ role :db,  domain, :primary => true
 
 before 'deploy:setup', 'rvm:install_rvm', 'rvm:install_ruby'
 
+before 'deploy', 'rpush:stop'
 
 after 'deploy:update_code', :roles => :app do
+  # Config
   run "rm -f #{current_release}/config/secrets.yml"
   run "ln -nfs #{deploy_to}/shared/config/secrets.yml #{current_release}/config/secrets.yml"
+
+  # Uploads
   run "rm -f #{current_release}/public/uploads"
   run "ln -nfs #{deploy_to}/shared/public/uploads #{current_release}/public/uploads"
-  # run "cd #{current_release}; rake db:schema:load RAILS_ENV=#{rails_env}"
+
+  # Migrations
   run "cd #{current_release}; bundle exec rake db:migrate RAILS_ENV=#{rails_env}"
+
+    # Pids
+  run "rm -f #{current_release}/tmp/pids"
+  run "ln -nfs #{deploy_to}/shared/pids #{current_release}/tmp/pids"
 end
 
-before "deploy:assets:precompile", "deploy:link_db"
+after 'deploy:update_code', 'rpush:start'
 
+before "deploy:assets:precompile", "deploy:link_db"
 
 set :keep_releases, 3
 after "deploy:restart", "deploy:cleanup"
@@ -53,5 +63,15 @@ namespace :deploy do
   end
   task :stop do
     run "if [ -f #{unicorn_pid} ] && [ -e /proc/$(cat #{unicorn_pid}) ]; then kill -QUIT `cat #{unicorn_pid}`; fi"
+  end
+end
+
+namespace :rpush do
+  task :stop do
+    run "cd #{current_release}; bundle exec rpush stop --rails-env=#{rails_env}; true"
+  end
+
+  task :start do
+    run "cd #{current_release}; bundle exec rpush start --rails-env=#{rails_env}"
   end
 end

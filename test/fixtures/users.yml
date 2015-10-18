@@ -34,7 +34,7 @@ foo:
   birthday: <%= 18.years.ago %>
   gender: m
   phone_number: +74995555555
-  api_token: <%= SecureRandom.hex %>
+  api_token: <%= SecureRandom.base58(24) %>
   password_digest: <%= BCrypt::Password.create('foobar', cost: 4) %>
 
 baz:
@@ -44,7 +44,7 @@ baz:
   birthday: <%= 18.years.ago %>
   phone_number: +74995555556
   gender: f
-  api_token: <%= SecureRandom.hex %>
+  api_token: <%= SecureRandom.base58(24) %>
   password_digest: <%= BCrypt::Password.create('foobar', cost: 4) %>
 
 john:

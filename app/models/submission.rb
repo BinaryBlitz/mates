@@ -41,18 +41,22 @@ class Submission < ActiveRecord::Base
   end
 
   def not_visited
+    return unless user
     errors.add(:event, 'is already visited') if user.events.include?(event)
   end
 
   def not_invited
+    return unless user
     errors.add(:user, 'is already invited') if user.invited_events.include?(event)
   end
 
   def can_already_join
+    return unless event
     errors.add(:user, 'can already join the event') if event.invited_users.include?(user)
   end
 
   def cannot_join
+    return unless event
     errors.add(:user, 'cannot join the event because of limitations') unless event.valid_user?(user)
   end
 end

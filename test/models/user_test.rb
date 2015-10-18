@@ -65,4 +65,17 @@ class UserTest < ActiveSupport::TestCase
     @user.gender = ''
     assert @user.invalid?
   end
+
+  test 'invalid without login data' do
+    @user.email = nil
+    @user.phone_number = nil
+    assert @user.invalid?
+
+    @user.email = @user.reload.email
+    assert @user.valid?
+
+    @user.email = nil
+    @user.phone_number = @user.reload.phone_number
+    assert @user.valid?
+  end
 end

@@ -2,25 +2,26 @@
 #
 # Table name: events
 #
-#  id            :integer          not null, primary key
-#  name          :string
-#  starts_at     :datetime
-#  city          :string
-#  latitude      :float
-#  longitude     :float
-#  info          :text
-#  visibility    :string
-#  created_at    :datetime         not null
-#  updated_at    :datetime         not null
-#  address       :string
-#  admin_id      :integer
-#  photo         :string
-#  category_id   :integer
-#  user_limit    :integer          default(1)
-#  min_age       :integer
-#  max_age       :integer
-#  gender        :string(1)
-#  sharing_token :string
+#  id                :integer          not null, primary key
+#  name              :string
+#  starts_at         :datetime
+#  city              :string
+#  latitude          :float
+#  longitude         :float
+#  info              :text
+#  visibility        :string
+#  created_at        :datetime         not null
+#  updated_at        :datetime         not null
+#  address           :string
+#  admin_id          :integer
+#  photo             :string
+#  category_id       :integer
+#  user_limit        :integer          default(1)
+#  min_age           :integer
+#  max_age           :integer
+#  gender            :string(1)
+#  sharing_token     :string
+#  extra_category_id :integer
 #
 
 class EventTest < ActiveSupport::TestCase
@@ -32,39 +33,17 @@ class EventTest < ActiveSupport::TestCase
     assert @event.valid?
   end
 
-<<<<<<< ours
-=======
-  test 'admin_id should be present' do
-    @event.admin_id = nil
-    assert_not @event.valid?
+  test 'extra category' do
+    @event.extra_category = @event.category
+    assert @event.invalid?
+
+    @event.extra_category = nil
+    assert @event.valid?
+
+    @event.extra_category = categories(:movie)
+    assert @event.valid?
   end
 
-  test 'name should be present' do
-    @event.name = ''
-    assert_not @event.valid?
-  end
-
-  test 'target should be present' do
-    @event.category = nil
-    assert_not @event.valid?
-  end
-
-  test 'at least it should have city' do
-    @event.city = ''
-    assert_not @event.valid?
-  end
-
-  test 'name should be no longer than 30 characters' do
-    @event.name = 'a' * 31
-    assert_not @event.valid?
-  end
-
-  test 'city should be no longer than 30 characters' do
-    @event.city = 'a' * 31
-    assert_not @event.valid?
-  end
-
->>>>>>> theirs
   test 'user limit should be positive' do
     @event.user_limit = -1
     assert_not @event.valid?
