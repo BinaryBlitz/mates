@@ -1,5 +1,5 @@
 class CommentsController < ApplicationController
-  before_action :set_event
+  before_action :set_event, except: [:update, :destroy]
   before_action :set_comment, except: [:index, :create]
 
   def index
@@ -15,7 +15,7 @@ class CommentsController < ApplicationController
     authorize @comment
 
     if @comment.save
-      render :show, status: :created, location: [@event, @comment]
+      render :show, status: :created
     else
       render json: @comment.errors, status: :unprocessable_entity
     end
@@ -23,8 +23,9 @@ class CommentsController < ApplicationController
 
   def update
     authorize @comment
+
     if @comment.update(comment_params)
-      render :show, status: :ok, location: [@event, @comment]
+      head :no_content
     else
       render json: @comment.errors, status: :unprocessable_entity
     end
@@ -32,6 +33,7 @@ class CommentsController < ApplicationController
 
   def destroy
     authorize @comment
+
     @comment.destroy
     head :no_content
   end
@@ -43,7 +45,7 @@ class CommentsController < ApplicationController
   end
 
   def set_comment
-    @comment = @event.comments.find(params[:id])
+    @comment = Comment.find(params[:id])
   end
 
   def comment_params

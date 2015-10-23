@@ -1,10 +1,3 @@
-# The data can then be loaded with the rake db:seed (or created alongside the db with db:setup).
-#
-# Examples:
-#
-#   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
-#   Mayor.create(name: 'Emanuel', city: cities.first)
-
 # Users and friends
 foo = User.create!(
   first_name: 'Foo', last_name: 'Bar', email: 'foo@bar.com', password: 'foobar',
@@ -31,7 +24,7 @@ gcm.save!
 # apns.connections = 1
 # apns.save!
 
-# Event types
+# Categories
 Category.create!([
   { name: 'Bar / Club' }, { name: 'Cafe' }, { name: 'Movie' }, { name: 'Theater' },
   { name: 'Show' }, { name: 'Concert' }, { name: 'Tabletop games' }, { name: 'Active' },
