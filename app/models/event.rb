@@ -22,7 +22,7 @@
 #  gender            :string(1)
 #  sharing_token     :string
 #  extra_category_id :integer
-#  seatgick_id       :integer
+#  seatgeek_id       :integer
 #
 
 class Event < ActiveRecord::Base

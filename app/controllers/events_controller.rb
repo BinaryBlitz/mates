@@ -24,8 +24,8 @@ class EventsController < ApplicationController
   def seatgeek
     # ids = params[:ids].split(',')
     # @events = Event.where(seatgeek_id: ids)
-    @event = Event.find(params[:id])
-    render :show
+    @event = Event.find_by!(seatgeek_id: params[:id])
+    # render :show
   end
 
   def create

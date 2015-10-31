@@ -1,0 +1,364 @@
+{
+  "meta": {
+    "per_page": 50,
+    "total": 2,
+    "page": 1,
+    "geolocation": null
+  },
+  "events": [
+    {
+      "links": [],
+      "id": 2839374,
+      "stats": {
+        "listing_count": 23,
+        "average_price": 46.0,
+        "lowest_price_good_deals": 41.0,
+        "lowest_price": 41.0,
+        "highest_price": 57.0
+      },
+      "title": "Adirondack Thunder at Manchester Monarchs",
+      "announce_date": "2015-10-07T00:00:00",
+      "score": 0.53613,
+      "date_tbd": false,
+      "type": "minor_league_hockey",
+      "datetime_local": "2015-12-27T15:00:00",
+      "visible_until_utc": "2015-12-28T00:00:00",
+      "time_tbd": false,
+      "taxonomies": [
+        {
+          "parent_id": null,
+          "id": 1000000,
+          "name": "sports"
+        },
+        {
+          "parent_id": 1000000,
+          "id": 1040000,
+          "name": "hockey"
+        },
+        {
+          "parent_id": 1040000,
+          "id": 1040300,
+          "name": "minor_league_hockey"
+        }
+      ],
+      "performers": [
+        {
+          "stats": {
+            "event_count": 53
+          },
+          "name": "Manchester Monarchs",
+          "short_name": "Manchester Monarchs",
+          "url": "https://seatgeek.com/manchester-monarchs-tickets",
+          "type": "minor_league_hockey",
+          "image": "https://chairnerd.global.ssl.fastly.net/images/performers-landscape/manchester-monarchs-8e86be/9320/huge.jpg",
+          "home_team": true,
+          "home_venue_id": 806,
+          "primary": true,
+          "score": 0.27943,
+          "images": {
+            "huge": "https://chairnerd.global.ssl.fastly.net/images/performers-landscape/manchester-monarchs-8e86be/9320/huge.jpg"
+          },
+          "slug": "manchester-monarchs",
+          "taxonomies": [
+            {
+              "parent_id": null,
+              "id": 1000000,
+              "name": "sports"
+            },
+            {
+              "parent_id": 1000000,
+              "id": 1040000,
+              "name": "hockey"
+            },
+            {
+              "parent_id": 1040000,
+              "id": 1040300,
+              "name": "minor_league_hockey"
+            }
+          ],
+          "has_upcoming_events": true,
+          "id": 9320
+        },
+        {
+          "away_team": true,
+          "stats": {
+            "event_count": 13
+          },
+          "name": "Adirondack Thunder",
+          "short_name": "Adirondack Thunder",
+          "url": "https://seatgeek.com/adirondack-thunder-1-tickets",
+          "type": "minor_league_hockey",
+          "image": null,
+          "home_venue_id": null,
+          "slug": "adirondack-thunder-1",
+          "score": 0,
+          "images": {},
+          "taxonomies": [
+            {
+              "parent_id": null,
+              "id": 1000000,
+              "name": "sports"
+            },
+            {
+              "parent_id": 1000000,
+              "id": 1040000,
+              "name": "hockey"
+            },
+            {
+              "parent_id": 1040000,
+              "id": 1040300,
+              "name": "minor_league_hockey"
+            }
+          ],
+          "has_upcoming_events": true,
+          "id": 347912
+        }
+      ],
+      "url": "https://seatgeek.com/adirondack-thunder-at-manchester-monarchs-tickets/minor-league-hockey/2015-12-27-3-pm/2839374/",
+      "created_at": "2015-10-07T00:00:00",
+      "venue": {
+        "city": "Manchester",
+        "name": "Verizon Wireless Arena",
+        "extended_address": "Manchester, NH 03101",
+        "url": "https://seatgeek.com/venues/verizon-wireless-arena/tickets/",
+        "country": "US",
+        "display_location": "Manchester, NH",
+        "links": [],
+        "slug": "verizon-wireless-arena",
+        "state": "NH",
+        "score": 0.68829,
+        "postal_code": "03101",
+        "location": {
+          "lat": 42.9862,
+          "lon": -71.463
+        },
+        "address": "555 Elm Street",
+        "timezone": "America/New_York",
+        "id": 806
+      },
+      "short_title": "Adirondack Thunder at Manchester Monarchs",
+      "datetime_utc": "2015-12-27T20:00:00",
+      "datetime_tbd": false
+    },
+    {
+      "links": [],
+      "id": 2649982,
+      "stats": {
+        "listing_count": 37,
+        "average_price": 465.0,
+        "lowest_price_good_deals": null,
+        "lowest_price": 408.0,
+        "highest_price": 680.0
+      },
+      "title": "Chelsea FC at Manchester United",
+      "announce_date": "2015-06-18T00:00:00",
+      "score": 0.71266,
+      "date_tbd": false,
+      "type": "european_soccer",
+      "datetime_local": "2015-12-28T03:30:00",
+      "visible_until_utc": "2015-12-29T00:00:00",
+      "time_tbd": true,
+      "taxonomies": [
+        {
+          "parent_id": null,
+          "id": 1000000,
+          "name": "sports"
+        },
+        {
+          "parent_id": 1000000,
+          "id": 1050000,
+          "name": "soccer"
+        },
+        {
+          "parent_id": 1050000,
+          "id": 1050300,
+          "name": "european_soccer"
+        }
+      ],
+      "performers": [
+        {
+          "stats": {
+            "event_count": 24
+          },
+          "name": "Manchester United",
+          "short_name": "Man United",
+          "url": "https://seatgeek.com/manchester-united-tickets",
+          "type": "soccer",
+          "image": "https://chairnerd.global.ssl.fastly.net/images/performers-landscape/manchester-united-d2ee13/9712/huge.jpg",
+          "home_team": true,
+          "home_venue_id": null,
+          "primary": true,
+          "score": 0.70643,
+          "images": {
+            "huge": "https://chairnerd.global.ssl.fastly.net/images/performers-landscape/manchester-united-d2ee13/9712/huge.jpg"
+          },
+          "slug": "manchester-united",
+          "taxonomies": [
+            {
+              "parent_id": null,
+              "id": 1000000,
+              "name": "sports"
+            },
+            {
+              "parent_id": 1000000,
+              "id": 1050000,
+              "name": "soccer"
+            }
+          ],
+          "has_upcoming_events": true,
+          "id": 9712
+        },
+        {
+          "away_team": true,
+          "stats": {
+            "event_count": 27
+          },
+          "name": "Chelsea FC",
+          "short_name": "Chelsea FC",
+          "url": "https://seatgeek.com/chelsea-fc-tickets",
+          "type": "european_soccer",
+          "image": "https://chairnerd.global.ssl.fastly.net/images/performers-landscape/chelsea-fc-524192/14652/huge.jpg",
+          "home_venue_id": null,
+          "slug": "chelsea-fc",
+          "score": 0.76143,
+          "images": {
+            "huge": "https://chairnerd.global.ssl.fastly.net/images/performers-landscape/chelsea-fc-524192/14652/huge.jpg"
+          },
+          "taxonomies": [
+            {
+              "parent_id": null,
+              "id": 1000000,
+              "name": "sports"
+            },
+            {
+              "parent_id": 1000000,
+              "id": 1050000,
+              "name": "soccer"
+            },
+            {
+              "parent_id": 1050000,
+              "id": 1050300,
+              "name": "european_soccer"
+            }
+          ],
+          "has_upcoming_events": true,
+          "id": 14652
+        }
+      ],
+      "url": "https://seatgeek.com/chelsea-fc-at-manchester-united-tickets/european-soccer/2015-12-28-3-30-am/2649982/",
+      "created_at": "2015-06-18T00:00:00",
+      "venue": {
+        "city": "Manchester",
+        "name": "Old Trafford",
+        "extended_address": "Manchester, UK",
+        "url": "https://seatgeek.com/venues/old-trafford/tickets/",
+        "country": "UK",
+        "display_location": "Manchester, UK",
+        "links": [],
+        "slug": "old-trafford",
+        "state": "Lan",
+        "score": 0.59732,
+        "postal_code": "M16 0RA",
+        "location": {
+          "lat": 53.4634,
+          "lon": -2.2903
+        },
+        "address": "Sir Matt Busby Way",
+        "timezone": "Europe/London",
+        "id": 4974
+      },
+      "short_title": "Chelsea FC at Manchester United",
+      "datetime_utc": "2015-12-28T03:30:00",
+      "datetime_tbd": false
+    },
+    {
+      "links": [],
+      "id": 2795805,
+      "stats": {
+        "listing_count": 0,
+        "average_price": null,
+        "lowest_price_good_deals": null,
+        "lowest_price": null,
+        "highest_price": null
+      },
+      "title": "Jamie Jones",
+      "announce_date": "2015-09-02T00:00:00",
+      "score": 0.58713,
+      "date_tbd": false,
+      "type": "music_festival",
+      "datetime_local": "2015-12-27T03:30:00",
+      "visible_until_utc": "2015-12-28T00:00:00",
+      "time_tbd": true,
+      "taxonomies": [
+        {
+          "parent_id": null,
+          "id": 2000000,
+          "name": "concert"
+        },
+        {
+          "parent_id": 2000000,
+          "id": 2010000,
+          "name": "music_festival"
+        }
+      ],
+      "performers": [
+        {
+          "stats": {
+            "event_count": 1
+          },
+          "name": "Jamie Jones",
+          "short_name": "Jamie Jones",
+          "url": "https://seatgeek.com/jamie-jones-tickets",
+          "type": "band",
+          "image": null,
+          "home_venue_id": null,
+          "primary": true,
+          "score": 0.58229,
+          "images": {},
+          "slug": "jamie-jones",
+          "taxonomies": [
+            {
+              "parent_id": null,
+              "id": 2000000,
+              "name": "concert"
+            }
+          ],
+          "has_upcoming_events": true,
+          "id": 22658,
+          "genres": [
+            {
+              "slug": "minimal",
+              "primary": true,
+              "name": "minimal"
+            }
+          ]
+        }
+      ],
+      "url": "https://seatgeek.com/jamie-jones-tickets/manchester-uk-victoria-warehouse-2015-12-27-3-30-am/music-festival/2795805/",
+      "created_at": "2015-09-02T00:00:00",
+      "venue": {
+        "city": "Manchester",
+        "name": "Victoria Warehouse",
+        "extended_address": "Manchester, UK",
+        "url": "https://seatgeek.com/venues/victoria-warehouse/tickets/",
+        "country": "UK",
+        "display_location": "Manchester, UK",
+        "links": [],
+        "slug": "victoria-warehouse",
+        "state": "Man",
+        "score": 0.54597,
+        "postal_code": "M17 1AB",
+        "location": {
+          "lat": 53.4689,
+          "lon": -2.29835
+        },
+        "address": "Trafford Wharf Road",
+        "timezone": "Europe/London",
+        "id": 10058
+      },
+      "short_title": "Jamie Jones",
+      "datetime_utc": "2015-12-27T03:30:00",
+      "datetime_tbd": false
+    }
+  ]
+}
