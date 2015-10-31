@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   end
 
   scope '/api', defaults: { format: :json } do
+    get 'events/seatgeek' => 'events#seatgeek'
     # Users
     resources :users, except: [:new, :edit] do
       collection do
@@ -38,7 +39,6 @@ Rails.application.routes.draw do
         get 'feed'
         get 'search'
         get 'by_token'
-        get 'seatgeek'
       end
       member do
         get 'proposals'
