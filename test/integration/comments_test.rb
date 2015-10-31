@@ -3,47 +3,49 @@ require 'test_helper'
 class CommentsTest < ActionDispatch::IntegrationTest
   setup do
     @event = events(:party)
+    @event.users << users(:foo)
     @comment = comments(:comment)
   end
 
-  test 'should get index' do
-    get "/api/events/#{@event.id}/comments", api_token: api_token
+  test 'list' do
+    get "/api/events/#{@event.id}/comments.json", api_token: api_token
     assert_response :success
     assert_not_nil assigns(:comments)
   end
 
-  test 'should post, update, delete comments' do
-    # Allow the user to post comments on event
-    @event.users << users(:foo)
+  test 'create' do
+    assert_difference 'Comment.count' do
+      post "/api/events/#{@event.id}/comments.json",
+           api_token: api_token, comment: { content: "Comment" }
+      assert_response :created
+    end
+    assert_equal "Comment", Comment.last.content
+  end
 
-    post "/api/events/#{@event.id}/comments", api_token: api_token, comment: {
-      content: "comment"
+  test 'update' do
+    patch "/api/comments/#{@comment.id}.json", api_token: api_token, comment: {
+      content: 'Updated'
     }
-    assert_response :created
-    assert_equal "comment", Comment.last.content
+    assert_response :no_content
+    assert_equal 'Updated', Comment.last.content
+  end
 
-    patch "/api/events/#{@event.id}/comments/#{Comment.last.id}", api_token: api_token, comment: {
-      content: "updated"
-    }
-    assert_response :ok
-    assert_equal "updated", Comment.last.content
-
-    delete "/api/events/#{@event.id}/comments/#{Comment.last.id}", api_token: api_token
+  test 'delete' do
+    delete "/api/comments/#{@comment.id}.json", api_token: api_token
     assert_response :no_content
   end
 
   test 'should auhtorize users' do
     stranger = users(:baz)
 
-    post "/api/events/#{@event.id}/comments", api_token: stranger.api_token, comment: {
-      content: "Hello!"
-    }
+    post "/api/events/#{@event.id}/comments.json",
+         api_token: stranger.api_token, comment: { content: "Hello!" }
     assert_response :forbidden
 
-    patch "/api/events/#{@event.id}/comments/#{@comment.id}", api_token: stranger.api_token
+    patch "/api/comments/#{@comment.id}.json", api_token: stranger.api_token
     assert_response :forbidden
 
-    delete "/api/events/#{@event.id}/comments/#{@comment.id}", api_token: stranger.api_token
+    delete "/api/comments/#{@comment.id}.json", api_token: stranger.api_token
     assert_response :forbidden
   end
 end

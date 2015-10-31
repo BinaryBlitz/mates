@@ -21,7 +21,7 @@ class Invite < ActiveRecord::Base
   # User accepts the invite and joins the event
   def accept
     user.events << event
-    notify_adminy
+    notify_admin
     destroy
   end
 
