@@ -38,6 +38,7 @@ Rails.application.routes.draw do
         get 'feed'
         get 'search'
         get 'by_token'
+        get 'seatgeek'
       end
       member do
         get 'proposals'

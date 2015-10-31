@@ -162,6 +162,11 @@ class User < ActiveRecord::Base
     visited_at && visited_at > 1.minute.ago
   end
 
+  def avatar_thumb_url
+    thumb = avatar.thumb
+    thumb.url if thumb
+  end
+
   private
 
   def login_present

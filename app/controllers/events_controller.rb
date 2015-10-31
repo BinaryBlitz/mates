@@ -1,5 +1,6 @@
 class EventsController < ApplicationController
-  before_action :set_event, except: [:index, :create, :owned, :feed, :by_token]
+  before_action :set_event, except: [:index, :create, :owned, :feed, :by_token, :seatgeek]
+  skip_before_action :restrict_access, only: [:seatgeek]
 
   # Participated events
   def index
@@ -17,6 +18,13 @@ class EventsController < ApplicationController
 
   def by_token
     @event = Event.find_by(sharing_token: params[:sharing_token])
+    render :show
+  end
+
+  def seatgeek
+    # ids = params[:ids].split(',')
+    # @events = Event.where(seatgeek_id: ids)
+    @event = Event.find(params[:id])
     render :show
   end
 
