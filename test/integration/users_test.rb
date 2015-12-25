@@ -24,11 +24,9 @@ class UsersTest < ActionDispatch::IntegrationTest
   test 'should update user' do
     patch "/api/users/#{@user.id}", api_token: api_token, user: {
       first_name: 'Foo',
-      last_name: 'Bar',
-      password: 'foobar',
-      password_confirmation: 'foobar'
+      last_name: 'Bar'
     }
-    assert_response :success
+    assert_response :no_content
   end
 
   test 'update preferences' do
@@ -45,7 +43,7 @@ class UsersTest < ActionDispatch::IntegrationTest
         interests_attributes: [ { category_id: categories(:cafe).id } ]
       }
     end
-    assert_response :ok
+    assert_response :no_content
   end
 
   test 'list available events' do

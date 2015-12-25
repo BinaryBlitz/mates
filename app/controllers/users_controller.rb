@@ -7,12 +7,10 @@ class UsersController < ApplicationController
                   :notify, :available_events
                 ]
 
-  # GET /users/1
   def show
     @user = User.includes(:friends, :photos).find(params[:id])
   end
 
-  # POST /users
   def create
     @user = User.new(user_params)
 
@@ -23,19 +21,17 @@ class UsersController < ApplicationController
     end
   end
 
-  # PATCH/PUT /users/1
   def update
     authorize @user
 
     if authenticated? && @user.update(user_params)
-      render :show, status: :ok, location: @user
+      head :no_content
     else
       @user.errors.add(:current_password, "is incorrect") if user_params[:password].present?
       render json: @user.errors, status: :unprocessable_entity
     end
   end
 
-  # DELETE /users/1
   def destroy
     authorize @user
     @user.destroy
@@ -130,12 +126,10 @@ class UsersController < ApplicationController
 
   private
 
-  # Use callbacks to share common setup or constraints between actions.
   def set_user
     @user = User.find(params[:id])
   end
 
-  # Never trust parameters from the scary internet, only allow the white list through.
   def user_params
     params.require(:user).permit(
       :first_name, :last_name, :email, :password, :birthday,
