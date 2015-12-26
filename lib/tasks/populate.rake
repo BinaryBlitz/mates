@@ -42,7 +42,7 @@ namespace :db do
         min_age: rand(20) + 1,
         max_age: rand(20) + 20,
         gender: [nil, 'm', 'f'].sample,
-        admin: i == 0 ? User.first : random_user
+        creator: i == 0 ? User.first : random_user
       )
     end
   end
@@ -76,7 +76,7 @@ namespace :db do
       users = random_users(limit).to_a
       users.pop(limit / 3).each { |u| event.users << u unless event.users.include?(u) }
       users.pop(limit / 3).each { |u| event.invited_users << u unless event.invited_users.include?(u) }
-      users.pop(limit / 3).each { |u| event.propose(u, event.admin) }
+      users.pop(limit / 3).each { |u| event.propose(u, event.creator) }
     end
   end
 
