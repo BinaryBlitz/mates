@@ -31,17 +31,21 @@ gem 'sass-rails'
 gem 'bootstrap-sass'
 gem 'sprockets', '2.12.3'
 
-gem 'annotate', group: :development # Use old version because of the manifest bug
+group :development do
+  gem 'annotate'
+  gem 'web-console'
+  gem 'capistrano'
+  gem 'pry-rails'
+  gem 'rvm-capistrano', require: false
+end
+
+group :test do
+  gem 'mocha'
+end
 
 group :development, :test do
   gem 'byebug'
-  gem 'web-console'
   gem 'spring'
-  gem 'mocha'
-  gem 'pry-rails'
-
-  gem 'capistrano'
-  gem 'rvm-capistrano', require: false
 end
 
 group :production do
