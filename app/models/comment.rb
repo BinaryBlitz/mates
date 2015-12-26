@@ -12,7 +12,7 @@
 #
 
 class Comment < ActiveRecord::Base
-  after_create :notify_admin
+  after_create :notify_creator
   after_create :notify_respondent
 
   belongs_to :user
@@ -26,11 +26,11 @@ class Comment < ActiveRecord::Base
 
   private
 
-  def notify_admin
-    return if user == event.admin
+  def notify_creator
+    return if user == event.creator
 
     options = { action: 'NEW_COMMENT', comment: as_json }
-    Notifier.new(event.admin, "#{user} оставил комментарий к #{event}", options).push
+    Notifier.new(event.creator, "#{user} оставил комментарий к #{event}", options).push
   end
 
   def notify_respondent

@@ -13,7 +13,7 @@
 #  created_at        :datetime         not null
 #  updated_at        :datetime         not null
 #  address           :string
-#  admin_id          :integer
+#  creator_id        :integer
 #  photo             :string
 #  category_id       :integer
 #  user_limit        :integer          default(1)
@@ -29,7 +29,7 @@ class Event < ActiveRecord::Base
   after_create :notify_followers
   after_update :notify_members
 
-  belongs_to :admin, class_name: 'User'
+  belongs_to :creator, class_name: 'User'
   belongs_to :category
   belongs_to :extra_category, class_name: 'Category'
 
@@ -46,7 +46,7 @@ class Event < ActiveRecord::Base
 
   has_many :comments, dependent: :destroy
 
-  validates :admin, presence: true
+  validates :creator, presence: true
   validates :category, presence: true
   validates :name, presence: true, length: { maximum: 30 }
   validates :city, presence: true
@@ -85,8 +85,9 @@ class Event < ActiveRecord::Base
     Event.where(query, *dates)
   end
 
+  # TODO: Deprecate
   def preview_users
-    users.where.not(id: admin.id).order('RANDOM()').limit(PREVIEW_USERS_COUNT)
+    users.where.not(id: creator.id).order('RANDOM()').limit(PREVIEW_USERS_COUNT)
   end
 
   def friend_count(current_user)
@@ -135,13 +136,13 @@ class Event < ActiveRecord::Base
   end
 
   def attend
-    admin.events << self
+    creator.events << self
   end
 
   def notify_followers
-    admin.followers.each do |follower|
+    creator.followers.each do |follower|
       options = { action: 'NEW_EVENT', event: as_json }
-      Notifier.new(follower, "Новое событие от #{admin}: #{name}", options).push
+      Notifier.new(follower, "Новое событие от #{creator}: #{name}", options).push
     end
   end
 

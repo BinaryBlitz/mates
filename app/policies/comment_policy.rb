@@ -8,7 +8,7 @@ class CommentPolicy < ApplicationPolicy
   end
 
   def destroy?
-    record.user == user || record.event.admin == user
+    record.user == user || record.event.creator == user
   end
 
   class Scope < Scope

@@ -8,7 +8,7 @@ class InvitesTest < ActionDispatch::IntegrationTest
   end
 
   test 'create' do
-    post '/api/invites', api_token: @event.admin.api_token, invite: {
+    post '/api/invites', api_token: @event.creator.api_token, invite: {
       user_id: users(:baz).id, event_id: @event.id
     }
     assert_response :created

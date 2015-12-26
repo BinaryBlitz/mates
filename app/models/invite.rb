@@ -21,7 +21,7 @@ class Invite < ActiveRecord::Base
   # User accepts the invite and joins the event
   def accept
     user.events << event
-    notify_admin
+    notify_creator
     destroy
   end
 
@@ -32,8 +32,8 @@ class Invite < ActiveRecord::Base
     Notifier.new(user, "Вас пригласили на событие: #{event}", options).push
   end
 
-  def notify_admin
+  def notify_creator
     options = { action: 'INVITE_ACCEPTED', invite: as_json }
-    Notifier.new(event.admin, "#{user} согласился на участие в #{event}", options).push
+    Notifier.new(event.creator, "#{user} согласился на участие в #{event}", options).push
   end
 end

@@ -70,7 +70,7 @@ class User < ActiveRecord::Base
   has_many :inverse_favorites, class_name: 'Favorite', foreign_key: :favorited_id
   has_many :followers, through: :inverse_favorites, source: :user
 
-  has_many :owned_events, dependent: :destroy, foreign_key: :admin_id, class_name: 'Event'
+  has_many :owned_events, dependent: :destroy, foreign_key: :creator_id, class_name: 'Event'
   has_many :memberships, dependent: :destroy
   has_many :events, through: :memberships
 

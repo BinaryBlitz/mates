@@ -11,7 +11,7 @@
 #
 
 class Proposal < ActiveRecord::Base
-  after_create :notify_admin
+  after_create :notify_creator
 
   belongs_to :user
   belongs_to :event
@@ -29,8 +29,8 @@ class Proposal < ActiveRecord::Base
 
   private
 
-  def notify_admin
+  def notify_creator
     options = { action: 'NEW_PROPOSAL', proposal: as_json }
-    Notifier.new(event.admin, "#{creator} предложил #{user} для участия в #{event}", options).push
+    Notifier.new(event.creator, "#{creator} предложил #{user} для участия в #{event}", options).push
   end
 end

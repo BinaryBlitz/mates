@@ -22,7 +22,7 @@ class Membership < ActiveRecord::Base
   private
 
   def notify_followers
-    return if user == event.admin
+    return if user == event.creator
 
     user.followers.each do |follower|
       Notifier.new(

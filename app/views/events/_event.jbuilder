@@ -9,6 +9,6 @@ json.friend_count event.friend_count(current_user)
 json.invite current_user.invites.find_by(event: event)
 json.submission current_user.submissions.find_by(event: event)
 
-json.admin do
-  json.partial! 'users/user', user: event.admin
+json.creator do
+  json.partial! 'users/user', user: event.creator
 end

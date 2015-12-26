@@ -20,22 +20,22 @@ class ProposalsTest < ActionDispatch::IntegrationTest
   end
 
   test 'accept' do
-    proposal = @event.proposals.create(creator: @event.admin, user: @proposed_user)
-    patch "/api/proposals/#{proposal.id}", api_token: @event.admin.api_token
+    proposal = @event.proposals.create(creator: @event.creator, user: @proposed_user)
+    patch "/api/proposals/#{proposal.id}", api_token: @event.creator.api_token
     assert_response :created
     refute @proposed_user.events.include?(@event)
   end
 
   test 'decline' do
-    proposal = @event.proposals.create(creator: @event.admin, user: @proposed_user)
-    delete "/api/proposals/#{proposal.id}", api_token: @event.admin.api_token
+    proposal = @event.proposals.create(creator: @event.creator, user: @proposed_user)
+    delete "/api/proposals/#{proposal.id}", api_token: @event.creator.api_token
     assert_response :no_content
     refute @proposed_user.proposed_events.include?(@event)
   end
 
   test 'should authorize users' do
     stranger = users(:john)
-    proposal = @event.proposals.create(creator: @event.admin, user: @proposed_user)
+    proposal = @event.proposals.create(creator: @event.creator, user: @proposed_user)
 
     patch "/api/proposals/#{Proposal.last.id}", api_token: stranger.api_token
     assert_response :forbidden

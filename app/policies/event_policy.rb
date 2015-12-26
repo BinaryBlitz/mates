@@ -1,6 +1,6 @@
 class EventPolicy < ApplicationPolicy
   def update?
-    record.admin == user
+    record.creator == user
   end
 
   def destroy?
@@ -20,7 +20,7 @@ class EventPolicy < ApplicationPolicy
   end
 
   def leave?
-    record.admin != user
+    record.creator != user
   end
 
   class Scope < Scope

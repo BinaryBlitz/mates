@@ -24,7 +24,7 @@ class EventsTest < ActionDispatch::IntegrationTest
         min_age: @event.min_age, max_age: @event.max_age, gender: @event.gender
       }
     end
-    assert @event.admin.events.include?(Event.last)
+    assert @event.creator.events.include?(Event.last)
   end
 
   test 'show' do
@@ -39,26 +39,26 @@ class EventsTest < ActionDispatch::IntegrationTest
   end
 
   test 'update' do
-    patch "/api/events/#{@event.id}", api_token: @event.admin.api_token, event: { name: 'New name' }
+    patch "/api/events/#{@event.id}", api_token: @event.creator.api_token, event: { name: 'New name' }
     assert_response :ok
   end
 
   test 'destroy' do
     assert_difference('Event.count', -1) do
-      delete "/api/events/#{@event.id}", api_token: @event.admin.api_token
+      delete "/api/events/#{@event.id}", api_token: @event.creator.api_token
     end
     assert_response :success
   end
 
   test 'set extra category' do
-    patch "/api/events/#{@event.id}", api_token: @event.admin.api_token, event: {
+    patch "/api/events/#{@event.id}", api_token: @event.creator.api_token, event: {
       extra_category_id: categories(:movie).id
     }
     assert_equal categories(:movie).id, json_response[:extra_category_id]
   end
 
   test 'list friends available for invite' do
-    get  "/api/events/#{@event.id}/available_friends", api_token: @event.admin.api_token
+    get  "/api/events/#{@event.id}/available_friends", api_token: @event.creator.api_token
     assert_response :success
   end
 

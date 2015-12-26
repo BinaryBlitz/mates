@@ -13,7 +13,7 @@
 #  created_at        :datetime         not null
 #  updated_at        :datetime         not null
 #  address           :string
-#  admin_id          :integer
+#  creator_id        :integer
 #  photo             :string
 #  category_id       :integer
 #  user_limit        :integer          default(1)
