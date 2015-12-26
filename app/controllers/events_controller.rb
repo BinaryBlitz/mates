@@ -9,7 +9,6 @@ class EventsController < ApplicationController
   def feed
     feed = current_user.feed || current_user.create_feed
     @events = feed.events.includes(:creator)
-    render :index
   end
 
   def show
