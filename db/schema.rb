@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151226230417) do
+ActiveRecord::Schema.define(version: 20151226233054) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -70,17 +70,6 @@ ActiveRecord::Schema.define(version: 20151226230417) do
   add_index "events", ["category_id"], name: "index_events_on_category_id", using: :btree
   add_index "events", ["creator_id"], name: "index_events_on_creator_id", using: :btree
   add_index "events", ["extra_category_id"], name: "index_events_on_extra_category_id", using: :btree
-
-  create_table "favorites", force: :cascade do |t|
-    t.integer  "user_id"
-    t.integer  "favorited_id"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
-  end
-
-  add_index "favorites", ["favorited_id"], name: "index_favorites_on_favorited_id", using: :btree
-  add_index "favorites", ["user_id", "favorited_id"], name: "index_favorites_on_user_id_and_favorited_id", unique: true, using: :btree
-  add_index "favorites", ["user_id"], name: "index_favorites_on_user_id", using: :btree
 
   create_table "feeds", force: :cascade do |t|
     t.integer  "user_id"
@@ -300,7 +289,6 @@ ActiveRecord::Schema.define(version: 20151226230417) do
   add_foreign_key "comments", "users"
   add_foreign_key "device_tokens", "users"
   add_foreign_key "events", "categories"
-  add_foreign_key "favorites", "users"
   add_foreign_key "friend_requests", "users"
   add_foreign_key "friendships", "users"
   add_foreign_key "invites", "events"

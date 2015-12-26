@@ -91,18 +91,6 @@ class UsersTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
-  test 'should add users to favorites' do
-    favorite = users(:baz)
-
-    post "/api/users/#{favorite.id}/favorite", api_token: api_token
-    assert_response :created
-    assert @user.favorited_users.include?(favorite)
-
-    delete "/api/users/#{favorite.id}/unfavorite", api_token: api_token
-    assert_response :no_content
-    refute @user.favorited_users.include?(favorite)
-  end
-
   test 'should search users by name' do
     get '/api/users/search', api_token: api_token, name: @user.first_name
     assert_response :success

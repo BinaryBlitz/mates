@@ -26,7 +26,6 @@
 
 class Event < ActiveRecord::Base
   after_create :attend
-  after_create :notify_followers
   after_update :notify_members
 
   belongs_to :creator, class_name: 'User'
@@ -137,13 +136,6 @@ class Event < ActiveRecord::Base
 
   def attend
     creator.events << self
-  end
-
-  def notify_followers
-    creator.followers.each do |follower|
-      options = { action: 'NEW_EVENT', event: as_json }
-      Notifier.new(follower, "Новое событие от #{creator}: #{name}", options).push
-    end
   end
 
   def notify_members

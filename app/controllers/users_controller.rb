@@ -3,7 +3,7 @@ class UsersController < ApplicationController
                      only: [:create, :authenticate, :authenticate_vk, :authenticate_fb]
   before_action :set_user,
                 only: [
-                  :update, :destroy, :events, :friends, :favorite, :unfavorite,
+                  :update, :destroy, :events, :friends,
                   :notify, :available_events
                 ]
 
@@ -91,16 +91,6 @@ class UsersController < ApplicationController
   def friends
     @friends = @user.friends
     render 'friends/index'
-  end
-
-  def favorite
-    current_user.favorited_users << @user
-    head :created
-  end
-
-  def unfavorite
-    current_user.favorited_users.destroy(@user)
-    head :no_content
   end
 
   def search

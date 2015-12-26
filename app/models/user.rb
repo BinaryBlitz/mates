@@ -64,11 +64,6 @@ class User < ActiveRecord::Base
   has_many :pending_friends, through: :friend_requests, source: :friend
   has_many :friendships, dependent: :destroy
   has_many :friends, through: :friendships
-  has_many :favorites, dependent: :destroy
-  has_many :favorited_users, through: :favorites, source: :favorited
-
-  has_many :inverse_favorites, class_name: 'Favorite', foreign_key: :favorited_id
-  has_many :followers, through: :inverse_favorites, source: :user
 
   has_many :owned_events, dependent: :destroy, foreign_key: :creator_id, class_name: 'Event'
   has_many :memberships, dependent: :destroy
@@ -128,10 +123,6 @@ class User < ActiveRecord::Base
       ' OR first_name ILIKE ? OR last_name ILIKE ?' * (args.size - 1)
     args.map! { |w| ["%#{w}%", "%#{w}%"] }.flatten!
     User.where(query, *args)
-  end
-
-  def favorite?(user)
-    favorited_users.include?(user)
   end
 
   def pending_friend?(user)
