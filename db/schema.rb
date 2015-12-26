@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151226233054) do
+ActiveRecord::Schema.define(version: 20151226234535) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -151,14 +151,13 @@ ActiveRecord::Schema.define(version: 20151226233054) do
 
   create_table "preferences", force: :cascade do |t|
     t.integer  "user_id"
-    t.boolean  "notifications_friends",   default: true
-    t.boolean  "notifications_favorites", default: true
-    t.boolean  "notifications_events",    default: true
-    t.boolean  "notifications_messages",  default: true
-    t.string   "visibility_photos",       default: "public"
-    t.string   "visibility_events",       default: "public"
-    t.datetime "created_at",                                 null: false
-    t.datetime "updated_at",                                 null: false
+    t.boolean  "notifications_friends",  default: true
+    t.boolean  "notifications_events",   default: true
+    t.boolean  "notifications_messages", default: true
+    t.string   "visibility_photos",      default: "public"
+    t.string   "visibility_events",      default: "public"
+    t.datetime "created_at",                                null: false
+    t.datetime "updated_at",                                null: false
   end
 
   add_index "preferences", ["user_id"], name: "index_preferences_on_user_id", using: :btree

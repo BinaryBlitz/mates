@@ -128,7 +128,7 @@ class UsersController < ApplicationController
       photos_attributes: [:id, :image, :_destroy],
       interests_attributes: [:id, :category_id, :_destroy],
       preference_attributes: [
-        :notifications_friends, :notifications_favorites,
+        :notifications_friends,
         :notifications_events, :notifications_messages,
         :visibility_photos, :visibility_events
       ]
