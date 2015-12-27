@@ -15,7 +15,6 @@
 #  city            :string
 #  phone_number    :string
 #  visited_at      :datetime
-#  email           :string
 #  avatar_original :string
 #
 
@@ -24,7 +23,6 @@
 foo:
   first_name: Foo
   last_name: Bar
-  email: foo@bar.com
   birthday: <%= 18.years.ago %>
   gender: m
   phone_number: +74995555555
@@ -34,7 +32,6 @@ foo:
 baz:
   first_name: Baz
   last_name: Qux
-  email: baz@qux.com
   birthday: <%= 18.years.ago %>
   phone_number: +74995555556
   gender: f
@@ -44,7 +41,6 @@ baz:
 john:
   first_name: John
   last_name: Doe
-  email: john@doe.com
   birthday: 2015-04-18
   phone_number: +74995555557
   gender: m
@@ -54,5 +50,4 @@ john:
 invitee:
   first_name: Invi
   last_name: Tee
-  email: invi@tee.com
   password_digest: <%= BCrypt::Password.create('foobar', cost: 4) %>

@@ -21,7 +21,6 @@ gem 'mini_magick'
 gem 'pundit'
 gem 'has_secure_token'
 gem 'bcrypt'
-gem 'email_validator'
 gem 'layer-identity_token'
 
 # Front end

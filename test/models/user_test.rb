@@ -15,7 +15,6 @@
 #  city            :string
 #  phone_number    :string
 #  visited_at      :datetime
-#  email           :string
 #  avatar_original :string
 #
 
@@ -60,16 +59,8 @@ class UserTest < ActiveSupport::TestCase
     assert @user.invalid?
   end
 
-  test 'invalid without login data' do
-    @user.email = nil
+  test 'invalid without phone number' do
     @user.phone_number = nil
     assert @user.invalid?
-
-    @user.email = @user.reload.email
-    assert @user.valid?
-
-    @user.email = nil
-    @user.phone_number = @user.reload.phone_number
-    assert @user.valid?
   end
 end

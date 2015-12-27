@@ -9,9 +9,9 @@ class UsersTest < ActionDispatch::IntegrationTest
     post '/api/users', user: {
       first_name: 'Foo',
       last_name: 'Bar',
-      email: 'foo1@bar.com',
       password: 'foobar',
-      password_confirmation: 'foobar'
+      password_confirmation: 'foobar',
+      phone_number: '+71112223344'
     }
     assert_response :created
   end
@@ -56,12 +56,6 @@ class UsersTest < ActionDispatch::IntegrationTest
       delete "/api/users/#{@user.id}", api_token: @user.api_token
     end
     assert_response :success
-  end
-
-  test 'should authenticate by email' do
-    post '/api/users/authenticate', email: @user.email, password: 'foobar'
-    assert_response :success
-    assert_not_nil json_response[:api_token]
   end
 
   test 'authenticate with phone number' do

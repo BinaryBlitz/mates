@@ -38,16 +38,6 @@ class UsersController < ApplicationController
     head :no_content
   end
 
-  def authenticate
-    @user = User.find_by(email: params[:email])
-
-    if @user && @user.authenticate(params[:password])
-      render json: { id: @user.id, api_token: @user.api_token }
-    else
-      render json: { error: 'Invalid email / password combination' }, status: :unauthorized
-    end
-  end
-
   def authenticate_phone_number
     @user = User.find_by(phone_number: params[:phone_number])
 
@@ -102,7 +92,7 @@ class UsersController < ApplicationController
 
   def user_params
     params.require(:user).permit(
-      :first_name, :last_name, :email, :password, :birthday,
+      :first_name, :last_name, :password, :birthday,
       :gender, :city, :avatar, :remove_avatar, :phone_number,
       photos_attributes: [:id, :image, :_destroy],
       interests_attributes: [:id, :category_id, :_destroy],
