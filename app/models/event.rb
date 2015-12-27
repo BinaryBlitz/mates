@@ -53,7 +53,7 @@ class Event < ActiveRecord::Base
   validate :extra_category, :not_equal_to_category
 
   extend Enumerize
-  enumerize :visibility, in: [:public, :friends, :friends_of_friends, :private]
+  enumerize :visibility, in: [:public, :friends, :private]
 
   #  Filter validations
   validates :gender, length: { is: 1 }, inclusion: { in: %w(f m) }, allow_nil: true
