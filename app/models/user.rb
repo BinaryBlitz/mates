@@ -65,9 +65,6 @@ class User < ActiveRecord::Base
 
   has_many :device_tokens, dependent: :destroy
 
-  has_many :incoming_messages, class_name: 'Message'
-  has_many :outgoing_messages, class_name: 'Message', foreign_key: 'creator_id'
-
   has_secure_token :api_token
 
   mount_base64_uploader :avatar, AvatarUploader
@@ -123,10 +120,6 @@ class User < ActiveRecord::Base
 
   def to_s
     "#{first_name} #{last_name}"
-  end
-
-  def notify_message(message, sender)
-    Notifier.new(self, message, action: 'MESSAGE', sender: sender.as_json).push
   end
 
   def online?
