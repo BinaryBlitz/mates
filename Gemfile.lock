@@ -78,6 +78,9 @@ GEM
       activerecord (>= 3.0)
     highline (1.7.8)
     hike (1.2.3)
+    httparty (0.13.7)
+      json (~> 1.8)
+      multi_xml (>= 0.5.2)
     i18n (0.7.0)
     jbuilder (2.3.2)
       activesupport (>= 3.0.0, < 5)
@@ -100,6 +103,7 @@ GEM
     mocha (1.1.0)
       metaclass (~> 0.0.1)
     multi_json (1.11.2)
+    multi_xml (0.5.5)
     net-http-persistent (2.9.4)
     net-scp (1.2.1)
       net-ssh (>= 2.6.5)
@@ -216,6 +220,7 @@ DEPENDENCIES
   ffaker
   geocoder
   has_secure_token
+  httparty
   jbuilder
   layer-identity_token
   mini_magick

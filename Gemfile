@@ -11,6 +11,7 @@ gem 'rpush'
 gem 'validate_url'
 gem 'geocoder'
 gem 'enumerize'
+gem 'httparty'
 
 # Attachments
 gem 'carrierwave'
