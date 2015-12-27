@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   skip_before_action :restrict_access,
-                     only: [:create, :authenticate, :authenticate_vk, :authenticate_fb]
+                     only: [:create, :authenticate]
   before_action :set_user,
                 only: [
                   :update, :destroy, :events, :friends,
@@ -45,26 +45,6 @@ class UsersController < ApplicationController
       render json: { id: @user.id, api_token: @user.api_token }
     else
       render json: { error: 'Invalid email / password combination' }, status: :unauthorized
-    end
-  end
-
-  def authenticate_vk
-    if params[:token].present?
-      vk = VkontakteApi::Client.new(params[:token])
-      @user = User.find_or_create_from_vk(vk)
-      render json: { id: @user.id, api_token: @user.api_token }
-    else
-      head 422
-    end
-  end
-
-  def authenticate_fb
-    if params[:token].present?
-      graph = Koala::Facebook::API.new(params[:token])
-      @user = User.find_or_create_from_fb(graph)
-      render json: { id: @user.id, api_token: @user.api_token }
-    else
-      head 422
     end
   end
 
@@ -124,7 +104,6 @@ class UsersController < ApplicationController
     params.require(:user).permit(
       :first_name, :last_name, :email, :password, :birthday,
       :gender, :city, :avatar, :remove_avatar, :phone_number,
-      :vk_url, :facebook_url, :twitter_url, :instagram_url,
       photos_attributes: [:id, :image, :_destroy],
       interests_attributes: [:id, :category_id, :_destroy],
       preference_attributes: [

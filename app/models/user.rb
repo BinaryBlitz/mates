@@ -11,8 +11,6 @@
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
 #  avatar          :string
-#  vk_id           :integer
-#  facebook_id     :integer
 #  password_digest :string
 #  city            :string
 #  phone_number    :string
@@ -84,8 +82,6 @@ class User < ActiveRecord::Base
   phony_normalize :phone_number, default_country_code: 'RU'
   validates :phone_number, phony_plausible: true
 
-  include Authenticable
-
   def remove_friend(friend)
     friendships.find_by(friend: friend).destroy
     friend.friendships.find_by(friend: self).destroy
@@ -147,7 +143,7 @@ class User < ActiveRecord::Base
   private
 
   def login_present
-    return if phone_number.present? || email.present? || oauth?
+    return if phone_number.present? || email.present?
 
     errors.add(:email, '(phone_number) must be present')
     errors.add(:phone_number, '(email) must be present')
@@ -155,9 +151,5 @@ class User < ActiveRecord::Base
 
   def set_online
     touch(:visited_at)
-  end
-
-  def oauth?
-    vk_id || facebook_id
   end
 end

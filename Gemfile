@@ -18,8 +18,6 @@ gem 'carrierwave-base64'
 gem 'mini_magick'
 
 # Auth
-gem 'vkontakte_api'
-gem 'koala'
 gem 'pundit'
 gem 'has_secure_token'
 gem 'bcrypt'

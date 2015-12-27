@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151226235300) do
+ActiveRecord::Schema.define(version: 20151227000339) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -263,13 +263,11 @@ ActiveRecord::Schema.define(version: 20151226235300) do
     t.string   "first_name"
     t.string   "last_name"
     t.date     "birthday"
-    t.string   "gender",                    default: "m"
+    t.string   "gender",          default: "m"
     t.string   "api_token"
-    t.datetime "created_at",                              null: false
-    t.datetime "updated_at",                              null: false
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
     t.string   "avatar"
-    t.integer  "vk_id"
-    t.integer  "facebook_id",     limit: 8
     t.string   "password_digest"
     t.string   "city"
     t.string   "phone_number"

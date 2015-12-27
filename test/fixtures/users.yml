@@ -11,8 +11,6 @@
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
 #  avatar          :string
-#  vk_id           :integer
-#  facebook_id     :integer
 #  password_digest :string
 #  city            :string
 #  phone_number    :string
