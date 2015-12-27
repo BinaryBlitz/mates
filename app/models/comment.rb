@@ -21,7 +21,6 @@ class Comment < ActiveRecord::Base
 
   validates :user, presence: true
   validates :event, presence: true
-
   validate :respondent_membership
 
   private

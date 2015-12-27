@@ -6,9 +6,6 @@ class CommentsController < ApplicationController
     @comments = @event.comments
   end
 
-  def show
-  end
-
   def create
     @comment = @event.comments.build(comment_params)
     @comment.user = current_user
@@ -17,7 +14,7 @@ class CommentsController < ApplicationController
     if @comment.save
       render :show, status: :created
     else
-      render json: @comment.errors, status: :unprocessable_entity
+      render json: @comment.errors, status: 422
     end
   end
 
@@ -25,15 +22,14 @@ class CommentsController < ApplicationController
     authorize @comment
 
     if @comment.update(comment_params)
-      head :no_content
+      head :ok
     else
-      render json: @comment.errors, status: :unprocessable_entity
+      render json: @comment.errors, status: 422
     end
   end
 
   def destroy
     authorize @comment
-
     @comment.destroy
     head :no_content
   end

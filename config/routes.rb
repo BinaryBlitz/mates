@@ -37,7 +37,7 @@ Rails.application.routes.draw do
         get 'submissions'
         get 'available_friends'
       end
-      resources :comments, except: [:new, :edit], shallow: true
+      resources :comments, except: [:show, :new, :edit], shallow: true
       resources :memberships, only: [:index, :create, :destroy], shallow: true
     end
     resources :categories, only: [:index]
