@@ -50,6 +50,9 @@ GEM
       autoprefixer-rails (>= 5.2.1)
       sass (>= 3.3.4)
     builder (3.2.2)
+    bullet (4.14.10)
+      activesupport (>= 3.0.0)
+      uniform_notifier (~> 1.9.0)
     byebug (8.2.1)
     capistrano (2.15.7)
       highline
@@ -196,6 +199,7 @@ GEM
       kgio (~> 2.6)
       rack
       raindrops (~> 0.7)
+    uniform_notifier (1.9.0)
     validate_url (1.0.2)
       activemodel (>= 3.0.0)
       addressable
@@ -211,6 +215,7 @@ DEPENDENCIES
   annotate
   bcrypt
   bootstrap-sass
+  bullet
   byebug
   capistrano
   carrierwave
