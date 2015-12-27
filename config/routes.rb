@@ -3,7 +3,7 @@ Rails.application.routes.draw do
     resources :events, only: :show, param: :sharing_token
   end
 
-  scope '/api', defaults: { format: :json } do
+  scope '/api' do
     # Users
     resources :verification_tokens, only: [:create, :update], param: :token
     resources :users, except: [:index, :new, :edit] do

@@ -6,7 +6,7 @@ class UsersTest < ActionDispatch::IntegrationTest
   end
 
   test 'should create user' do
-    post '/api/users', user: {
+    post '/api/users.json', user: {
       first_name: 'Foo',
       last_name: 'Bar',
       phone_number: '+71112223344'
@@ -15,12 +15,12 @@ class UsersTest < ActionDispatch::IntegrationTest
   end
 
   test 'should show user' do
-    get "/api/users/#{@user.id}", api_token: api_token
+    get "/api/users/#{@user.id}.json", api_token: api_token
     assert_response :success
   end
 
   test 'should update user' do
-    patch "/api/users/#{@user.id}", api_token: api_token, user: {
+    patch "/api/users/#{@user.id}.json", api_token: api_token, user: {
       first_name: 'Foo',
       last_name: 'Bar'
     }
@@ -51,7 +51,7 @@ class UsersTest < ActionDispatch::IntegrationTest
 
   test 'should destroy user' do
     assert_difference('User.count', -1) do
-      delete "/api/users/#{@user.id}", api_token: @user.api_token
+      delete "/api/users/#{@user.id}.json", api_token: @user.api_token
     end
     assert_response :success
   end
@@ -59,25 +59,25 @@ class UsersTest < ActionDispatch::IntegrationTest
   test 'should authorize users' do
     stranger = users(:john)
 
-    patch "/api/users/#{@user.id}", api_token: stranger.api_token
+    patch "/api/users/#{@user.id}.json", api_token: stranger.api_token
     assert_response :forbidden
 
-    delete "/api/users/#{@user.id}", api_token: stranger.api_token
+    delete "/api/users/#{@user.id}.json", api_token: stranger.api_token
     assert_response :forbidden
   end
 
   test "should get user's friends" do
-    get "/api/users/#{@user.id}/friends", api_token: api_token
+    get "/api/users/#{@user.id}/friends.json", api_token: api_token
     assert_response :success
   end
 
   test "should get user's events" do
-    get "/api/users/#{@user.id}/events", api_token: api_token
+    get "/api/users/#{@user.id}/events.json", api_token: api_token
     assert_response :success
   end
 
   test 'should search users by name' do
-    get '/api/users/search', api_token: api_token, name: @user.first_name
+    get '/api/users/search.json', api_token: api_token, name: @user.first_name
     assert_response :success
   end
 end

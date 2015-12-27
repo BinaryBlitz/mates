@@ -7,7 +7,7 @@ class FriendRequestsTest < ActionDispatch::IntegrationTest
   end
 
   test 'should get index' do
-    get '/api/friend_requests', api_token: api_token
+    get '/api/friend_requests.json', api_token: api_token
 
     assert_response :success
     assert_not_nil assigns(:incoming)
@@ -16,7 +16,7 @@ class FriendRequestsTest < ActionDispatch::IntegrationTest
 
   test 'should create and accept friend request, should remove friends' do
     assert_difference('FriendRequest.count') do
-      post '/api/friend_requests', api_token: api_token, friend_id: @friend.id
+      post '/api/friend_requests.json', api_token: api_token, friend_id: @friend.id
     end
     assert_response :created
 
@@ -33,7 +33,7 @@ class FriendRequestsTest < ActionDispatch::IntegrationTest
 
   test 'should authorize users' do
     stranger = users(:baz)
-    post '/api/friend_requests', api_token: api_token, friend_id: @friend.id
+    post '/api/friend_requests.json', api_token: api_token, friend_id: @friend.id
 
     patch "/api/friend_requests/#{FriendRequest.last.id}", api_token: stranger.api_token
     assert_response :forbidden
