@@ -19,6 +19,7 @@
 .DS_Store
 .ruby-gemset
 .ruby-version
+.byebug_history
 
 # Ignore database.yml
 /config/database.yml
