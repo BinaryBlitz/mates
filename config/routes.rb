@@ -36,9 +36,6 @@ Rails.application.routes.draw do
         get 'proposals'
         get 'submissions'
         get 'available_friends'
-        post 'join'
-        delete 'remove'
-        delete 'leave'
       end
       resources :comments, except: [:new, :edit], shallow: true
       resources :memberships, only: [:index, :create, :destroy], shallow: true

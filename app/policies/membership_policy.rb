@@ -1,11 +1,15 @@
 class MembershipPolicy < ApplicationPolicy
-  def create?
-    record.event.valid_user?(user)
+  def initialize(user, membership)
+    @user = user
+    @membership = membership
+    @event = @membership.event
   end
 
-  class Scope < Scope
-    def resolve
-      scope
-    end
+  def create?
+    @event.valid_user?(@user)
+  end
+
+  def destroy?
+    @user == @event.creator || @user == @membership.user
   end
 end

@@ -12,6 +12,12 @@ class MembershipsController < ApplicationController
     end
   end
 
+  def destroy
+    @membership = current_user.memberships.find(params[:id])
+    authorize @membership
+    head :no_content
+  end
+
   private
 
   def set_event

@@ -51,21 +51,6 @@ class EventsController < ApplicationController
     render :index
   end
 
-  # Leave the event
-  def leave
-    authorize @event
-    current_user.events.destroy(@event)
-    head :no_content
-  end
-
-  # Remove user from the event
-  def remove
-    authorize @event
-    user = @event.users.find(params[:user_id])
-    @event.users.destroy(user)
-    head :no_content
-  end
-
   # List of proposed users
   def proposals
     authorize @event
