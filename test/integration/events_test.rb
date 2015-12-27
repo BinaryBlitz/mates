@@ -78,26 +78,11 @@ class EventsTest < ActionDispatch::IntegrationTest
     delete "/api/events/#{@event.id}", api_token: stranger.api_token
     assert_response :forbidden
 
-    delete "/api/events/#{@event.id}/remove", api_token: stranger.api_token
-    assert_response :forbidden
-
     get "/api/events/#{@event.id}/proposals", api_token: stranger.api_token
     assert_response :forbidden
 
     get "/api/events/#{@event.id}/submissions", api_token: stranger.api_token
     assert_response :forbidden
-
-    delete "/api/events/#{@event.id}/leave", api_token: api_token
-    assert_response :forbidden
-  end
-
-  test 'should remove users from event' do
-    bad_user = users(:baz)
-    @event.users << bad_user
-
-    delete "/api/events/#{@event.id}/remove", api_token: api_token, user_id: bad_user.id
-    assert_response :no_content
-    refute @event.users.include?(bad_user)
   end
 
   test 'event proposals' do

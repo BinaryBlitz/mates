@@ -15,6 +15,7 @@ class MembershipsController < ApplicationController
   def destroy
     @membership = current_user.memberships.find(params[:id])
     authorize @membership
+    @membership.destroy
     head :no_content
   end
 
