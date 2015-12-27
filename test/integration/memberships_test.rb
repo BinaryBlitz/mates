@@ -22,9 +22,11 @@ class MembershipsTest < ActionDispatch::IntegrationTest
   end
 
   test 'destroy' do
-    delete "/api/memberships/#{@membership.id}", api_token: api_token
+    member = users(:baz)
+    membership = @event.memberships.create(user: member)
+    delete "/api/memberships/#{membership.id}", api_token: member.api_token
     assert_response :no_content
-    refute @event.users.include?(@user)
+    refute @event.users.include?(member)
   end
 
   test 'authorization' do

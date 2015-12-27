@@ -1,6 +1,13 @@
 class EventPolicy < ApplicationPolicy
+  attr_reader :event, :user
+
+  def initialize(user, event)
+    @user = user
+    @event = event
+  end
+
   def update?
-    record.creator == user
+    event.creator == user
   end
 
   def destroy?
@@ -19,8 +26,8 @@ class EventPolicy < ApplicationPolicy
     update?
   end
 
-  def leave?
-    record.creator != user
+  def comment?
+    event.users.include?(user)
   end
 
   class Scope < Scope
