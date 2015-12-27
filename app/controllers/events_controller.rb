@@ -25,16 +25,17 @@ class EventsController < ApplicationController
     if @event.save
       render :show, status: :created, location: @event
     else
-      render json: @event.errors, status: :unprocessable_entity
+      render json: @event.errors, status: 422
     end
   end
 
   def update
     authorize @event
+
     if @event.update(events_params)
-      render :show, status: :ok, location: @event
+      head :ok
     else
-      render json: @event.errors, status: :unprocessable_entity
+      render json: @event.errors, status: 422
     end
   end
 
@@ -84,7 +85,7 @@ class EventsController < ApplicationController
     if membership.save
       head :created
     else
-      render json: membership.errors, status: :unprocessable_entity
+      render json: membership.errors, status: 422
     end
   end
 

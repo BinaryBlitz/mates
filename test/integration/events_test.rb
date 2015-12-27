@@ -39,7 +39,9 @@ class EventsTest < ActionDispatch::IntegrationTest
   end
 
   test 'update' do
-    patch "/api/events/#{@event.id}", api_token: @event.creator.api_token, event: { name: 'New name' }
+    patch "/api/events/#{@event.id}", api_token: @event.creator.api_token, event: {
+      name: 'New name'
+    }
     assert_response :ok
   end
 
