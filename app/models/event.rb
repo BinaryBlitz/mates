@@ -72,8 +72,6 @@ class Event < ActiveRecord::Base
 
   geocoded_by :address
 
-  PREVIEW_USERS_COUNT = 4
-
   scope :past_events, -> { where('ends_at < ?', Time.zone.now) }
   scope :upcoming, -> { where('starts_at >= ?', Time.zone.now) }
   scope :on_date, -> (date) { where(starts_at: (date.beginning_of_day)..(date.end_of_day)) }
@@ -82,11 +80,6 @@ class Event < ActiveRecord::Base
     query = 'starts_at BETWEEN ? AND ?' + ' OR starts_at BETWEEN ? AND ?' * (dates.size - 1)
     dates.map! { |date| [date.beginning_of_day, date.end_of_day] }.flatten!
     Event.where(query, *dates)
-  end
-
-  # TODO: Deprecate
-  def preview_users
-    users.where.not(id: creator.id).order('RANDOM()').limit(PREVIEW_USERS_COUNT)
   end
 
   def friend_count(current_user)
