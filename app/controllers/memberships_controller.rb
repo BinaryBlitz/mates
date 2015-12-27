@@ -1,6 +1,10 @@
 class MembershipsController < ApplicationController
   before_action :set_event, only: [:create]
 
+  def index
+    @memberships = @event.memberships
+  end
+
   def create
     @membership = @event.memberships.build(user: current_user)
     authorize @membership

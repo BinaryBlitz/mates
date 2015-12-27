@@ -5,9 +5,9 @@ Rails.application.routes.draw do
 
   scope '/api', defaults: { format: :json } do
     # Users
-    resources :users, except: [:new, :edit] do
+    resources :verification_tokens, only: [:create, :update], param: :token
+    resources :users, except: [:index, :new, :edit] do
       collection do
-        post 'authenticate'
         get 'search'
       end
       member do
@@ -29,7 +29,6 @@ Rails.application.routes.draw do
       collection do
         get 'owned'
         get 'feed'
-        get 'search'
         get 'by_token'
       end
       member do

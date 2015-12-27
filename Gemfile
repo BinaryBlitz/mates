@@ -33,6 +33,7 @@ group :development do
   gem 'web-console'
   gem 'capistrano'
   gem 'pry-rails'
+  gem 'traceroute'
   gem 'rvm-capistrano', require: false
 end
 

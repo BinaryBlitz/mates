@@ -1,6 +1,5 @@
 class UsersController < ApplicationController
-  skip_before_action :restrict_access,
-                     only: [:create, :authenticate]
+  skip_before_action :restrict_access, only: [:create]
   before_action :set_user,
                 only: [
                   :update, :destroy, :events, :friends,
