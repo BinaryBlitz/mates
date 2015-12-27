@@ -16,10 +16,6 @@
 #  password_digest :string
 #  city            :string
 #  phone_number    :string
-#  vk_url          :string
-#  facebook_url    :string
-#  twitter_url     :string
-#  instagram_url   :string
 #  visited_at      :datetime
 #  email           :string
 #  avatar_original :string
@@ -35,11 +31,6 @@ class User < ActiveRecord::Base
   validates :gender, length: { is: 1 }, inclusion: { in: %w(f m) }, allow_nil: true
 
   validate :login_present
-
-  validates :vk_url, url: { allow_blank: true }
-  validates :facebook_url, url: { allow_blank: true }
-  validates :twitter_url, url: { allow_blank: true }
-  validates :instagram_url, url: { allow_blank: true }
 
   has_one :feed, dependent: :destroy
 

@@ -16,10 +16,6 @@
 #  password_digest :string
 #  city            :string
 #  phone_number    :string
-#  vk_url          :string
-#  facebook_url    :string
-#  twitter_url     :string
-#  instagram_url   :string
 #  visited_at      :datetime
 #  email           :string
 #  avatar_original :string

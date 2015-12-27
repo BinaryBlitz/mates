@@ -1,7 +1,6 @@
 json.partial! 'user', user: @user
 
-json.extract! @user, :email, :birthday, :gender, :city, :avatar_url,
-                     :vk_url, :facebook_url, :twitter_url, :instagram_url
+json.extract! @user, :email, :birthday, :gender, :city, :avatar_url
 
 json.phone_number @user.phone_number.try(:phony_formatted, format: :international)
 json.events_count @user.events.count
