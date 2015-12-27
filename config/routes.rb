@@ -41,11 +41,11 @@ Rails.application.routes.draw do
         delete 'leave'
       end
       resources :comments, except: [:new, :edit], shallow: true
+      resources :memberships, only: [:index, :create, :destroy], shallow: true
     end
     resources :categories, only: [:index]
     resources :invites, except: [:new, :edit]
     resources :proposals, except: [:index, :new, :edit]
-    resources :memberships, except: [:new, :edit]
     resources :submissions, except: [:new, :edit]
     resources :searches, only: [:create, :show]
   end

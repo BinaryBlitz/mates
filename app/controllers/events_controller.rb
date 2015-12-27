@@ -78,17 +78,6 @@ class EventsController < ApplicationController
     render 'submissions/index'
   end
 
-  def join
-    membership = Membership.new(user: current_user, event: @event)
-    authorize membership, :create?
-
-    if membership.save
-      head :created
-    else
-      render json: membership.errors, status: 422
-    end
-  end
-
   def available_friends
     @users = current_user.friends - @event.users - @event.submitted_users - @event.invited_users
     render 'users/index'
