@@ -1,5 +1,4 @@
-json.partial! 'event', event: @event
-
+json.extract! @event, :id, :name, :starts_at, :city, :photo_url, :category_id
 json.sharing_url web_event_url({sharing_token: @event.sharing_token})
 
 json.users @event.users do |user|
