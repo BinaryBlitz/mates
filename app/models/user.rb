@@ -11,7 +11,6 @@
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
 #  avatar          :string
-#  password_digest :string
 #  city            :string
 #  phone_number    :string
 #  visited_at      :datetime
@@ -23,7 +22,6 @@ class User < ActiveRecord::Base
 
   validates :first_name, presence: true, length: { maximum: 20 }
   validates :last_name, presence: true, length: { maximum: 20 }
-  validates :password, presence: true, on: :create, length: { minimum: 6 }
   validates :gender, length: { is: 1 }, inclusion: { in: %w(f m) }, allow_nil: true
 
   has_one :feed, dependent: :destroy
@@ -70,7 +68,6 @@ class User < ActiveRecord::Base
   has_many :incoming_messages, class_name: 'Message'
   has_many :outgoing_messages, class_name: 'Message', foreign_key: 'creator_id'
 
-  has_secure_password validations: false
   has_secure_token :api_token
 
   mount_base64_uploader :avatar, AvatarUploader

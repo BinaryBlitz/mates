@@ -1,10 +1,10 @@
 # Users and friends
 foo = User.create!(
-  first_name: 'Foo', last_name: 'Bar', password: 'foobar',
+  first_name: 'Foo', last_name: 'Bar',
   gender: 'm', birthday: 30.years.ago, phone_number: '+74995555557')
 foo.update!(api_token: 'foo')
 baz = User.create!(
-  first_name: 'Baz', last_name: 'Qux', password: 'bazqux',
+  first_name: 'Baz', last_name: 'Qux',
   gender: 'f', birthday: 30.years.ago, phone_number: '+74995555558')
 baz.update!(api_token: 'baz')
 

@@ -11,7 +11,6 @@
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
 #  avatar          :string
-#  password_digest :string
 #  city            :string
 #  phone_number    :string
 #  visited_at      :datetime
@@ -27,7 +26,6 @@ foo:
   gender: m
   phone_number: +74995555555
   api_token: <%= SecureRandom.base58(24) %>
-  password_digest: <%= BCrypt::Password.create('foobar', cost: 4) %>
 
 baz:
   first_name: Baz
@@ -36,7 +34,6 @@ baz:
   phone_number: +74995555556
   gender: f
   api_token: <%= SecureRandom.base58(24) %>
-  password_digest: <%= BCrypt::Password.create('foobar', cost: 4) %>
 
 john:
   first_name: John
@@ -45,9 +42,7 @@ john:
   phone_number: +74995555557
   gender: m
   api_token: <%= SecureRandom.hex %>
-  password_digest: <%= BCrypt::Password.create('foobar', cost: 4) %>
 
 invitee:
   first_name: Invi
   last_name: Tee
-  password_digest: <%= BCrypt::Password.create('foobar', cost: 4) %>

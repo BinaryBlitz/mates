@@ -16,7 +16,6 @@ namespace :db do
         last_name: FFaker::Name.last_name,
         birthday: FFaker::Time.date,
         gender: random_gender,
-        password: FFaker::Internet.password,
         city: FFaker::AddressUS.city
         # remote_avatar_url: FFaker::Avatar.image
       )

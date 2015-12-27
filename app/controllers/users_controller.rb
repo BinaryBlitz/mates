@@ -24,10 +24,9 @@ class UsersController < ApplicationController
   def update
     authorize @user
 
-    if authenticated? && @user.update(user_params)
+    if @user.update(user_params)
       head :no_content
     else
-      @user.errors.add(:current_password, "is incorrect") if user_params[:password].present?
       render json: @user.errors, status: :unprocessable_entity
     end
   end
@@ -36,16 +35,6 @@ class UsersController < ApplicationController
     authorize @user
     @user.destroy
     head :no_content
-  end
-
-  def authenticate_phone_number
-    @user = User.find_by(phone_number: params[:phone_number])
-
-    if @user && @user.authenticate(params[:password])
-      render :authenticate
-    else
-      render json: { error: 'Invalid phone number / password combination' }, status: :unauthorized
-    end
   end
 
   def authenticate_layer
@@ -92,7 +81,7 @@ class UsersController < ApplicationController
 
   def user_params
     params.require(:user).permit(
-      :first_name, :last_name, :password, :birthday,
+      :first_name, :last_name, :birthday,
       :gender, :city, :avatar, :remove_avatar, :phone_number, :verification_token,
       photos_attributes: [:id, :image, :_destroy],
       interests_attributes: [:id, :category_id, :_destroy],
@@ -102,9 +91,5 @@ class UsersController < ApplicationController
         :visibility_photos, :visibility_events
       ]
     )
-  end
-
-  def authenticated?
-    user_params[:password].blank? || @user.authenticate(params[:user][:current_password])
   end
 end

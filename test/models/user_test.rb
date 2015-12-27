@@ -11,7 +11,6 @@
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
 #  avatar          :string
-#  password_digest :string
 #  city            :string
 #  phone_number    :string
 #  visited_at      :datetime
@@ -46,7 +45,6 @@ class UserTest < ActiveSupport::TestCase
 
   test 'gender' do
     @user.gender = nil
-    @user.password = 'foobar'
     assert @user.valid?
 
     @user.gender = 'm'
