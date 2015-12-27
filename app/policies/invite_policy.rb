@@ -4,7 +4,7 @@ class InvitePolicy < ApplicationPolicy
   end
 
   def destroy?
-    record.user == user || user == record.event.admin
+    record.user == user || user == record.event.creator
   end
 
   class Scope < Scope

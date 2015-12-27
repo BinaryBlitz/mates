@@ -24,7 +24,7 @@ class EventsTest < ActionDispatch::IntegrationTest
         min_age: @event.min_age, max_age: @event.max_age, gender: @event.gender
       }
     end
-    assert @event.admin.events.include?(Event.last)
+    assert @event.creator.events.include?(Event.last)
   end
 
   test 'show' do
@@ -39,26 +39,28 @@ class EventsTest < ActionDispatch::IntegrationTest
   end
 
   test 'update' do
-    patch "/api/events/#{@event.id}", api_token: @event.admin.api_token, event: { name: 'New name' }
+    patch "/api/events/#{@event.id}", api_token: @event.creator.api_token, event: {
+      name: 'New name'
+    }
     assert_response :ok
   end
 
   test 'destroy' do
     assert_difference('Event.count', -1) do
-      delete "/api/events/#{@event.id}", api_token: @event.admin.api_token
+      delete "/api/events/#{@event.id}", api_token: @event.creator.api_token
     end
     assert_response :success
   end
 
   test 'set extra category' do
-    patch "/api/events/#{@event.id}", api_token: @event.admin.api_token, event: {
+    patch "/api/events/#{@event.id}", api_token: @event.creator.api_token, event: {
       extra_category_id: categories(:movie).id
     }
-    assert_equal categories(:movie).id, json_response[:extra_category_id]
+    assert_response :ok
   end
 
   test 'list friends available for invite' do
-    get  "/api/events/#{@event.id}/available_friends", api_token: @event.admin.api_token
+    get  "/api/events/#{@event.id}/available_friends", api_token: @event.creator.api_token
     assert_response :success
   end
 
@@ -76,40 +78,11 @@ class EventsTest < ActionDispatch::IntegrationTest
     delete "/api/events/#{@event.id}", api_token: stranger.api_token
     assert_response :forbidden
 
-    delete "/api/events/#{@event.id}/remove", api_token: stranger.api_token
-    assert_response :forbidden
-
     get "/api/events/#{@event.id}/proposals", api_token: stranger.api_token
     assert_response :forbidden
 
     get "/api/events/#{@event.id}/submissions", api_token: stranger.api_token
     assert_response :forbidden
-
-    delete "/api/events/#{@event.id}/leave", api_token: api_token
-    assert_response :forbidden
-  end
-
-  test 'should remove users from event' do
-    bad_user = users(:baz)
-    @event.users << bad_user
-
-    delete "/api/events/#{@event.id}/remove", api_token: api_token, user_id: bad_user.id
-    assert_response :no_content
-    refute @event.users.include?(bad_user)
-  end
-
-  test 'users can join events' do
-    user = users(:baz)
-
-    user.update!(birthday: 15.years.ago)
-    post "/api/events/#{@event.id}/join", api_token: user.api_token
-    assert_response :forbidden
-    refute @event.users.include?(user)
-
-    user.update!(birthday: 20.years.ago)
-    post "/api/events/#{@event.id}/join", api_token: user.api_token
-    assert_response :created
-    assert @event.users.include?(user)
   end
 
   test 'event proposals' do

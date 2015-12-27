@@ -11,17 +11,9 @@
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
 #  avatar          :string
-#  vk_id           :integer
-#  facebook_id     :integer
-#  password_digest :string
 #  city            :string
 #  phone_number    :string
-#  vk_url          :string
-#  facebook_url    :string
-#  twitter_url     :string
-#  instagram_url   :string
 #  visited_at      :datetime
-#  email           :string
 #  avatar_original :string
 #
 
@@ -53,7 +45,6 @@ class UserTest < ActiveSupport::TestCase
 
   test 'gender' do
     @user.gender = nil
-    @user.password = 'foobar'
     assert @user.valid?
 
     @user.gender = 'm'
@@ -66,16 +57,8 @@ class UserTest < ActiveSupport::TestCase
     assert @user.invalid?
   end
 
-  test 'invalid without login data' do
-    @user.email = nil
+  test 'invalid without phone number' do
     @user.phone_number = nil
     assert @user.invalid?
-
-    @user.email = @user.reload.email
-    assert @user.valid?
-
-    @user.email = nil
-    @user.phone_number = @user.reload.phone_number
-    assert @user.valid?
   end
 end

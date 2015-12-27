@@ -9,9 +9,7 @@ class UsersTest < ActionDispatch::IntegrationTest
     post '/api/users', user: {
       first_name: 'Foo',
       last_name: 'Bar',
-      email: 'foo1@bar.com',
-      password: 'foobar',
-      password_confirmation: 'foobar'
+      phone_number: '+71112223344'
     }
     assert_response :created
   end
@@ -58,19 +56,6 @@ class UsersTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
-  test 'should authenticate by email' do
-    post '/api/users/authenticate', email: @user.email, password: 'foobar'
-    assert_response :success
-    assert_not_nil json_response[:api_token]
-  end
-
-  test 'authenticate with phone number' do
-    post '/api/users/authenticate_phone_number',
-      phone_number: @user.phone_number, password: 'foobar'
-    assert_response :success
-    assert_not_nil json_response[:api_token]
-  end
-
   test 'should authorize users' do
     stranger = users(:john)
 
@@ -89,18 +74,6 @@ class UsersTest < ActionDispatch::IntegrationTest
   test "should get user's events" do
     get "/api/users/#{@user.id}/events", api_token: api_token
     assert_response :success
-  end
-
-  test 'should add users to favorites' do
-    favorite = users(:baz)
-
-    post "/api/users/#{favorite.id}/favorite", api_token: api_token
-    assert_response :created
-    assert @user.favorited_users.include?(favorite)
-
-    delete "/api/users/#{favorite.id}/unfavorite", api_token: api_token
-    assert_response :no_content
-    refute @user.favorited_users.include?(favorite)
   end
 
   test 'should search users by name' do

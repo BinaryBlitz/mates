@@ -26,7 +26,7 @@ class CommentsTest < ActionDispatch::IntegrationTest
     patch "/api/comments/#{@comment.id}.json", api_token: api_token, comment: {
       content: 'Updated'
     }
-    assert_response :no_content
+    assert_response :ok
     assert_equal 'Updated', Comment.last.content
   end
 

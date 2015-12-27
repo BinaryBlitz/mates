@@ -21,6 +21,8 @@ if policy(@event).update?
   end
 end
 
-json.comments @event.comments do |comment|
-  json.partial! 'comments/comment', comment: comment
+if policy(@event).comment?
+  json.comments @event.comments do |comment|
+    json.partial! 'comments/comment', comment: comment
+  end
 end

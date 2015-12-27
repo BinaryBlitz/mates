@@ -3,7 +3,8 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :null_session
   before_action :restrict_access
-  include Pundit
+
+  protected
 
   attr_reader :current_user
   helper_method :current_user
@@ -21,6 +22,8 @@ class ApplicationController < ActionController::Base
     @current_user = User.find_by_api_token(params[:api_token])
   end
 
+  include Pundit
+  protected :pundit_policy_authorized?, :pundit_policy_scoped?
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
 
   private

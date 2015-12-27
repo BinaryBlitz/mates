@@ -11,6 +11,7 @@ gem 'rpush'
 gem 'validate_url'
 gem 'geocoder'
 gem 'enumerize'
+gem 'httparty'
 
 # Attachments
 gem 'carrierwave'
@@ -18,30 +19,32 @@ gem 'carrierwave-base64'
 gem 'mini_magick'
 
 # Auth
-gem 'vkontakte_api'
-gem 'koala'
 gem 'pundit'
 gem 'has_secure_token'
 gem 'bcrypt'
-gem 'email_validator'
-gem 'layer-identity_token'
 
 # Front end
 gem 'sass-rails'
 gem 'bootstrap-sass'
 gem 'sprockets', '2.12.3'
 
-gem 'annotate', group: :development # Use old version because of the manifest bug
+group :development do
+  gem 'annotate'
+  gem 'web-console'
+  gem 'capistrano'
+  gem 'pry-rails'
+  gem 'traceroute'
+  gem 'bullet'
+  gem 'rvm-capistrano', require: false
+end
+
+group :test do
+  gem 'mocha'
+end
 
 group :development, :test do
   gem 'byebug'
-  gem 'web-console'
   gem 'spring'
-  gem 'mocha'
-  gem 'pry-rails'
-
-  gem 'capistrano'
-  gem 'rvm-capistrano', require: false
 end
 
 group :production do

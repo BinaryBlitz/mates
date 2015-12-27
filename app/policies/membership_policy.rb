@@ -1,11 +1,19 @@
 class MembershipPolicy < ApplicationPolicy
-  def create?
-    record.event.valid_user?(user)
+  attr_reader :membership, :user, :event
+
+  def initialize(user, membership)
+    @user = user
+    @membership = membership
+    @event = @membership.event
   end
 
-  class Scope < Scope
-    def resolve
-      scope
-    end
+  def create?
+    event.valid_user?(user)
+  end
+
+  def destroy?
+    not_admin_record = (membership.user != event.creator)
+    admin_or_self = (user == event.creator || user == membership.user)
+    not_admin_record && admin_or_self
   end
 end

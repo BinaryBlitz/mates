@@ -10,7 +10,7 @@
 #
 
 class Submission < ActiveRecord::Base
-  after_create :notify_admin
+  after_create :notify_creator
 
   belongs_to :user
   belongs_to :event
@@ -30,9 +30,9 @@ class Submission < ActiveRecord::Base
 
   private
 
-  def notify_admin
+  def notify_creator
     options = { action: 'NEW_SUBMISSION', submission: as_json }
-    Notifier.new(event.admin, "Новая заявка от #{user} на #{event}", options).push
+    Notifier.new(event.creator, "Новая заявка от #{user} на #{event}", options).push
   end
 
   def notify_approval

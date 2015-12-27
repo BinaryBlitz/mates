@@ -8,8 +8,7 @@ class EventsController < ApplicationController
 
   def feed
     feed = current_user.feed || current_user.create_feed
-    @events = feed.events
-    render :index
+    @events = feed.events.includes(:creator)
   end
 
   def show
@@ -26,16 +25,17 @@ class EventsController < ApplicationController
     if @event.save
       render :show, status: :created, location: @event
     else
-      render json: @event.errors, status: :unprocessable_entity
+      render json: @event.errors, status: 422
     end
   end
 
   def update
     authorize @event
+
     if @event.update(events_params)
-      render :show, status: :ok, location: @event
+      head :ok
     else
-      render json: @event.errors, status: :unprocessable_entity
+      render json: @event.errors, status: 422
     end
   end
 
@@ -51,21 +51,6 @@ class EventsController < ApplicationController
     render :index
   end
 
-  # Leave the event
-  def leave
-    authorize @event
-    current_user.events.destroy(@event)
-    head :no_content
-  end
-
-  # Remove user from the event
-  def remove
-    authorize @event
-    user = @event.users.find(params[:user_id])
-    @event.users.destroy(user)
-    head :no_content
-  end
-
   # List of proposed users
   def proposals
     authorize @event
@@ -76,17 +61,6 @@ class EventsController < ApplicationController
     authorize @event
     @submissions = @event.submissions
     render 'submissions/index'
-  end
-
-  def join
-    membership = Membership.new(user: current_user, event: @event)
-    authorize membership, :create?
-
-    if membership.save
-      head :created
-    else
-      render json: membership.errors, status: :unprocessable_entity
-    end
   end
 
   def available_friends

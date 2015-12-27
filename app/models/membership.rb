@@ -10,7 +10,6 @@
 #
 
 class Membership < ActiveRecord::Base
-  after_create :notify_followers
   after_destroy :notify_removal
 
   belongs_to :user
@@ -20,17 +19,6 @@ class Membership < ActiveRecord::Base
   validates :event, presence: true, uniqueness: { scope: :user }
 
   private
-
-  def notify_followers
-    return if user == event.admin
-
-    user.followers.each do |follower|
-      Notifier.new(
-        follower, "#{user} присоединился к #{event}",
-        action: 'JOINED_EVENT', membership: as_json
-      ).push
-    end
-  end
 
   def notify_removal
     options = { action: 'USER_REMOVED', membership: as_json }

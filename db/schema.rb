@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150831164548) do
+ActiveRecord::Schema.define(version: 20151227004635) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -56,7 +56,7 @@ ActiveRecord::Schema.define(version: 20150831164548) do
     t.datetime "created_at",                              null: false
     t.datetime "updated_at",                              null: false
     t.string   "address"
-    t.integer  "admin_id"
+    t.integer  "creator_id"
     t.string   "photo"
     t.integer  "category_id"
     t.integer  "user_limit",                  default: 1
@@ -67,20 +67,9 @@ ActiveRecord::Schema.define(version: 20150831164548) do
     t.integer  "extra_category_id"
   end
 
-  add_index "events", ["admin_id"], name: "index_events_on_admin_id", using: :btree
   add_index "events", ["category_id"], name: "index_events_on_category_id", using: :btree
+  add_index "events", ["creator_id"], name: "index_events_on_creator_id", using: :btree
   add_index "events", ["extra_category_id"], name: "index_events_on_extra_category_id", using: :btree
-
-  create_table "favorites", force: :cascade do |t|
-    t.integer  "user_id"
-    t.integer  "favorited_id"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
-  end
-
-  add_index "favorites", ["favorited_id"], name: "index_favorites_on_favorited_id", using: :btree
-  add_index "favorites", ["user_id", "favorited_id"], name: "index_favorites_on_user_id_and_favorited_id", unique: true, using: :btree
-  add_index "favorites", ["user_id"], name: "index_favorites_on_user_id", using: :btree
 
   create_table "feeds", force: :cascade do |t|
     t.integer  "user_id"
@@ -162,14 +151,13 @@ ActiveRecord::Schema.define(version: 20150831164548) do
 
   create_table "preferences", force: :cascade do |t|
     t.integer  "user_id"
-    t.boolean  "notifications_friends",   default: true
-    t.boolean  "notifications_favorites", default: true
-    t.boolean  "notifications_events",    default: true
-    t.boolean  "notifications_messages",  default: true
-    t.string   "visibility_photos",       default: "public"
-    t.string   "visibility_events",       default: "public"
-    t.datetime "created_at",                                 null: false
-    t.datetime "updated_at",                                 null: false
+    t.boolean  "notifications_friends",  default: true
+    t.boolean  "notifications_events",   default: true
+    t.boolean  "notifications_messages", default: true
+    t.string   "visibility_photos",      default: "public"
+    t.string   "visibility_events",      default: "public"
+    t.datetime "created_at",                                null: false
+    t.datetime "updated_at",                                null: false
   end
 
   add_index "preferences", ["user_id"], name: "index_preferences_on_user_id", using: :btree
@@ -275,32 +263,30 @@ ActiveRecord::Schema.define(version: 20150831164548) do
     t.string   "first_name"
     t.string   "last_name"
     t.date     "birthday"
-    t.string   "gender",                    default: "m"
+    t.string   "gender",          default: "m"
     t.string   "api_token"
-    t.datetime "created_at",                              null: false
-    t.datetime "updated_at",                              null: false
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
     t.string   "avatar"
-    t.integer  "vk_id"
-    t.integer  "facebook_id",     limit: 8
-    t.string   "password_digest"
     t.string   "city"
     t.string   "phone_number"
-    t.string   "vk_url"
-    t.string   "facebook_url"
-    t.string   "twitter_url"
-    t.string   "instagram_url"
     t.datetime "visited_at"
-    t.string   "email"
     t.string   "avatar_original"
   end
 
-  add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
+  create_table "verification_tokens", force: :cascade do |t|
+    t.string   "token"
+    t.string   "phone_number"
+    t.integer  "code"
+    t.boolean  "verified"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+  end
 
   add_foreign_key "comments", "events"
   add_foreign_key "comments", "users"
   add_foreign_key "device_tokens", "users"
   add_foreign_key "events", "categories"
-  add_foreign_key "favorites", "users"
   add_foreign_key "friend_requests", "users"
   add_foreign_key "friendships", "users"
   add_foreign_key "invites", "events"

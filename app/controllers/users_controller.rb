@@ -1,9 +1,8 @@
 class UsersController < ApplicationController
-  skip_before_action :restrict_access,
-                     only: [:create, :authenticate, :authenticate_vk, :authenticate_fb]
+  skip_before_action :restrict_access, only: [:create]
   before_action :set_user,
                 only: [
-                  :update, :destroy, :events, :friends, :favorite, :unfavorite,
+                  :update, :destroy, :events, :friends,
                   :notify, :available_events
                 ]
 
@@ -24,10 +23,9 @@ class UsersController < ApplicationController
   def update
     authorize @user
 
-    if authenticated? && @user.update(user_params)
+    if @user.update(user_params)
       head :no_content
     else
-      @user.errors.add(:current_password, "is incorrect") if user_params[:password].present?
       render json: @user.errors, status: :unprocessable_entity
     end
   end
@@ -38,51 +36,6 @@ class UsersController < ApplicationController
     head :no_content
   end
 
-  def authenticate
-    @user = User.find_by(email: params[:email])
-
-    if @user && @user.authenticate(params[:password])
-      render json: { id: @user.id, api_token: @user.api_token }
-    else
-      render json: { error: 'Invalid email / password combination' }, status: :unauthorized
-    end
-  end
-
-  def authenticate_vk
-    if params[:token].present?
-      vk = VkontakteApi::Client.new(params[:token])
-      @user = User.find_or_create_from_vk(vk)
-      render json: { id: @user.id, api_token: @user.api_token }
-    else
-      head 422
-    end
-  end
-
-  def authenticate_fb
-    if params[:token].present?
-      graph = Koala::Facebook::API.new(params[:token])
-      @user = User.find_or_create_from_fb(graph)
-      render json: { id: @user.id, api_token: @user.api_token }
-    else
-      head 422
-    end
-  end
-
-  def authenticate_phone_number
-    @user = User.find_by(phone_number: params[:phone_number])
-
-    if @user && @user.authenticate(params[:password])
-      render :authenticate
-    else
-      render json: { error: 'Invalid phone number / password combination' }, status: :unauthorized
-    end
-  end
-
-  def authenticate_layer
-    token = Layer::IdentityToken.new(current_user.id, params[:nonce])
-    render json: { token: token }
-  end
-
   def events
     @events = @user.events
     render 'events/index'
@@ -91,16 +44,6 @@ class UsersController < ApplicationController
   def friends
     @friends = @user.friends
     render 'friends/index'
-  end
-
-  def favorite
-    current_user.favorited_users << @user
-    head :created
-  end
-
-  def unfavorite
-    current_user.favorited_users.destroy(@user)
-    head :no_content
   end
 
   def search
@@ -132,20 +75,15 @@ class UsersController < ApplicationController
 
   def user_params
     params.require(:user).permit(
-      :first_name, :last_name, :email, :password, :birthday,
-      :gender, :city, :avatar, :remove_avatar, :phone_number,
-      :vk_url, :facebook_url, :twitter_url, :instagram_url,
+      :first_name, :last_name, :birthday,
+      :gender, :city, :avatar, :remove_avatar, :phone_number, :verification_token,
       photos_attributes: [:id, :image, :_destroy],
       interests_attributes: [:id, :category_id, :_destroy],
       preference_attributes: [
-        :notifications_friends, :notifications_favorites,
+        :notifications_friends,
         :notifications_events, :notifications_messages,
         :visibility_photos, :visibility_events
       ]
     )
-  end
-
-  def authenticated?
-    user_params[:password].blank? || @user.authenticate(params[:user][:current_password])
   end
 end

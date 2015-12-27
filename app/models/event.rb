@@ -13,7 +13,7 @@
 #  created_at        :datetime         not null
 #  updated_at        :datetime         not null
 #  address           :string
-#  admin_id          :integer
+#  creator_id        :integer
 #  photo             :string
 #  category_id       :integer
 #  user_limit        :integer          default(1)
@@ -26,10 +26,9 @@
 
 class Event < ActiveRecord::Base
   after_create :attend
-  after_create :notify_followers
   after_update :notify_members
 
-  belongs_to :admin, class_name: 'User'
+  belongs_to :creator, class_name: 'User'
   belongs_to :category
   belongs_to :extra_category, class_name: 'Category'
 
@@ -46,7 +45,7 @@ class Event < ActiveRecord::Base
 
   has_many :comments, dependent: :destroy
 
-  validates :admin, presence: true
+  validates :creator, presence: true
   validates :category, presence: true
   validates :name, presence: true, length: { maximum: 30 }
   validates :city, presence: true
@@ -54,7 +53,7 @@ class Event < ActiveRecord::Base
   validate :extra_category, :not_equal_to_category
 
   extend Enumerize
-  enumerize :visibility, in: [:public, :friends, :friends_of_friends, :private]
+  enumerize :visibility, in: [:public, :friends, :private]
 
   #  Filter validations
   validates :gender, length: { is: 1 }, inclusion: { in: %w(f m) }, allow_nil: true
@@ -73,8 +72,6 @@ class Event < ActiveRecord::Base
 
   geocoded_by :address
 
-  PREVIEW_USERS_COUNT = 4
-
   scope :past_events, -> { where('ends_at < ?', Time.zone.now) }
   scope :upcoming, -> { where('starts_at >= ?', Time.zone.now) }
   scope :on_date, -> (date) { where(starts_at: (date.beginning_of_day)..(date.end_of_day)) }
@@ -83,10 +80,6 @@ class Event < ActiveRecord::Base
     query = 'starts_at BETWEEN ? AND ?' + ' OR starts_at BETWEEN ? AND ?' * (dates.size - 1)
     dates.map! { |date| [date.beginning_of_day, date.end_of_day] }.flatten!
     Event.where(query, *dates)
-  end
-
-  def preview_users
-    users.where.not(id: admin.id).order('RANDOM()').limit(PREVIEW_USERS_COUNT)
   end
 
   def friend_count(current_user)
@@ -135,14 +128,7 @@ class Event < ActiveRecord::Base
   end
 
   def attend
-    admin.events << self
-  end
-
-  def notify_followers
-    admin.followers.each do |follower|
-      options = { action: 'NEW_EVENT', event: as_json }
-      Notifier.new(follower, "Новое событие от #{admin}: #{name}", options).push
-    end
+    creator.events << self
   end
 
   def notify_members

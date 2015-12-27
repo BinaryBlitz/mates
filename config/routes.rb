@@ -5,13 +5,9 @@ Rails.application.routes.draw do
 
   scope '/api', defaults: { format: :json } do
     # Users
-    resources :users, except: [:new, :edit] do
+    resources :verification_tokens, only: [:create, :update], param: :token
+    resources :users, except: [:index, :new, :edit] do
       collection do
-        post 'authenticate'
-        post 'authenticate_vk'
-        post 'authenticate_fb'
-        post 'authenticate_phone_number'
-        post 'authenticate_layer'
         get 'search'
       end
       member do
@@ -19,13 +15,10 @@ Rails.application.routes.draw do
         get 'friends'
         get 'available_events'
         post 'notify'
-        post 'favorite'
-        delete 'unfavorite'
       end
     end
     resources :friend_requests, except: [:show, :new, :edit]
     resources :friends, only: [:index, :destroy]
-    resources :favorites, only: [:index]
     resources :device_tokens, only: [:create, :destroy], param: :token
     resources :messages, only: [:index, :create] do
       delete :clean_up, on: :collection
@@ -36,23 +29,19 @@ Rails.application.routes.draw do
       collection do
         get 'owned'
         get 'feed'
-        get 'search'
         get 'by_token'
       end
       member do
         get 'proposals'
         get 'submissions'
         get 'available_friends'
-        post 'join'
-        delete 'remove'
-        delete 'leave'
       end
-      resources :comments, except: [:new, :edit], shallow: true
+      resources :comments, except: [:show, :new, :edit], shallow: true
+      resources :memberships, only: [:index, :create, :destroy], shallow: true
     end
     resources :categories, only: [:index]
     resources :invites, except: [:new, :edit]
     resources :proposals, except: [:index, :new, :edit]
-    resources :memberships, except: [:new, :edit]
     resources :submissions, except: [:new, :edit]
     resources :searches, only: [:create, :show]
   end
