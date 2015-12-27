@@ -8,8 +8,6 @@ Rails.application.routes.draw do
     resources :users, except: [:new, :edit] do
       collection do
         post 'authenticate'
-        post 'authenticate_phone_number'
-        post 'authenticate_layer'
         get 'search'
       end
       member do

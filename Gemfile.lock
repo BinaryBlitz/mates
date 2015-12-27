@@ -86,10 +86,7 @@ GEM
       activesupport (>= 3.0.0, < 5)
       multi_json (~> 1.2)
     json (1.8.3)
-    jwt (1.5.2)
     kgio (2.10.0)
-    layer-identity_token (0.1.0)
-      jwt (~> 1.4, >= 1.4.1)
     loofah (2.0.3)
       nokogiri (>= 1.5.9)
     mail (2.6.3)
@@ -222,7 +219,6 @@ DEPENDENCIES
   has_secure_token
   httparty
   jbuilder
-  layer-identity_token
   mini_magick
   mocha
   pg

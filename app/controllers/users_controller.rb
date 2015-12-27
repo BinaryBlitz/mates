@@ -37,11 +37,6 @@ class UsersController < ApplicationController
     head :no_content
   end
 
-  def authenticate_layer
-    token = Layer::IdentityToken.new(current_user.id, params[:nonce])
-    render json: { token: token }
-  end
-
   def events
     @events = @user.events
     render 'events/index'
