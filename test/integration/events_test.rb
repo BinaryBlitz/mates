@@ -71,28 +71,11 @@ class EventsTest < ActionDispatch::IntegrationTest
 
   test 'should authorize users' do
     stranger = users(:baz)
-
     patch "/api/events/#{@event.id}", api_token: stranger.api_token
     assert_response :forbidden
 
     delete "/api/events/#{@event.id}", api_token: stranger.api_token
     assert_response :forbidden
-
-    get "/api/events/#{@event.id}/proposals", api_token: stranger.api_token
-    assert_response :forbidden
-
-    get "/api/events/#{@event.id}/submissions", api_token: stranger.api_token
-    assert_response :forbidden
-  end
-
-  test 'event proposals' do
-    get "/api/events/#{@event.id}/proposals", api_token: api_token
-    assert_response :success
-  end
-
-  test 'event submissions' do
-    get "/api/events/#{@event.id}/submissions", api_token: api_token
-    assert_response :success
   end
 
   test 'search by name' do

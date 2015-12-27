@@ -1,4 +1,8 @@
 class SubmissionPolicy < ApplicationPolicy
+  def index?
+    user == record.creator
+  end
+
   def update?
     user == record.event.creator
   end

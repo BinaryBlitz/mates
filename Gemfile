@@ -35,6 +35,7 @@ group :development do
   gem 'pry-rails'
   gem 'traceroute'
   gem 'bullet'
+  gem 'm'
   gem 'rvm-capistrano', require: false
 end
 

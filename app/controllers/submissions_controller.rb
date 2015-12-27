@@ -1,18 +1,18 @@
 class SubmissionsController < ApplicationController
+  before_action :set_event, only: [:index, :create]
   before_action :set_submission, except: [:index, :create]
 
   def index
-    @submissions = current_user.submissions
-  end
-
-  def show
+    authorize @event, :submissions?
+    @submissions = @event.submissions
   end
 
   def create
-    @submission = current_user.submissions.build(submission_params)
+    @submission = @event.submissions.build(user: current_user)
+    # TODO: authorize @submission
 
     if @submission.save
-      render :show, status: :created, location: @submission
+      render :show, status: :created
     else
       render json: @submission.errors, status: :unprocessable_entity
     end
@@ -32,11 +32,11 @@ class SubmissionsController < ApplicationController
 
   private
 
-  def set_submission
-    @submission = Submission.find(params[:id])
+  def set_event
+    @event = Event.find(params[:event_id])
   end
 
-  def submission_params
-    params.permit(:event_id)
+  def set_submission
+    @submission = Submission.find(params[:id])
   end
 end

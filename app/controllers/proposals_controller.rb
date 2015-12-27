@@ -1,30 +1,30 @@
 class ProposalsController < ApplicationController
-  before_action :set_proposal, only: [:show, :update, :destroy]
+  before_action :set_event, only: [:index, :create]
+  before_action :set_proposal, only: [:update, :destroy]
 
-  def show
+  def index
+    authorize @event, :proposals?
+    @proposals = @event.proposals
   end
 
-  # Propose user
   def create
-    @proposal = Proposal.new(proposal_params)
+    @proposal = @event.proposals.build(proposal_params)
     @proposal.creator = current_user
     authorize @proposal
 
     if @proposal.save
-      render :show, status: :created, location: @proposal
+      render :show, status: :created
     else
       render json: @proposal.errors, status: :unprocessable_entity
     end
   end
 
-  # Accept the proposal
   def update
     authorize @proposal
     @invite = @proposal.accept
-    render 'invites/show', status: :created, location: @invite
+    head :ok
   end
 
-  # Decline or cancel proposal
   def destroy
     authorize @proposal
     @proposal.destroy
@@ -33,11 +33,15 @@ class ProposalsController < ApplicationController
 
   private
 
+  def set_event
+    @event = Event.find(params[:event_id])
+  end
+
   def set_proposal
     @proposal = Proposal.find(params[:id])
   end
 
   def proposal_params
-    params.require(:proposal).permit(:user_id, :event_id)
+    params.require(:proposal).permit(:user_id)
   end
 end

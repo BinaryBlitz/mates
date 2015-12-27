@@ -32,17 +32,15 @@ Rails.application.routes.draw do
         get 'by_token'
       end
       member do
-        get 'proposals'
-        get 'submissions'
         get 'available_friends'
       end
       resources :comments, except: [:show, :new, :edit], shallow: true
       resources :memberships, only: [:index, :create, :destroy], shallow: true
+      resources :proposals, except: [:show, :new, :edit], shallow: true
+      resources :invites, except: [:show, :new, :edit], shallow: true
+      resources :submissions, except: [:show, :new, :edit], shallow: true
     end
     resources :categories, only: [:index]
-    resources :invites, except: [:new, :edit]
-    resources :proposals, except: [:index, :new, :edit]
-    resources :submissions, except: [:new, :edit]
     resources :searches, only: [:create, :show]
   end
 
