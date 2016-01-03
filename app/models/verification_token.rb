@@ -25,8 +25,7 @@ class VerificationToken < ActiveRecord::Base
   scope :verified, -> { where(verified: true) }
 
   def verify(code)
-    return false unless self.code == code
-    update(verified: true)
+    self.code == code ? update(verified: true) : false
   end
 
   def user

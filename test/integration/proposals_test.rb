@@ -8,8 +8,8 @@ class ProposalsTest < ActionDispatch::IntegrationTest
   end
 
   test 'create' do
-    post '/api/proposals.json',
-         api_token: api_token, proposal: { user_id: @proposed_user.id, event_id: @event.id }
+    post "/api/events/#{@event.id}/proposals.json",
+         api_token: api_token, proposal: { user_id: @proposed_user.id }
     assert_response :created
     assert @proposed_user.proposed_events.include?(@event)
   end
@@ -22,7 +22,7 @@ class ProposalsTest < ActionDispatch::IntegrationTest
   test 'accept' do
     proposal = @event.proposals.create(creator: @event.creator, user: @proposed_user)
     patch "/api/proposals/#{proposal.id}", api_token: @event.creator.api_token
-    assert_response :created
+    assert_response :ok
     refute @proposed_user.events.include?(@event)
   end
 
@@ -33,14 +33,17 @@ class ProposalsTest < ActionDispatch::IntegrationTest
     refute @proposed_user.proposed_events.include?(@event)
   end
 
-  test 'should authorize users' do
+  test 'authorization' do
     stranger = users(:john)
     proposal = @event.proposals.create(creator: @event.creator, user: @proposed_user)
 
-    patch "/api/proposals/#{Proposal.last.id}", api_token: stranger.api_token
+    patch "/api/proposals/#{proposal.id}.json", api_token: stranger.api_token
     assert_response :forbidden
 
-    delete "/api/proposals/#{Proposal.last.id}", api_token: stranger.api_token
+    delete "/api/proposals/#{proposal.id}.json", api_token: stranger.api_token
+    assert_response :forbidden
+
+    get "/api/events/#{@event.id}/proposals.json", api_token: stranger.api_token
     assert_response :forbidden
   end
 end

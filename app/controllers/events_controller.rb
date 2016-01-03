@@ -51,18 +51,7 @@ class EventsController < ApplicationController
     render :index
   end
 
-  # List of proposed users
-  def proposals
-    authorize @event
-    @proposals = @event.proposals
-  end
-
-  def submissions
-    authorize @event
-    @submissions = @event.submissions
-    render 'submissions/index'
-  end
-
+  # TODO: Deprecate
   def available_friends
     @users = current_user.friends - @event.users - @event.submitted_users - @event.invited_users
     render 'users/index'

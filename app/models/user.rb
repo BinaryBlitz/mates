@@ -65,9 +65,6 @@ class User < ActiveRecord::Base
 
   has_many :device_tokens, dependent: :destroy
 
-  has_many :incoming_messages, class_name: 'Message'
-  has_many :outgoing_messages, class_name: 'Message', foreign_key: 'creator_id'
-
   has_secure_token :api_token
 
   mount_base64_uploader :avatar, AvatarUploader
@@ -101,7 +98,7 @@ class User < ActiveRecord::Base
     query =
       'first_name ILIKE ? OR last_name ILIKE ?' +
       ' OR first_name ILIKE ? OR last_name ILIKE ?' * (args.size - 1)
-    args.map! { |w| ["%#{w}%", "%#{w}%"] }.flatten!
+    args.map! { |word| ["%#{word}%", "%#{word}%"] }.flatten!
     User.where(query, *args)
   end
 
@@ -115,18 +112,14 @@ class User < ActiveRecord::Base
 
   def age
     return 0 unless birthday
-
-    age = Time.zone.today.year - birthday.year
-    age -= 1 if Time.zone.today < birthday + age.years
+    today = Time.zone.today
+    age = today.year - birthday.year
+    age -= 1 if today < birthday + age.years
     age
   end
 
   def to_s
     "#{first_name} #{last_name}"
-  end
-
-  def notify_message(message, sender)
-    Notifier.new(self, message, action: 'MESSAGE', sender: sender.as_json).push
   end
 
   def online?

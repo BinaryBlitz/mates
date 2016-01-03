@@ -51,17 +51,6 @@ class UsersController < ApplicationController
     render :index
   end
 
-  def notify
-    message = params[:message]
-
-    if message.blank?
-      head :unprocessable_entity
-    else
-      @user.notify_message(message, current_user)
-      head :created
-    end
-  end
-
   def available_events
     @events = current_user.events - @user.events - @user.invited_events - @user.submitted_events
     render 'events/index'
@@ -80,9 +69,7 @@ class UsersController < ApplicationController
       photos_attributes: [:id, :image, :_destroy],
       interests_attributes: [:id, :category_id, :_destroy],
       preference_attributes: [
-        :notifications_friends,
-        :notifications_events, :notifications_messages,
-        :visibility_photos, :visibility_events
+        :notifications_friends, :notifications_events, :visibility_photos, :visibility_events
       ]
     )
   end

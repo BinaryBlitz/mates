@@ -6,19 +6,19 @@ class EventsTest < ActionDispatch::IntegrationTest
   end
 
   test 'should get index' do
-    get '/api/events', api_token: api_token
+    get '/api/events.json', api_token: api_token
     assert_response :success
     assert_not_nil assigns(:events)
   end
 
   test 'should get event types' do
-    get '/api/categories', api_token: api_token
+    get '/api/categories.json', api_token: api_token
     assert_response :success
   end
 
   test 'create' do
     assert_difference('Event.count') do
-      post '/api/events', api_token: api_token, event: {
+      post '/api/events.json', api_token: api_token, event: {
         name: @event.name, city: @event.city,
         category_id: @event.category.id, user_limit: @event.user_limit,
         min_age: @event.min_age, max_age: @event.max_age, gender: @event.gender
@@ -60,50 +60,33 @@ class EventsTest < ActionDispatch::IntegrationTest
   end
 
   test 'list friends available for invite' do
-    get  "/api/events/#{@event.id}/available_friends", api_token: @event.creator.api_token
+    get  "/api/events/#{@event.id}/available_friends.json", api_token: @event.creator.api_token
     assert_response :success
   end
 
   test 'should get feed' do
-    get '/api/events/feed', api_token: api_token
+    get '/api/events/feed.json', api_token: api_token
     assert_response :success
   end
 
   test 'should authorize users' do
     stranger = users(:baz)
-
     patch "/api/events/#{@event.id}", api_token: stranger.api_token
     assert_response :forbidden
 
     delete "/api/events/#{@event.id}", api_token: stranger.api_token
     assert_response :forbidden
-
-    get "/api/events/#{@event.id}/proposals", api_token: stranger.api_token
-    assert_response :forbidden
-
-    get "/api/events/#{@event.id}/submissions", api_token: stranger.api_token
-    assert_response :forbidden
-  end
-
-  test 'event proposals' do
-    get "/api/events/#{@event.id}/proposals", api_token: api_token
-    assert_response :success
-  end
-
-  test 'event submissions' do
-    get "/api/events/#{@event.id}/submissions", api_token: api_token
-    assert_response :success
   end
 
   test 'search by name' do
-    post '/api/searches', api_token: api_token, search: { name: @event.name }
+    post '/api/searches.json', api_token: api_token, search: { name: @event.name }
     assert_response :created
     # byebug
     assert_equal @event.name, json_response.first[:name]
   end
 
   test 'search by category' do
-    post '/api/searches', api_token: api_token, search: { category_id: @event.category_id }
+    post '/api/searches.json', api_token: api_token, search: { category_id: @event.category_id }
     assert_response :created
     assert_equal @event.category_id, json_response.first[:category_id]
   end

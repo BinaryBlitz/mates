@@ -11,12 +11,12 @@ class MembershipsTest < ActionDispatch::IntegrationTest
     user = users(:baz)
 
     user.update!(birthday: 15.years.ago)
-    post "/api/events/#{@event.id}/memberships", api_token: user.api_token
+    post "/api/events/#{@event.id}/memberships.json", api_token: user.api_token
     assert_response :forbidden
     refute @event.users.include?(user)
 
     user.update!(birthday: 20.years.ago)
-    post "/api/events/#{@event.id}/memberships", api_token: user.api_token
+    post "/api/events/#{@event.id}/memberships.json", api_token: user.api_token
     assert_response :created
     assert @event.users.include?(user)
   end
@@ -24,7 +24,7 @@ class MembershipsTest < ActionDispatch::IntegrationTest
   test 'destroy' do
     member = users(:baz)
     membership = @event.memberships.create(user: member)
-    delete "/api/memberships/#{membership.id}", api_token: member.api_token
+    delete "/api/memberships/#{membership.id}.json", api_token: member.api_token
     assert_response :no_content
     refute @event.users.include?(member)
   end
@@ -32,7 +32,7 @@ class MembershipsTest < ActionDispatch::IntegrationTest
   test 'authorization' do
     stranger = users(:baz)
     assert_raise ActiveRecord::RecordNotFound do
-      delete "/api/memberships/#{@membership.id}", api_token: stranger.api_token
+      delete "/api/memberships/#{@membership.id}.json", api_token: stranger.api_token
       assert_response :not_found
     end
   end

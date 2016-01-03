@@ -1,32 +1,28 @@
 class InvitesController < ApplicationController
-  before_action :set_invite, only: [:show, :update, :destroy]
+  before_action :set_event, only: [:index, :create]
+  before_action :set_invite, only: [:update, :destroy]
 
   def index
-    @invites = current_user.invites
+    @invites = @event.invites
   end
 
-  def show
-  end
-
-  # Invite user
   def create
-    @invite = Invite.new(invite_params)
+    @invite = @event.invites.build(invite_params)
+    authorize @invite
 
     if @invite.save
-      render :show, status: :created, location: @invite
+      render :show, status: :created
     else
-      render json: @invite.errors, status: :unprocessable_entity
+      render json: @invite.errors, status: 422
     end
   end
 
-  # Accept the invite
   def update
     authorize @invite
     @invite.accept
-    head :no_content
+    head :ok
   end
 
-  # Decline or cancel the invite
   def destroy
     authorize @invite
     @invite.destroy
@@ -35,11 +31,15 @@ class InvitesController < ApplicationController
 
   private
 
+  def set_event
+    @event = Event.find(params[:event_id])
+  end
+
   def set_invite
     @invite = Invite.find(params[:id])
   end
 
   def invite_params
-    params.require(:invite).permit(:user_id, :event_id)
+    params.require(:invite).permit(:user_id)
   end
 end

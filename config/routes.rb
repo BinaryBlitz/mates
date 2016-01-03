@@ -3,7 +3,7 @@ Rails.application.routes.draw do
     resources :events, only: :show, param: :sharing_token
   end
 
-  scope '/api', defaults: { format: :json } do
+  scope '/api' do
     # Users
     resources :verification_tokens, only: [:create, :update], param: :token
     resources :users, except: [:index, :new, :edit] do
@@ -20,9 +20,6 @@ Rails.application.routes.draw do
     resources :friend_requests, except: [:show, :new, :edit]
     resources :friends, only: [:index, :destroy]
     resources :device_tokens, only: [:create, :destroy], param: :token
-    resources :messages, only: [:index, :create] do
-      delete :clean_up, on: :collection
-    end
 
     # Events
     resources :events, except: [:new, :edit] do
@@ -32,17 +29,15 @@ Rails.application.routes.draw do
         get 'by_token'
       end
       member do
-        get 'proposals'
-        get 'submissions'
         get 'available_friends'
       end
       resources :comments, except: [:show, :new, :edit], shallow: true
       resources :memberships, only: [:index, :create, :destroy], shallow: true
+      resources :proposals, except: [:show, :new, :edit], shallow: true
+      resources :invites, except: [:show, :new, :edit], shallow: true
+      resources :submissions, except: [:show, :new, :edit], shallow: true
     end
     resources :categories, only: [:index]
-    resources :invites, except: [:new, :edit]
-    resources :proposals, except: [:index, :new, :edit]
-    resources :submissions, except: [:new, :edit]
     resources :searches, only: [:create, :show]
   end
 
