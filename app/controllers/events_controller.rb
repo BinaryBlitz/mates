@@ -1,10 +1,5 @@
 class EventsController < ApplicationController
-  before_action :set_event, except: [:index, :create, :owned, :feed, :by_token]
-
-  # Participated events
-  def index
-    @events = current_user.events
-  end
+  before_action :set_event, except: [:create, :owned, :feed, :by_token]
 
   def feed
     feed = current_user.feed || current_user.create_feed

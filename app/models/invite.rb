@@ -10,7 +10,7 @@
 #
 
 class Invite < ActiveRecord::Base
-  after_create :notify_invitee
+  after_create :notify_user
 
   belongs_to :user
   belongs_to :event
@@ -21,19 +21,13 @@ class Invite < ActiveRecord::Base
   # User accepts the invite and joins the event
   def accept
     user.events << event
-    notify_creator
     destroy
   end
 
   private
 
-  def notify_invitee
+  def notify_user
     options = { action: 'INVITE', invite: as_json }
-    Notifier.new(user, "Вас пригласили на событие: #{event}", options).push
-  end
-
-  def notify_creator
-    options = { action: 'INVITE_ACCEPTED', invite: as_json }
-    Notifier.new(event.creator, "#{user} согласился на участие в #{event}", options).push
+    Notifier.new(user, "Вас пригласили на событие: #{event}", options)
   end
 end

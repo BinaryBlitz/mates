@@ -24,7 +24,7 @@ class Submission < ActiveRecord::Base
 
   def accept
     event.users << user
-    notify_approval
+    notify_user
     destroy
   end
 
@@ -32,12 +32,12 @@ class Submission < ActiveRecord::Base
 
   def notify_creator
     options = { action: 'NEW_SUBMISSION', submission: as_json }
-    Notifier.new(event.creator, "Новая заявка от #{user} на #{event}", options).push
+    Notifier.new(event.creator, "Новая заявка от #{user} на #{event}", options)
   end
 
-  def notify_approval
+  def notify_user
     options = { action: 'SUBMISSION_APPROVED', submission: as_json }
-    Notifier.new(user, "Ваша заявка на #{event.name} была одобрена", options).push
+    Notifier.new(user, "Ваша заявка на #{event.name} была одобрена", options)
   end
 
   def not_visited

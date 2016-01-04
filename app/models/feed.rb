@@ -13,37 +13,20 @@ class Feed < ActiveRecord::Base
 
   validates :user, presence: true
 
-  # TODO: Cache this thing
-  # TODO: Take limitations and visibility into account
-  # TODO: Exclude owned, participated and pending events
-  def events
-    # ids = (user_events + events_of_friends).uniq
-    # Event.where(id: ids).includes(:creator)
-    Event.includes(:creator).all
+  def friends
+    friend_ids = user.friends.ids
+    # 1. Created by friends
+    created_ids = Event.where(creator_id: friend_ids).where(visibility: ['public', 'friends']).ids
+    # 2. Participated by friends
+    participated_ids = Event.joins(:memberships).where('memberships.user_id': friend_ids).public_events.ids
+    # 3. Created by user
+    user_event_ids = user.events.ids
+    # Feed
+    ids = (created_ids + participated_ids + user_event_ids).uniq
+    events = Event.where(id: ids).upcoming.visible_for(user)
   end
 
-  private
-
-  # Owned and participating
-  def user_events
-    user.owned_events.upcoming.ids + user.events.upcoming.ids
-  end
-
-  # Do not cache this thing
-  def events_of_friends
-    ids = user.friends.ids
-    created_ids = Event.where(creator_id: ids).upcoming.ids
-    participating_ids = Event.joins(:memberships).where('memberships.user_id': ids).upcoming.ids
-    created_ids + participating_ids
-  end
-
-  # def events_from_users(ids)
-  #   created_ids = Event.where(creator_id: ids).upcoming.ids
-  #   participating_ids = Event.joins(:memberships).where('memberships.user_id': ids).upcoming.ids
-  #   created_ids + participating_ids
-  # end
-
-  # TODO: Cache this thing too
-  def recommended_events
+  def recommended
+    Event.where(category: user.categories).public_events
   end
 end

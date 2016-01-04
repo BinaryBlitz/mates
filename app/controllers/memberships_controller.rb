@@ -1,5 +1,5 @@
 class MembershipsController < ApplicationController
-  before_action :set_event, only: [:create]
+  before_action :set_event, only: [:index, :create]
 
   def index
     @memberships = @event.memberships

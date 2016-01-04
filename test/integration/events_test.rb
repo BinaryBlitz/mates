@@ -5,12 +5,6 @@ class EventsTest < ActionDispatch::IntegrationTest
     @event = events(:party)
   end
 
-  test 'should get index' do
-    get '/api/events.json', api_token: api_token
-    assert_response :success
-    assert_not_nil assigns(:events)
-  end
-
   test 'should get event types' do
     get '/api/categories.json', api_token: api_token
     assert_response :success
@@ -65,7 +59,10 @@ class EventsTest < ActionDispatch::IntegrationTest
   end
 
   test 'should get feed' do
-    get '/api/events/feed.json', api_token: api_token
+    get '/api/feed/friends.json', api_token: api_token
+    assert_response :success
+
+    get '/api/feed/recommended.json', api_token: api_token
     assert_response :success
   end
 
@@ -76,13 +73,6 @@ class EventsTest < ActionDispatch::IntegrationTest
 
     delete "/api/events/#{@event.id}", api_token: stranger.api_token
     assert_response :forbidden
-  end
-
-  test 'search by name' do
-    post '/api/searches.json', api_token: api_token, search: { name: @event.name }
-    assert_response :created
-    # byebug
-    assert_equal @event.name, json_response.first[:name]
   end
 
   test 'search by category' do

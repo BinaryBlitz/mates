@@ -24,7 +24,7 @@ class UsersController < ApplicationController
     authorize @user
 
     if @user.update(user_params)
-      head :no_content
+      head :ok
     else
       render json: @user.errors, status: :unprocessable_entity
     end
@@ -37,7 +37,7 @@ class UsersController < ApplicationController
   end
 
   def events
-    @events = @user.events
+    @events = @user.events.upcoming.order(starts_at: :desc)
     render 'events/index'
   end
 

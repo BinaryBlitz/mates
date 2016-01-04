@@ -39,6 +39,9 @@ Rails.application.routes.draw do
     end
     resources :categories, only: [:index]
     resources :searches, only: [:create, :show]
+    resource :feed, only: [] do
+      get 'friends', 'recommended'
+    end
   end
 
   # Example of regular route:

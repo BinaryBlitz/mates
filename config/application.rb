@@ -28,8 +28,6 @@ module PartyApp
       g.helper false
       g.mailer false
       g.test_framework nil
-      g.scaffold_controller false
-      g.template_engine :jbuilder
     end
   end
 end
