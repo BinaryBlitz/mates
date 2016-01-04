@@ -37,7 +37,7 @@ class UsersController < ApplicationController
   end
 
   def events
-    @events = @user.events
+    @events = @user.events.upcoming.order(starts_at: :desc)
     render 'events/index'
   end
 
