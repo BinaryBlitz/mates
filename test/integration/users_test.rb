@@ -24,7 +24,7 @@ class UsersTest < ActionDispatch::IntegrationTest
       first_name: 'Foo',
       last_name: 'Bar'
     }
-    assert_response :no_content
+    assert_response :ok
   end
 
   test 'update preferences' do
@@ -41,7 +41,7 @@ class UsersTest < ActionDispatch::IntegrationTest
         interests_attributes: [ { category_id: categories(:cafe).id } ]
       }
     end
-    assert_response :no_content
+    assert_response :ok
   end
 
   test 'list available events' do

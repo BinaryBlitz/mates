@@ -24,7 +24,7 @@ class UsersController < ApplicationController
     authorize @user
 
     if @user.update(user_params)
-      head :no_content
+      head :ok
     else
       render json: @user.errors, status: :unprocessable_entity
     end

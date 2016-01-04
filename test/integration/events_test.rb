@@ -59,7 +59,10 @@ class EventsTest < ActionDispatch::IntegrationTest
   end
 
   test 'should get feed' do
-    get '/api/events/feed.json', api_token: api_token
+    get '/api/feed/friends.json', api_token: api_token
+    assert_response :success
+
+    get '/api/feed/recommended.json', api_token: api_token
     assert_response :success
   end
 
