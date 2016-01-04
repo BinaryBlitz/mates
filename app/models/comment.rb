@@ -29,14 +29,14 @@ class Comment < ActiveRecord::Base
     return if user == event.creator
 
     options = { action: 'NEW_COMMENT', comment: as_json }
-    Notifier.new(event.creator, "#{user} оставил комментарий к #{event}", options).push
+    Notifier.new(event.creator, "#{user} оставил комментарий к #{event}", options)
   end
 
   def notify_respondent
     return unless respondent
 
     options = { action: 'NEW_MENTION', comment: as_json }
-    Notifier.new(respondent, "#{user} упомянул вас в комментарии к #{event}", options).push
+    Notifier.new(respondent, "#{user} упомянул вас в комментарии к #{event}", options)
   end
 
   def respondent_membership

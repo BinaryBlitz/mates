@@ -31,6 +31,6 @@ class Proposal < ActiveRecord::Base
 
   def notify_creator
     options = { action: 'NEW_PROPOSAL', proposal: as_json }
-    Notifier.new(event.creator, "#{creator} предложил #{user} для участия в #{event}", options).push
+    Notifier.new(event.creator, "#{creator} предложил #{user} для участия в #{event}", options)
   end
 end

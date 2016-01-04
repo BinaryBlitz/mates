@@ -26,7 +26,7 @@
 
 class Event < ActiveRecord::Base
   after_create :attend
-  after_update :notify_members
+  after_destroy :notify_users
 
   belongs_to :creator, class_name: 'User'
   belongs_to :category
@@ -131,10 +131,10 @@ class Event < ActiveRecord::Base
     creator.events << self
   end
 
-  def notify_members
+  def notify_users
     users.each do |user|
-      options = { action: 'EVENT_UPDATED', event: as_json }
-      Notifier.new(user, "Событие обновлено: #{self}", options).push
+      options = { action: 'EVENT_DESTROYED', event: as_json }
+      Notifier.new(user, "Событие удалено: #{self}", options)
     end
   end
 end
