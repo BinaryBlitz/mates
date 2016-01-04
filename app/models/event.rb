@@ -56,7 +56,7 @@ class Event < ActiveRecord::Base
   enumerize :visibility, in: [:public, :friends, :private]
 
   #  Filter validations
-  validates :gender, length: { is: 1 }, inclusion: { in: %w(f m) }, allow_nil: true
+  validates :gender, inclusion: { in: %w(f m) }, allow_nil: true
 
   validates :min_age, numericality: { greater_than: 0 }, allow_nil: true
   validates :max_age, numericality: { less_than_or_equal_to: 100 }, allow_nil: true
@@ -75,11 +75,20 @@ class Event < ActiveRecord::Base
   scope :past_events, -> { where('ends_at < ?', Time.zone.now) }
   scope :upcoming, -> { where('starts_at >= ?', Time.zone.now) }
   scope :on_date, -> (date) { where(starts_at: (date.beginning_of_day)..(date.end_of_day)) }
+  scope :public_events, -> { where(visibility: 'public') }
 
   def self.on_dates(dates)
     query = 'starts_at BETWEEN ? AND ?' + ' OR starts_at BETWEEN ? AND ?' * (dates.size - 1)
     dates.map! { |date| [date.beginning_of_day, date.end_of_day] }.flatten!
     Event.where(query, *dates)
+  end
+
+  def self.visible_for(user)
+    events = Event.all
+    events = events.where('gender IS NULL OR gender = ?', user.gender)
+    events = events.where('min_age IS NULL OR min_age < ?', user.age)
+    events = events.where('max_age IS NULL OR max_age > ?', user.age)
+    events
   end
 
   def friend_count(current_user)
