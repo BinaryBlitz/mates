@@ -13,7 +13,7 @@ set :normalize_asset_timestamps, false
 set :rvm_ruby_string, 'ruby-2.2.2@party_app'
 
 set :scm, :git
-set :repository, "git@github.com:BinaryBlitz/party_app.git"
+set :repository, "git@github.com:BinaryBlitz/mates.git"
 set :branch, "development"
 set :deploy_via, :remote_cache
 
