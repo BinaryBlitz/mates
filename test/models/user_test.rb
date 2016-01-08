@@ -15,6 +15,7 @@
 #  phone_number    :string
 #  visited_at      :datetime
 #  avatar_original :string
+#  website_url     :string
 #
 
 require 'test_helper'

@@ -15,6 +15,7 @@
 #  phone_number    :string
 #  visited_at      :datetime
 #  avatar_original :string
+#  website_url     :string
 #
 
 class User < ActiveRecord::Base
@@ -23,6 +24,7 @@ class User < ActiveRecord::Base
   validates :first_name, presence: true, length: { maximum: 20 }
   validates :last_name, presence: true, length: { maximum: 20 }
   validates :gender, length: { is: 1 }, inclusion: { in: %w(f m) }, allow_nil: true
+  validates :website_url, url: true, allow_nil: true
 
   has_one :feed, dependent: :destroy
 
