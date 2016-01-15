@@ -7,11 +7,11 @@ Rails.application.routes.draw do
     # Users
     resources :verification_tokens, only: [:create, :update], param: :token
     resources :users, except: [:index, :new, :edit] do
+      resources :memberships, only: [:index], controller: 'user_memberships'
       collection do
         get 'search'
       end
       member do
-        get 'events'
         get 'friends'
         get 'available_events'
         post 'notify'
@@ -32,7 +32,7 @@ Rails.application.routes.draw do
         get 'available_friends'
       end
       resources :comments, except: [:show, :new, :edit], shallow: true
-      resources :memberships, only: [:index, :create, :destroy], shallow: true
+      resources :memberships, only: [:index, :create, :destroy], controller: 'event_memberships', shallow: true
       resources :proposals, except: [:show, :new, :edit], shallow: true
       resources :invites, except: [:show, :new, :edit], shallow: true
       resources :submissions, except: [:show, :new, :edit], shallow: true

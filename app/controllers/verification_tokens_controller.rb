@@ -15,7 +15,8 @@ class VerificationTokensController < ApplicationController
     @verification_token = VerificationToken.find_by!(token: params[:token])
 
     if @verification_token.verify(params[:code].to_i)
-      render json: { api_token: @verification_token.user.try(:api_token) }
+      user = @verification_token.user
+      render json: { id: user.try(:id), api_token: user.try(:api_token) }
     else
       head :forbidden
     end

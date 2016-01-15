@@ -1,4 +1,4 @@
-class MembershipsController < ApplicationController
+class EventMembershipsController < ApplicationController
   before_action :set_event, only: [:index, :create]
 
   def index

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151227131741) do
+ActiveRecord::Schema.define(version: 20160108211717) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -260,6 +260,7 @@ ActiveRecord::Schema.define(version: 20151227131741) do
     t.string   "phone_number"
     t.datetime "visited_at"
     t.string   "avatar_original"
+    t.string   "website_url"
   end
 
   create_table "verification_tokens", force: :cascade do |t|
