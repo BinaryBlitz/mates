@@ -7,6 +7,7 @@
 #  event_id   :integer
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
+#  accepted   :boolean
 #
 
 class Submission < ActiveRecord::Base
@@ -25,7 +26,7 @@ class Submission < ActiveRecord::Base
   def accept
     event.users << user
     notify_user
-    destroy
+    update(accepted: true)
   end
 
   private
