@@ -23,7 +23,7 @@ class User < ActiveRecord::Base
 
   validates :first_name, presence: true, length: { maximum: 20 }
   validates :last_name, presence: true, length: { maximum: 20 }
-  validates :gender, length: { is: 1 }, inclusion: { in: %w(f m) }, allow_nil: true
+  validates :gender, inclusion: { in: %w(male female) }, allow_nil: true
   validates :website_url, url: true, allow_nil: true
 
   has_one :feed, dependent: :destroy
