@@ -9,9 +9,6 @@ json.creator do
   json.partial! 'users/user', user: @event.creator
 end
 
-json.owned current_user.owned_events.include?(@event)
-json.visited current_user.events.include?(@event)
-
 if policy(@event).comment?
   json.comments @event.comments do |comment|
     json.partial! 'comments/comment', comment: comment
