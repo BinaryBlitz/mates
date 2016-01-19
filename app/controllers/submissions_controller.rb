@@ -26,7 +26,7 @@ class SubmissionsController < ApplicationController
 
   def destroy
     authorize @submission
-    @submission.destroy
+    @submission.decline
     head :no_content
   end
 

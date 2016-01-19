@@ -25,6 +25,10 @@ class Invite < ActiveRecord::Base
     update(accepted: true)
   end
 
+  def decline
+    update(accepted: false)
+  end
+
   private
 
   def notify_user

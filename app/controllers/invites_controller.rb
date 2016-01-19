@@ -25,7 +25,7 @@ class InvitesController < ApplicationController
 
   def destroy
     authorize @invite
-    @invite.destroy
+    @invite.decline
     head :no_content
   end
 
