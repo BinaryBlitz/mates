@@ -7,6 +7,7 @@
 #  event_id   :integer
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
+#  accepted   :boolean
 #
 
 class Submission < ActiveRecord::Base
@@ -22,10 +23,16 @@ class Submission < ActiveRecord::Base
   validate :can_already_join
   validate :cannot_join
 
+  scope :reviewed, -> { where.not(accepted: nil) }
+
   def accept
     event.users << user
     notify_user
-    destroy
+    update(accepted: true)
+  end
+
+  def decline
+    update(accepted: false)
   end
 
   private

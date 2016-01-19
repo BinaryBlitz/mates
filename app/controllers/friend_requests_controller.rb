@@ -25,7 +25,7 @@ class FriendRequestsController < ApplicationController
 
   def destroy
     authorize @friend_request
-    @friend_request.destroy
+    @friend_request.decline
     head :no_content
   end
 

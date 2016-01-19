@@ -7,6 +7,7 @@
 #  event_id   :integer
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
+#  accepted   :boolean
 #
 
 class Invite < ActiveRecord::Base
@@ -18,10 +19,16 @@ class Invite < ActiveRecord::Base
   validates :user, presence: true
   validates :event, presence: true, uniqueness: { scope: :user }
 
+  scope :reviewed, -> { where.not(accepted: nil) }
+
   # User accepts the invite and joins the event
   def accept
     user.events << event
-    destroy
+    update(accepted: true)
+  end
+
+  def decline
+    update(accepted: false)
   end
 
   private

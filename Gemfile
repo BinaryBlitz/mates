@@ -29,7 +29,7 @@ gem 'bootstrap-sass'
 gem 'sprockets', '2.12.3'
 
 group :development do
-  gem 'annotate'
+  gem 'annotate', '~> 2.6.0'
   gem 'web-console'
   gem 'capistrano'
   gem 'pry-rails'

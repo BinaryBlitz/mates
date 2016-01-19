@@ -7,6 +7,7 @@
 #  friend_id  :integer
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
+#  accepted   :boolean
 #
 
 class FriendRequest < ActiveRecord::Base
@@ -21,9 +22,16 @@ class FriendRequest < ActiveRecord::Base
   validate :not_friends
   validate :not_pending
 
+  scope :reviewed, -> { where.not(accepted: nil) }
+  scope :unreviewed, -> { where(accepted: nil) }
+
   def accept
     user.friends << friend
-    destroy
+    update(accepted: true)
+  end
+
+  def decline
+    update(accepted: false)
   end
 
   private
