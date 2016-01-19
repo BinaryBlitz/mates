@@ -19,6 +19,8 @@ class Invite < ActiveRecord::Base
   validates :user, presence: true
   validates :event, presence: true, uniqueness: { scope: :user }
 
+  scope :reviewed, -> { where.not(accepted: nil) }
+
   # User accepts the invite and joins the event
   def accept
     user.events << event

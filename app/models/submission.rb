@@ -23,6 +23,8 @@ class Submission < ActiveRecord::Base
   validate :can_already_join
   validate :cannot_join
 
+  scope :reviewed, -> { where.not(accepted: nil) }
+
   def accept
     event.users << user
     notify_user

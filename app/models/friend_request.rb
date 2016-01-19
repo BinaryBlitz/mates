@@ -22,6 +22,9 @@ class FriendRequest < ActiveRecord::Base
   validate :not_friends
   validate :not_pending
 
+  scope :reviewed, -> { where.not(accepted: nil) }
+  scope :unreviewed, -> { where(accepted: nil) }
+
   def accept
     user.friends << friend
     update(accepted: true)
