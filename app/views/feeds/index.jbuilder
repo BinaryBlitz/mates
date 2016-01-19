@@ -8,6 +8,7 @@ json.cache! ['feed', @events], expires_in: 5.minutes do
       end
 
       json.user_count event.users.count
+      json.friend_count event.users.where(id: current_user.friend_ids).count
     end
   end
 end
