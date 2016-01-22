@@ -36,11 +36,6 @@ class UsersController < ApplicationController
     head :no_content
   end
 
-  def events
-    @events = @user.events.upcoming.order(starts_at: :desc).visible_for(current_user)
-    render 'events/index'
-  end
-
   def friends
     @friends = @user.friends
     render 'friends/index'
