@@ -1,4 +1,8 @@
-json.extract! @event, :id, :name, :starts_at, :city, :photo_url, :category_id
+json.extract! @event,
+              :id, :name, :starts_at, :photo_url, :category_id,
+              :city, :latitude, :longitude,
+              :user_limit, :min_age, :max_age, :gender, :visibility
+
 json.sharing_url web_event_url({sharing_token: @event.sharing_token})
 
 json.users @event.users do |user|

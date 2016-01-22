@@ -57,10 +57,8 @@ class Event < ActiveRecord::Base
 
   #  Filter validations
   validates :gender, inclusion: { in: %w(male female) }, allow_nil: true
-
   validates :min_age, numericality: { greater_than: 0 }, allow_nil: true
   validates :max_age, numericality: { less_than_or_equal_to: 100 }, allow_nil: true
-
   validates :min_age, numericality: { less_than_or_equal_to: :max_age },
                       if: 'max_age.present?', allow_nil: true
   validates :max_age, numericality: { greater_than_or_equal_to: :min_age },
