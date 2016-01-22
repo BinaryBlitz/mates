@@ -14,7 +14,6 @@ Rails.application.routes.draw do
       member do
         get 'friends'
         get 'available_events'
-        post 'notify'
       end
     end
     resources :friend_requests, except: [:show, :new, :edit]
@@ -22,10 +21,9 @@ Rails.application.routes.draw do
     resources :device_tokens, only: [:create, :destroy], param: :token
 
     # Events
-    resources :events, except: [:new, :edit] do
+    resources :events, except: [:index, :new, :edit] do
       collection do
         get 'owned'
-        get 'feed'
         get 'by_token'
       end
       member do
