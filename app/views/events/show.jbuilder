@@ -13,6 +13,16 @@ json.creator do
   json.partial! 'users/user', user: @event.creator
 end
 
+json.invite do
+  invite = @event.invites.find_by(user: current_user)
+  json.extract! invite, :id, :event_id, :user_id, :accepted, :created_at if invite
+end
+
+json.submission do
+  submission = @event.submissions.find_by(user: current_user)
+  json.extract! submission, :id, :event_id, :user_id, :accepted, :created_at if submission
+end
+
 if policy(@event).comment?
   json.comments @event.comments do |comment|
     json.partial! 'comments/comment', comment: comment
