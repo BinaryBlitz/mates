@@ -1,5 +1,5 @@
 json.extract! @event,
-              :id, :name, :starts_at, :photo_url, :category_id,
+              :id, :name, :starts_at, :photo_url, :category_id, :description,
               :city, :latitude, :longitude,
               :user_limit, :min_age, :max_age, :gender, :visibility
 

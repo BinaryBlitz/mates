@@ -8,7 +8,7 @@
 #  city              :string
 #  latitude          :float
 #  longitude         :float
-#  info              :text
+#  description       :text
 #  visibility        :string
 #  created_at        :datetime         not null
 #  updated_at        :datetime         not null
