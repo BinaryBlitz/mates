@@ -19,7 +19,7 @@
 #  user_limit        :integer          default(1)
 #  min_age           :integer
 #  max_age           :integer
-#  gender            :string(1)
+#  gender            :string
 #  sharing_token     :string
 #  extra_category_id :integer
 #
