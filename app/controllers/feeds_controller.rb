@@ -3,12 +3,10 @@ class FeedsController < ApplicationController
 
   def friends
     @events = @feed.friends
-    render 'index'
   end
 
   def recommended
     @events = @feed.recommended
-    render 'index'
   end
 
   private
