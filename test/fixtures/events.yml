@@ -16,7 +16,7 @@
 #  creator_id        :integer
 #  photo             :string
 #  category_id       :integer
-#  user_limit        :integer          default(1)
+#  user_limit        :integer
 #  min_age           :integer
 #  max_age           :integer
 #  gender            :string
