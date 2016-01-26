@@ -46,11 +46,6 @@ class UsersController < ApplicationController
     render :index
   end
 
-  def available_events
-    @events = current_user.events - @user.events - @user.invited_events - @user.submitted_events
-    render 'events/index'
-  end
-
   private
 
   def set_user

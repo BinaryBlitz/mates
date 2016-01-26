@@ -8,13 +8,8 @@ Rails.application.routes.draw do
     resources :verification_tokens, only: [:create, :update], param: :token
     resources :users, except: [:index, :new, :edit] do
       resources :memberships, only: [:index], controller: 'user_memberships'
-      collection do
-        get 'search'
-      end
-      member do
-        get 'friends'
-        get 'available_events'
-      end
+      get 'search', on: :collection
+      get 'friends', on: :member
     end
     resources :friend_requests, except: [:show, :new, :edit] do
       patch 'decline'
