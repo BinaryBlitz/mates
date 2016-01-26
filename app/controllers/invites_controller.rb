@@ -1,6 +1,6 @@
 class InvitesController < ApplicationController
   before_action :set_event, only: [:index, :create]
-  before_action :set_invite, only: [:update, :destroy]
+  before_action :set_invite, only: [:update, :destroy, :decline]
 
   def index
     @invites = @event.invites
@@ -25,8 +25,14 @@ class InvitesController < ApplicationController
 
   def destroy
     authorize @invite
-    @invite.decline
+    @invite.destroy
     head :no_content
+  end
+
+  def decline
+    authorize @invite
+    @invite.decline
+    head :ok
   end
 
   private

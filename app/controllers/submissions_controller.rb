@@ -1,6 +1,6 @@
 class SubmissionsController < ApplicationController
   before_action :set_event, only: [:index, :create]
-  before_action :set_submission, except: [:index, :create, :decline]
+  before_action :set_submission, only: [:update, :destroy, :decline]
 
   def index
     authorize @event, :submissions?

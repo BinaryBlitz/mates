@@ -12,7 +12,7 @@ Rails.application.routes.draw do
       get 'friends', on: :member
     end
     resources :friend_requests, except: [:show, :new, :edit] do
-      patch 'decline'
+      patch 'decline', on: :member
     end
     resources :friends, only: [:index, :destroy]
     resources :device_tokens, only: [:create, :destroy], param: :token
@@ -29,9 +29,11 @@ Rails.application.routes.draw do
       resources :comments, except: [:show, :new, :edit], shallow: true
       resources :memberships, only: [:index, :create, :destroy], controller: 'event_memberships', shallow: true
       resources :proposals, except: [:show, :new, :edit], shallow: true
-      resources :invites, except: [:show, :new, :edit], shallow: true
+      resources :invites, except: [:show, :new, :edit], shallow: true do
+        patch 'decline', on: :member
+      end
       resources :submissions, except: [:show, :new, :edit], shallow: true do
-        patch 'decline'
+        patch 'decline', on: :member
       end
     end
     resources :categories, only: [:index]

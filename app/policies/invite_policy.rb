@@ -17,7 +17,11 @@ class InvitePolicy < ApplicationPolicy
   end
 
   def destroy?
-    invite.user == user || user == invite.event.creator
+    user == invite.event.creator
+  end
+
+  def decline?
+    invite.user == user
   end
 
   class Scope < Scope

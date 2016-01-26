@@ -22,13 +22,25 @@ class FriendRequestsTest < ActionDispatch::IntegrationTest
   end
 
   test 'accept' do
-    friend_request = @user.friend_requests.create(friend: @friend)
+    friend_request = @user.friend_requests.create!(friend: @friend)
 
     patch "/api/friend_requests/#{friend_request.id}", api_token: @friend.api_token
     assert_response :ok
 
     assert @user.friends.include?(@friend)
     assert @friend.friends.include?(@user)
+  end
+
+  test 'decline' do
+    friend_request = @user.friend_requests.create!(friend: @friend)
+    patch "/api/friend_requests/#{friend_request.id}/decline.json", api_token: @friend.api_token
+    assert_response :ok
+  end
+
+  test 'cancel' do
+    friend_request = @user.friend_requests.create!(friend: @friend)
+    delete "/api/friend_requests/#{friend_request.id}.json", api_token: @user.api_token
+    assert_response :no_content
   end
 
   test 'authorization' do

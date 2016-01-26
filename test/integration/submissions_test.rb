@@ -28,9 +28,15 @@ class SubmissionsTest < ActionDispatch::IntegrationTest
     assert_response :no_content
   end
 
-  test 'decline or cancel' do
+  test 'decline' do
     submission = @guest.submissions.create!(event: @event)
-    delete "/api/submissions/#{submission.id}", api_token: @event.creator.api_token
+    patch "/api/submissions/#{submission.id}/decline", api_token: @event.creator.api_token
+    assert_response :ok
+  end
+
+  test 'cancel' do
+    submission = @guest.submissions.create!(event: @event)
+    delete "/api/submissions/#{submission.id}", api_token: submission.user.api_token
     assert_response :no_content
   end
 
