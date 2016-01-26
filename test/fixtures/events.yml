@@ -26,12 +26,12 @@
 
 party:
   name: Party
-  starts_at: <%= Time.zone.now + 1.day %>
+  starts_at: <%= 1.day.from_now %>
   city: Moscow
-  address: Bolshaya Nikitskaya
+  address: Address
   latitude: 0.0
   longitude: 0.0
-  info: Great party
+  description: Description
   visibility: public
   creator: foo
   category: cafe

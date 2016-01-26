@@ -1,20 +1,17 @@
 require 'test_helper'
 
-class FriendRequestsTest < ActionDispatch::IntegrationTest
+class FriendsTest < ActionDispatch::IntegrationTest
   setup do
     @user = users(:foo)
     @friend = users(:john)
   end
 
   test 'should get index' do
-    get '/api/friend_requests.json', api_token: api_token
-
+    get '/api/friends.json', api_token: api_token
     assert_response :success
-    assert_not_nil assigns(:incoming)
-    assert_not_nil assigns(:outgoing)
   end
 
-  test 'should create and accept friend request, should remove friends' do
+  test 'destroy' do
     assert_difference('FriendRequest.count') do
       post '/api/friend_requests.json', api_token: api_token, friend_id: @friend.id
     end
@@ -31,14 +28,12 @@ class FriendRequestsTest < ActionDispatch::IntegrationTest
     refute @friend.friends.include?(@user)
   end
 
-  test 'should authorize users' do
+  test 'authorization' do
     stranger = users(:baz)
-    post '/api/friend_requests.json', api_token: api_token, friend_id: @friend.id
+    @user.friends << @friend
 
-    patch "/api/friend_requests/#{FriendRequest.last.id}", api_token: stranger.api_token
-    assert_response :forbidden
-
-    delete "/api/friend_requests/#{FriendRequest.last.id}", api_token: stranger.api_token
-    assert_response :forbidden
+    assert_raise ActiveRecord::RecordNotFound do
+      delete "/api/friends/#{@friend.id}", api_token: stranger.api_token
+    end
   end
 end

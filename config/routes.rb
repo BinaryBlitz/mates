@@ -16,7 +16,9 @@ Rails.application.routes.draw do
         get 'available_events'
       end
     end
-    resources :friend_requests, except: [:show, :new, :edit]
+    resources :friend_requests, except: [:show, :new, :edit] do
+      patch 'decline'
+    end
     resources :friends, only: [:index, :destroy]
     resources :device_tokens, only: [:create, :destroy], param: :token
 
@@ -33,7 +35,9 @@ Rails.application.routes.draw do
       resources :memberships, only: [:index, :create, :destroy], controller: 'event_memberships', shallow: true
       resources :proposals, except: [:show, :new, :edit], shallow: true
       resources :invites, except: [:show, :new, :edit], shallow: true
-      resources :submissions, except: [:show, :new, :edit], shallow: true
+      resources :submissions, except: [:show, :new, :edit], shallow: true do
+        patch 'decline'
+      end
     end
     resources :categories, only: [:index]
     resources :searches, only: [:create, :show]
