@@ -48,7 +48,7 @@ class UserTest < ActiveSupport::TestCase
     @user.gender = nil
     assert @user.valid?
 
-    @user.gender = 'm'
+    @user.gender = 'male'
     assert @user.valid?
 
     @user.gender = 'Hello'

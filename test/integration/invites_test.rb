@@ -27,11 +27,6 @@ class InvitesTest < ActionDispatch::IntegrationTest
     assert @invitee.events.include?(@event)
   end
 
-  test 'decline' do
-    delete "/api/invites/#{@invite.id}.json", api_token: api_token
-    refute @invitee.invited_events.include?(@event)
-  end
-
   test 'should authorize users' do
     post "/api/events/#{@event.id}/invites.json", api_token: api_token, invite: {
       user_id: @invitee.id, event_id: @event.id

@@ -71,8 +71,8 @@ class UsersTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
-  test "should get user's events" do
-    get "/api/users/#{@user.id}/events.json", api_token: api_token
+  test "user's memberships" do
+    get "/api/users/#{@user.id}/memberships.json", api_token: api_token
     assert_response :success
   end
 

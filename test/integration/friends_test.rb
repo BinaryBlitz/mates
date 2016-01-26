@@ -18,7 +18,7 @@ class FriendsTest < ActionDispatch::IntegrationTest
     assert_response :created
 
     patch "/api/friend_requests/#{FriendRequest.last.id}", api_token: @friend.api_token
-    assert_response :no_content
+    assert_response :ok
     assert @user.friends.include?(@friend)
     assert @friend.friends.include?(@user)
 
