@@ -18,8 +18,6 @@
 #  website_url     :string
 #
 
-# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
-
 foo:
   first_name: Foo
   last_name: Bar

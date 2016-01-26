@@ -12,7 +12,6 @@ class InvitesTest < ActionDispatch::IntegrationTest
       user_id: users(:baz).id, event_id: @event.id
     }
     assert_response :created
-    assert @invitee.invited_events.include?(@event)
   end
 
   test 'list' do

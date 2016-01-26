@@ -54,7 +54,7 @@ class Submission < ActiveRecord::Base
 
   def not_invited
     return unless user
-    errors.add(:user, 'is already invited') if user.invited_events.include?(event)
+    errors.add(:user, 'is already invited') if user.invites.where(event: event).any?
   end
 
   def can_already_join

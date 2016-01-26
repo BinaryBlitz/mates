@@ -74,7 +74,6 @@ class EventTest < ActiveSupport::TestCase
     assert @event.invalid?
   end
 
-  # TODO: Use enumerations
   test 'gender filter' do
     @event.gender = nil
     assert @event.valid?
