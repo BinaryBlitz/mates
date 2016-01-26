@@ -14,12 +14,12 @@ json.creator do
 end
 
 json.invite do
-  invite = @event.invites.find_by(user: current_user)
+  invite = @event.invites.unreviewed.find_by(user: current_user)
   json.extract! invite, :id, :event_id, :user_id, :accepted, :created_at if invite
 end
 
 json.submission do
-  submission = @event.submissions.find_by(user: current_user)
+  submission = @event.submissions.unreviewed.find_by(user: current_user)
   json.extract! submission, :id, :event_id, :user_id, :accepted, :created_at if submission
 end
 
