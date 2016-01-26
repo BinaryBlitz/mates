@@ -79,7 +79,7 @@ class EventTest < ActiveSupport::TestCase
     @event.gender = nil
     assert @event.valid?
 
-    @event.gender = 'm'
+    @event.gender = 'male'
     assert @event.valid?
 
     @event.gender = 'Hello'
@@ -92,11 +92,11 @@ class EventTest < ActiveSupport::TestCase
   test 'gender validation' do
     @event.gender = nil
     assert @event.valid_gender?(nil)
-    assert @event.valid_gender?('f')
+    assert @event.valid_gender?('female')
 
-    @event.gender = 'f'
+    @event.gender = 'female'
     assert_not @event.valid_gender?(nil)
-    assert_not @event.valid_gender?('m')
+    assert_not @event.valid_gender?('male')
   end
 
   test 'on_date scope' do

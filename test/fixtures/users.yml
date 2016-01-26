@@ -24,7 +24,7 @@ foo:
   first_name: Foo
   last_name: Bar
   birthday: <%= 18.years.ago %>
-  gender: m
+  gender: male
   phone_number: +74995555555
   api_token: <%= SecureRandom.base58(24) %>
 
@@ -33,7 +33,7 @@ baz:
   last_name: Qux
   birthday: <%= 18.years.ago %>
   phone_number: +74995555556
-  gender: f
+  gender: female
   api_token: <%= SecureRandom.base58(24) %>
 
 john:
@@ -41,7 +41,7 @@ john:
   last_name: Doe
   birthday: 2015-04-18
   phone_number: +74995555557
-  gender: m
+  gender: male
   api_token: <%= SecureRandom.hex %>
 
 invitee:
