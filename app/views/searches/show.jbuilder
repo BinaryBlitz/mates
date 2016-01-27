@@ -1,1 +1,1 @@
-json.array! @search.events, partial: 'events/event', as: :event
+json.array! @search.events, partial: 'events/event_detail', as: :event

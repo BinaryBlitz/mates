@@ -5,5 +5,5 @@ json.user do
 end
 
 json.event do
-  json.partial! 'events/event', event: submission.event
+  json.partial! 'events/event_preview', event: submission.event
 end
