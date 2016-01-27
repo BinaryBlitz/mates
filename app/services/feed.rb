@@ -14,13 +14,13 @@ class Feed
       user_event_ids = @user.events.ids
       # Feed
       ids = (created_ids + participated_ids + user_event_ids).uniq
-      events = Event.where(id: ids).upcoming.visible_for(@user)
+      events = Event.where(id: ids).upcoming.visible_for(@user).order(starts_at: :desc)
     end
   end
 
   def recommended
     Rails.cache.fetch(['feed-recommended', @user], expires_in: 5.minutes) do
-      Event.where(category: @user.categories).public_events
+      Event.where(category: @user.categories).public_events.order(starts_at: :desc)
     end
   end
 end
