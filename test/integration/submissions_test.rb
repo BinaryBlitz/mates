@@ -11,12 +11,6 @@ class SubmissionsTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
-  test 'cannot submit with invalid age or gender' do
-    @guest.update!(birthday: 15.years.ago)
-    post "/api/events/#{@event.id}/submissions.json", api_token: @guest.api_token
-    assert_response 422
-  end
-
   test 'create with valid age' do
     post "/api/events/#{@event.id}/submissions.json", api_token: @guest.api_token
     assert_response :created
