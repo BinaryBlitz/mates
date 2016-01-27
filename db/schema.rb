@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160108211717) do
+ActiveRecord::Schema.define(version: 20160127165040) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -51,18 +51,18 @@ ActiveRecord::Schema.define(version: 20160108211717) do
     t.string   "city"
     t.float    "latitude"
     t.float    "longitude"
-    t.text     "info"
+    t.text     "description"
     t.string   "visibility"
-    t.datetime "created_at",                              null: false
-    t.datetime "updated_at",                              null: false
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
     t.string   "address"
     t.integer  "creator_id"
     t.string   "photo"
     t.integer  "category_id"
-    t.integer  "user_limit",                  default: 1
+    t.integer  "user_limit"
     t.integer  "min_age"
     t.integer  "max_age"
-    t.string   "gender",            limit: 1
+    t.string   "gender"
     t.string   "sharing_token"
     t.integer  "extra_category_id"
   end
@@ -71,19 +71,12 @@ ActiveRecord::Schema.define(version: 20160108211717) do
   add_index "events", ["creator_id"], name: "index_events_on_creator_id", using: :btree
   add_index "events", ["extra_category_id"], name: "index_events_on_extra_category_id", using: :btree
 
-  create_table "feeds", force: :cascade do |t|
-    t.integer  "user_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  add_index "feeds", ["user_id"], name: "index_feeds_on_user_id", using: :btree
-
   create_table "friend_requests", force: :cascade do |t|
     t.integer  "user_id"
     t.integer  "friend_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean  "accepted"
   end
 
   add_index "friend_requests", ["friend_id"], name: "index_friend_requests_on_friend_id", using: :btree
@@ -114,6 +107,7 @@ ActiveRecord::Schema.define(version: 20160108211717) do
     t.integer  "event_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean  "accepted"
   end
 
   add_index "invites", ["event_id"], name: "index_invites_on_event_id", using: :btree
@@ -241,6 +235,7 @@ ActiveRecord::Schema.define(version: 20160108211717) do
     t.integer  "event_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean  "accepted"
   end
 
   add_index "submissions", ["event_id"], name: "index_submissions_on_event_id", using: :btree
@@ -251,10 +246,10 @@ ActiveRecord::Schema.define(version: 20160108211717) do
     t.string   "first_name"
     t.string   "last_name"
     t.date     "birthday"
-    t.string   "gender",          default: "m"
+    t.string   "gender"
     t.string   "api_token"
-    t.datetime "created_at",                    null: false
-    t.datetime "updated_at",                    null: false
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
     t.string   "avatar"
     t.string   "city"
     t.string   "phone_number"

@@ -8,7 +8,11 @@ class SubmissionPolicy < ApplicationPolicy
   end
 
   def destroy?
-    user == record.user || user == record.event.creator
+    user == record.user
+  end
+
+  def decline?
+    user == record.event.creator
   end
 
   class Scope < Scope

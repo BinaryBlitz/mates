@@ -36,11 +36,6 @@ class UsersController < ApplicationController
     head :no_content
   end
 
-  def events
-    @events = @user.events.upcoming.order(starts_at: :desc)
-    render 'events/index'
-  end
-
   def friends
     @friends = @user.friends
     render 'friends/index'
@@ -49,11 +44,6 @@ class UsersController < ApplicationController
   def search
     @users = User.search_by_name(params[:name])
     render :index
-  end
-
-  def available_events
-    @events = current_user.events - @user.events - @user.invited_events - @user.submitted_events
-    render 'events/index'
   end
 
   private

@@ -31,9 +31,7 @@ class MembershipsTest < ActionDispatch::IntegrationTest
 
   test 'authorization' do
     stranger = users(:baz)
-    assert_raise ActiveRecord::RecordNotFound do
-      delete "/api/memberships/#{@membership.id}.json", api_token: stranger.api_token
-      assert_response :not_found
-    end
+    delete "/api/memberships/#{@membership.id}.json", api_token: stranger.api_token
+    assert_response :forbidden
   end
 end

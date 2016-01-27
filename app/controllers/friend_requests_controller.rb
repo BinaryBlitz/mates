@@ -1,5 +1,5 @@
 class FriendRequestsController < ApplicationController
-  before_action :set_friend_request, only: [:update, :destroy]
+  before_action :set_friend_request, only: [:update, :destroy, :decline]
 
   def index
     @incoming = FriendRequest.where(friend: current_user)
@@ -20,13 +20,19 @@ class FriendRequestsController < ApplicationController
   def update
     authorize @friend_request
     @friend_request.accept
-    head :no_content
+    head :ok
   end
 
   def destroy
     authorize @friend_request
     @friend_request.destroy
     head :no_content
+  end
+
+  def decline
+    authorize @friend_request
+    @friend_request.decline
+    head :ok
   end
 
   private

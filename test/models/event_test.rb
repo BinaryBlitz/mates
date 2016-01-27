@@ -8,7 +8,7 @@
 #  city              :string
 #  latitude          :float
 #  longitude         :float
-#  info              :text
+#  description       :text
 #  visibility        :string
 #  created_at        :datetime         not null
 #  updated_at        :datetime         not null
@@ -16,10 +16,10 @@
 #  creator_id        :integer
 #  photo             :string
 #  category_id       :integer
-#  user_limit        :integer          default(1)
+#  user_limit        :integer
 #  min_age           :integer
 #  max_age           :integer
-#  gender            :string(1)
+#  gender            :string
 #  sharing_token     :string
 #  extra_category_id :integer
 #
@@ -74,12 +74,11 @@ class EventTest < ActiveSupport::TestCase
     assert @event.invalid?
   end
 
-  # TODO: Use enumerations
   test 'gender filter' do
     @event.gender = nil
     assert @event.valid?
 
-    @event.gender = 'm'
+    @event.gender = 'male'
     assert @event.valid?
 
     @event.gender = 'Hello'
@@ -92,11 +91,11 @@ class EventTest < ActiveSupport::TestCase
   test 'gender validation' do
     @event.gender = nil
     assert @event.valid_gender?(nil)
-    assert @event.valid_gender?('f')
+    assert @event.valid_gender?('female')
 
-    @event.gender = 'f'
+    @event.gender = 'female'
     assert_not @event.valid_gender?(nil)
-    assert_not @event.valid_gender?('m')
+    assert_not @event.valid_gender?('male')
   end
 
   test 'on_date scope' do

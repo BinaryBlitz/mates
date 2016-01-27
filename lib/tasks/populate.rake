@@ -16,7 +16,8 @@ namespace :db do
         last_name: FFaker::Name.last_name,
         birthday: FFaker::Time.date,
         gender: random_gender,
-        city: FFaker::AddressUS.city
+        city: FFaker::AddressUS.city,
+        phone_number: FFaker::PhoneNumberDE.international_home_work_phone_number
         # remote_avatar_url: FFaker::Avatar.image
       )
     end
@@ -32,14 +33,14 @@ namespace :db do
         city: FFaker::AddressUS.city,
         latitude: FFaker::Geolocation.lat,
         longitude: FFaker::Geolocation.lng,
-        info: FFaker::HipsterIpsum.sentence,
+        description: FFaker::HipsterIpsum.sentence,
         address: FFaker::AddressUS.street_address,
         category: random_category,
         user_limit: rand(100) + 2,
         visibility: random_visibility,
         min_age: rand(20) + 1,
         max_age: rand(20) + 20,
-        gender: [nil, 'm', 'f'].sample,
+        gender: [nil, 'male', 'female'].sample,
         creator: i == 0 ? User.first : random_user
       )
     end
@@ -104,7 +105,7 @@ namespace :db do
   end
 
   def random_gender
-    ['f', 'm'].sample
+    ['male', 'female'].sample
   end
 
   def random_visibility

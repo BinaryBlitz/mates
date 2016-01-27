@@ -3,17 +3,15 @@ class FeedsController < ApplicationController
 
   def friends
     @events = @feed.friends
-    render 'index'
   end
 
   def recommended
     @events = @feed.recommended
-    render 'index'
   end
 
   private
 
   def set_feed
-    @feed = current_user.build_feed
+    @feed = Feed.new(current_user)
   end
 end

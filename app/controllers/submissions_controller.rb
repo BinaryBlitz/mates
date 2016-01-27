@@ -1,6 +1,6 @@
 class SubmissionsController < ApplicationController
   before_action :set_event, only: [:index, :create]
-  before_action :set_submission, except: [:index, :create]
+  before_action :set_submission, only: [:update, :destroy, :decline]
 
   def index
     authorize @event, :submissions?
@@ -9,7 +9,6 @@ class SubmissionsController < ApplicationController
 
   def create
     @submission = @event.submissions.build(user: current_user)
-    # TODO: authorize @submission
 
     if @submission.save
       render :show, status: :created
@@ -28,6 +27,12 @@ class SubmissionsController < ApplicationController
     authorize @submission
     @submission.destroy
     head :no_content
+  end
+
+  def decline
+    authorize @submission
+    @submission.decline
+    head :ok
   end
 
   private

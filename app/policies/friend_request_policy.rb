@@ -4,7 +4,11 @@ class FriendRequestPolicy < ApplicationPolicy
   end
 
   def destroy?
-    user == record.friend || user == record.user
+    user == record.user
+  end
+
+  def decline?
+    user == record.friend
   end
 
   class Scope < Scope

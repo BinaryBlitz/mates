@@ -6,7 +6,7 @@
 #  first_name      :string
 #  last_name       :string
 #  birthday        :date
-#  gender          :string           default("m")
+#  gender          :string
 #  api_token       :string
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
@@ -18,13 +18,11 @@
 #  website_url     :string
 #
 
-# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
-
 foo:
   first_name: Foo
   last_name: Bar
   birthday: <%= 18.years.ago %>
-  gender: m
+  gender: male
   phone_number: +74995555555
   api_token: <%= SecureRandom.base58(24) %>
 
@@ -33,7 +31,7 @@ baz:
   last_name: Qux
   birthday: <%= 18.years.ago %>
   phone_number: +74995555556
-  gender: f
+  gender: female
   api_token: <%= SecureRandom.base58(24) %>
 
 john:
@@ -41,7 +39,7 @@ john:
   last_name: Doe
   birthday: 2015-04-18
   phone_number: +74995555557
-  gender: m
+  gender: male
   api_token: <%= SecureRandom.hex %>
 
 invitee:

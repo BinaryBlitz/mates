@@ -12,7 +12,6 @@ class InvitesTest < ActionDispatch::IntegrationTest
       user_id: users(:baz).id, event_id: @event.id
     }
     assert_response :created
-    assert @invitee.invited_events.include?(@event)
   end
 
   test 'list' do
@@ -28,8 +27,13 @@ class InvitesTest < ActionDispatch::IntegrationTest
   end
 
   test 'decline' do
-    delete "/api/invites/#{@invite.id}.json", api_token: api_token
-    refute @invitee.invited_events.include?(@event)
+    patch "/api/invites/#{@invite.id}/decline", api_token: @invite.user.api_token
+    assert_response :ok
+  end
+
+  test 'cancel' do
+    delete "/api/invites/#{@invite.id}", api_token: @event.creator.api_token
+    assert_response :no_content
   end
 
   test 'should authorize users' do

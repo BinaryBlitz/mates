@@ -7,6 +7,7 @@
 #  event_id   :integer
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
+#  accepted   :boolean
 #
 
 class Submission < ActiveRecord::Base
@@ -17,15 +18,19 @@ class Submission < ActiveRecord::Base
 
   validates :user, presence: true
   validates :event, presence: true, uniqueness: { scope: :user }
-  validate :not_visited
-  validate :not_invited
-  validate :can_already_join
-  validate :cannot_join
+  validate :user_joined?
+  validate :user_invited?
+
+  include Reviewable
 
   def accept
     event.users << user
     notify_user
-    destroy
+    update(accepted: true)
+  end
+
+  def decline
+    update(accepted: false)
   end
 
   private
@@ -40,23 +45,13 @@ class Submission < ActiveRecord::Base
     Notifier.new(user, "Ваша заявка на #{event.name} была одобрена", options)
   end
 
-  def not_visited
+  def user_joined?
     return unless user
     errors.add(:event, 'is already visited') if user.events.include?(event)
   end
 
-  def not_invited
+  def user_invited?
     return unless user
-    errors.add(:user, 'is already invited') if user.invited_events.include?(event)
-  end
-
-  def can_already_join
-    return unless event
-    errors.add(:user, 'can already join the event') if event.invited_users.include?(user)
-  end
-
-  def cannot_join
-    return unless event
-    errors.add(:user, 'cannot join the event because of limitations') unless event.valid_user?(user)
+    errors.add(:user, 'is already invited') if user.invites.where(event: event).unreviewed.any?
   end
 end

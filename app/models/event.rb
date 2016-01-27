@@ -8,7 +8,7 @@
 #  city              :string
 #  latitude          :float
 #  longitude         :float
-#  info              :text
+#  description       :text
 #  visibility        :string
 #  created_at        :datetime         not null
 #  updated_at        :datetime         not null
@@ -16,10 +16,10 @@
 #  creator_id        :integer
 #  photo             :string
 #  category_id       :integer
-#  user_limit        :integer          default(1)
+#  user_limit        :integer
 #  min_age           :integer
 #  max_age           :integer
-#  gender            :string(1)
+#  gender            :string
 #  sharing_token     :string
 #  extra_category_id :integer
 #
@@ -49,18 +49,16 @@ class Event < ActiveRecord::Base
   validates :category, presence: true
   validates :name, presence: true, length: { maximum: 30 }
   validates :city, presence: true
-  validates :user_limit, numericality: { greater_than: 1, allow_nil: true }
+  validates :user_limit, numericality: { greater_than: 1 }, allow_nil: true
   validate :extra_category, :not_equal_to_category
 
   extend Enumerize
   enumerize :visibility, in: [:public, :friends, :private]
 
   #  Filter validations
-  validates :gender, inclusion: { in: %w(f m) }, allow_nil: true
-
+  validates :gender, inclusion: { in: %w(male female) }, allow_nil: true
   validates :min_age, numericality: { greater_than: 0 }, allow_nil: true
   validates :max_age, numericality: { less_than_or_equal_to: 100 }, allow_nil: true
-
   validates :min_age, numericality: { less_than_or_equal_to: :max_age },
                       if: 'max_age.present?', allow_nil: true
   validates :max_age, numericality: { greater_than_or_equal_to: :min_age },

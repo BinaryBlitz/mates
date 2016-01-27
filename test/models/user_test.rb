@@ -6,7 +6,7 @@
 #  first_name      :string
 #  last_name       :string
 #  birthday        :date
-#  gender          :string           default("m")
+#  gender          :string
 #  api_token       :string
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
@@ -48,7 +48,7 @@ class UserTest < ActiveSupport::TestCase
     @user.gender = nil
     assert @user.valid?
 
-    @user.gender = 'm'
+    @user.gender = 'male'
     assert @user.valid?
 
     @user.gender = 'Hello'
