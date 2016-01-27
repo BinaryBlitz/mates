@@ -4,29 +4,36 @@ Rails.application.routes.draw do
   end
 
   scope '/api' do
-    # Users
+    # Auth & users
     resources :verification_tokens, only: [:create, :update], param: :token
+    resources :device_tokens, only: [:create, :destroy], param: :token
     resources :users, except: [:index, :new, :edit] do
       resources :memberships, only: [:index], controller: 'user_memberships'
       get 'search', on: :collection
       get 'friends', on: :member
     end
+
+    # Friends
     resources :friend_requests, except: [:show, :new, :edit] do
       patch 'decline', on: :member
     end
     resources :friends, only: [:index, :destroy]
-    resources :device_tokens, only: [:create, :destroy], param: :token
-    resources :memberships, only: [:destroy]
+
+    # Feeds
+    resources :offers, only: [:index]
+    resource :activity, only: [:show]
+    resource :feed, only: [] do
+      get 'friends', 'recommended'
+    end
 
     # Events
+    resources :memberships, only: [:destroy]
+    resources :searches, only: [:create, :show]
+    resources :categories, only: [:index]
     resources :events, except: [:index, :new, :edit] do
-      collection do
-        get 'owned'
-        get 'by_token'
-      end
-      member do
-        get 'available_friends'
-      end
+      get 'owned', 'by_token', on: :collection
+      get 'available_friends', on: :member
+      
       resources :comments, except: [:show, :new, :edit], shallow: true
       resources :memberships, only: [:index, :create], controller: 'event_memberships'
       resources :proposals, except: [:show, :new, :edit], shallow: true
@@ -36,12 +43,6 @@ Rails.application.routes.draw do
       resources :submissions, except: [:show, :new, :edit], shallow: true do
         patch 'decline', on: :member
       end
-    end
-    resources :categories, only: [:index]
-    resources :searches, only: [:create, :show]
-    resource :activity, only: [:show]
-    resource :feed, only: [] do
-      get 'friends', 'recommended'
     end
   end
 
