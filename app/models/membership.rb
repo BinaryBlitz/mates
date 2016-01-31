@@ -18,6 +18,8 @@ class Membership < ActiveRecord::Base
   validates :user, presence: true
   validates :event, presence: true, uniqueness: { scope: :user }
 
+  scope :order_by_starting_date, -> { joins(:event).order('events.starts_at DESC') }
+
   private
 
   def notify_removal
