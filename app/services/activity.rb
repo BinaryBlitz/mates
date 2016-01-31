@@ -20,6 +20,7 @@ class Activity
   end
 
   def memberships
-    Membership.where(event: @user.events).where('created_at > ?', 1.week.ago)
+    events = @user.events.where.not(creator: @user)
+    Membership.where(event: events).where('created_at > ?', 1.week.ago)
   end
 end
