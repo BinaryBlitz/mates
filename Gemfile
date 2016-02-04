@@ -4,6 +4,7 @@ gem 'rails', '4.2.5'
 gem 'pg'
 gem 'jbuilder'
 gem 'unicorn'
+gem 'newrelic_rpm'
 
 gem 'phony_rails'
 gem 'ffaker'
