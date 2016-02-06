@@ -11,6 +11,7 @@
 
 class Membership < ActiveRecord::Base
   after_destroy :notify_removal
+  after_create :invalidate_cache
 
   belongs_to :user
   belongs_to :event
@@ -25,5 +26,9 @@ class Membership < ActiveRecord::Base
   def notify_removal
     options = { action: 'USER_REMOVED', membership: as_json }
     Notifier.new(user, "Вы исключены из #{event}", options)
+  end
+
+  def invalidate_cache
+    Rails.cache.delete(['feed', event])
   end
 end
