@@ -48,8 +48,3 @@ group :development, :test do
   gem 'byebug'
   gem 'spring'
 end
-
-group :production do
-  gem 'rails_12factor'
-  gem 'annotate', '~> 2.6.0'
-end
