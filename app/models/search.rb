@@ -15,9 +15,12 @@
 #  longitude     :float
 #  distance      :integer
 #  category_ids  :integer          is an Array
+#  user_id       :integer
 #
 
 class Search < ActiveRecord::Base
+  belongs_to :user
+
   def events
     @events || find_events
   end
@@ -27,8 +30,6 @@ class Search < ActiveRecord::Base
   def find_events
     events = Event.order(starts_at: :asc).upcoming
     events = events.where(category_id: category_id) if category_id.present?
-
-    # TODO: Apply visibility rules
-    events
+    events.visible_for(user)
   end
 end

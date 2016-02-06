@@ -160,7 +160,7 @@ GEM
       thor (>= 0.18.1, < 2.0)
     raindrops (0.15.0)
     rake (10.5.0)
-    rpush (2.6.0)
+    rpush (2.5.0)
       activesupport
       ansi
       multi_json (~> 1.0)
@@ -234,7 +234,7 @@ DEPENDENCIES
   pry-rails
   pundit
   rails (= 4.2.5)
-  rpush
+  rpush (~> 2.5.0)
   rvm-capistrano
   sass-rails
   spring

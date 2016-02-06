@@ -63,6 +63,7 @@ class User < ActiveRecord::Base
   has_many :mentions, class_name: 'Comment', foreign_key: :respondent_id
 
   has_many :device_tokens, dependent: :destroy
+  has_many :searches, dependent: :destroy
 
   has_secure_token :api_token
 

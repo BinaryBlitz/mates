@@ -8,7 +8,7 @@ gem 'newrelic_rpm'
 
 gem 'phony_rails'
 gem 'ffaker'
-gem 'rpush'
+gem 'rpush', '~> 2.5.0'
 gem 'validate_url'
 gem 'geocoder'
 gem 'enumerize'

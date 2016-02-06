@@ -4,7 +4,7 @@ class SearchesController < ApplicationController
   end
 
   def create
-    @search = Search.create!(search_params)
+    @search = current_user.searches.create!(search_params)
     render :show, status: :created, location: @search
   end
 

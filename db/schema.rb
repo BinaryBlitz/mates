@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160127165040) do
+ActiveRecord::Schema.define(version: 20160206212412) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -228,7 +228,10 @@ ActiveRecord::Schema.define(version: 20160127165040) do
     t.float    "longitude"
     t.integer  "distance"
     t.integer  "category_ids",               array: true
+    t.integer  "user_id"
   end
+
+  add_index "searches", ["user_id"], name: "index_searches_on_user_id", using: :btree
 
   create_table "submissions", force: :cascade do |t|
     t.integer  "user_id"
