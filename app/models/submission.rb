@@ -25,9 +25,9 @@ class Submission < ActiveRecord::Base
   include Reviewable
 
   def accept
+    update(accepted: true)
     event.users << user
     notify_user
-    update(accepted: true)
   end
 
   def decline
