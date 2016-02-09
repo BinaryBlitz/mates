@@ -7,7 +7,6 @@ class InvitePolicy < ApplicationPolicy
     @event = @invite.event
   end
 
-  # TODO: Can any user invite other users? Or is it creator only?
   def create?
     user == event.creator || event.users.include?(user)
   end

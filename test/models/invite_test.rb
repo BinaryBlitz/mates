@@ -31,4 +31,11 @@ class InviteTest < ActiveSupport::TestCase
     @invite.event.users.destroy(@invite.user)
     assert dup.valid?
   end
+
+  test 'valid event date' do
+    event = @invite.event
+    event.starts_at = 1.day.ago
+
+    assert @invite.invalid?
+  end
 end

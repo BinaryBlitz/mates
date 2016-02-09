@@ -19,6 +19,7 @@ class Invite < ActiveRecord::Base
   validates :user, presence: true
   validate :not_a_member
   validate :not_already_invited
+  validate :event_date_valid
 
   include Reviewable
 
@@ -47,5 +48,10 @@ class Invite < ActiveRecord::Base
   def not_already_invited
     return unless event.invites.where(user: user, accepted: nil).where.not(id: id).any?
     errors.add(:user, 'is already invited to the event')
+  end
+
+  def event_date_valid
+    return unless event.starts_at && event.starts_at <= Time.zone.now
+    errors.add(:event, 'has already started')
   end
 end
