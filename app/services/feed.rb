@@ -4,7 +4,7 @@ class Feed
   end
 
   def friends
-    Rails.cache.fetch(['feed-friends', @user], expires_in: 5.minutes) do
+    Rails.cache.fetch(['feed-friends', @user], expires_in: 2.minutes) do
       friend_ids = @user.friends.ids
       # 1. Created by friends
       created_ids = Event.where(creator_id: friend_ids).where(visibility: ['public', 'friends']).ids
@@ -19,7 +19,7 @@ class Feed
   end
 
   def recommended
-    Rails.cache.fetch(['feed-recommended', @user], expires_in: 5.minutes) do
+    Rails.cache.fetch(['feed-recommended', @user], expires_in: 2.minutes) do
       Event.where(category: @user.categories).public_events.order(starts_at: :desc)
     end
   end

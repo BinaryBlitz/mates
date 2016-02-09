@@ -1,6 +1,6 @@
-json.cache! ['friends_feed', current_user], expires_in: 5.minutes do
+json.cache! ['friends_feed', current_user], expires_in: 2.minutes do
   json.array! @events do |event|
-    json.cache! ['feed', event], expires_in: 5.minutes do
+    json.cache! ['feed', event], expires_in: 2.minutes do
       json.extract! event, :id, :name, :photo_url, :city, :starts_at, :category_id, :user_limit
 
       json.creator do
