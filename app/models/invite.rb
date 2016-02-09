@@ -12,6 +12,7 @@
 
 class Invite < ActiveRecord::Base
   after_create :notify_user
+  after_update :invalidate_cache
 
   belongs_to :user
   belongs_to :event
@@ -53,5 +54,9 @@ class Invite < ActiveRecord::Base
   def event_date_valid
     return unless event.starts_at && event.starts_at <= Time.zone.now
     errors.add(:event, 'has already started')
+  end
+
+  def invalidate_cache
+    Rails.cache.delete(self)
   end
 end
