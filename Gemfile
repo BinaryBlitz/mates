@@ -8,7 +8,7 @@ gem 'newrelic_rpm'
 
 gem 'phony_rails'
 gem 'ffaker'
-gem 'rpush'
+gem 'rpush', '~> 2.5.0'
 gem 'validate_url'
 gem 'geocoder'
 gem 'enumerize'
@@ -47,9 +47,4 @@ end
 group :development, :test do
   gem 'byebug'
   gem 'spring'
-end
-
-group :production do
-  gem 'rails_12factor'
-  gem 'annotate', '~> 2.6.0'
 end

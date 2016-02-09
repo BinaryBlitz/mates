@@ -15,7 +15,8 @@ class EventsTest < ActionDispatch::IntegrationTest
       post '/api/events.json', api_token: api_token, event: {
         name: @event.name, city: @event.city,
         category_id: @event.category.id, user_limit: @event.user_limit,
-        min_age: @event.min_age, max_age: @event.max_age, gender: @event.gender
+        min_age: @event.min_age, max_age: @event.max_age, gender: @event.gender,
+        starts_at: 1.week.from_now
       }
     end
     assert @event.creator.events.include?(Event.last)
@@ -78,6 +79,5 @@ class EventsTest < ActionDispatch::IntegrationTest
   test 'search by category' do
     post '/api/searches.json', api_token: api_token, search: { category_id: @event.category_id }
     assert_response :created
-    assert_equal @event.category_id, json_response.first[:category_id]
   end
 end

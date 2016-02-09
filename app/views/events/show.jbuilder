@@ -5,10 +5,6 @@ json.extract! @event,
 
 json.sharing_url web_event_url({sharing_token: @event.sharing_token})
 
-json.users @event.users do |user|
-  json.partial! 'users/user', user: user
-end
-
 json.creator do
   json.partial! 'users/user', user: @event.creator
 end

@@ -47,6 +47,7 @@ class Event < ActiveRecord::Base
 
   validates :creator, presence: true
   validates :category, presence: true
+  validates :starts_at, presence: true
   validates :name, presence: true, length: { maximum: 30 }
   validates :city, presence: true
   validates :user_limit, numericality: { greater_than: 1 }, allow_nil: true

@@ -12,6 +12,7 @@
 
 class Submission < ActiveRecord::Base
   after_create :notify_creator
+  after_update :invalidate_cache
 
   belongs_to :user
   belongs_to :event
@@ -24,9 +25,9 @@ class Submission < ActiveRecord::Base
   include Reviewable
 
   def accept
+    update(accepted: true)
     event.users << user
     notify_user
-    update(accepted: true)
   end
 
   def decline
@@ -53,5 +54,9 @@ class Submission < ActiveRecord::Base
   def user_invited?
     return unless user
     errors.add(:user, 'is already invited') if user.invites.where(event: event).unreviewed.any?
+  end
+
+  def invalidate_cache
+    Rails.cache.delete(self)
   end
 end

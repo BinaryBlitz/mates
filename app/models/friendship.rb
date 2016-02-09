@@ -11,6 +11,7 @@
 
 class Friendship < ActiveRecord::Base
   after_create :create_inverse_friendship
+  after_create :invalidate_cache
 
   belongs_to :user
   belongs_to :friend, class_name: 'User'
@@ -27,5 +28,10 @@ class Friendship < ActiveRecord::Base
 
   def create_inverse_friendship
     Friendship.create(user: friend, friend: user)
+  end
+
+  def invalidate_cache
+    events = Event.where(id: user.event_ids + friend.event_ids).upcoming
+    events.find_each { |event| Rails.cache.delete(['feed', event]) }
   end
 end

@@ -2,8 +2,8 @@ class FriendRequestsController < ApplicationController
   before_action :set_friend_request, only: [:update, :destroy, :decline]
 
   def index
-    @incoming = FriendRequest.where(friend: current_user)
-    @outgoing = current_user.friend_requests
+    @incoming = FriendRequest.where(friend: current_user).unreviewed
+    @outgoing = current_user.friend_requests.unreviewed
   end
 
   def create

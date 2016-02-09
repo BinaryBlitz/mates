@@ -14,12 +14,12 @@ class Offers
   end
 
   def build_invites
-    @outgoing_invites = Invite.where(event: @user.events).unreviewed.includes(:event, :user)
+    @outgoing_invites = Invite.where(event: @user.owned_events).unreviewed.includes(:event, :user)
     @incoming_invites = @user.invites.unreviewed.includes(:event, :user)
   end
 
   def build_submissions
     @outgoing_submissions = @user.submissions.unreviewed.includes(:event, :user)
-    @incoming_submissions = Submission.where(event: @user.events).unreviewed.includes(:event, :user)
+    @incoming_submissions = Submission.where(event: @user.owned_events).unreviewed.includes(:event, :user)
   end
 end
