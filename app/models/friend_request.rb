@@ -17,16 +17,16 @@ class FriendRequest < ActiveRecord::Base
   belongs_to :friend, class_name: 'User'
 
   validates :user, presence: true
-  validates :friend, presence: true, uniqueness: { scope: :user }
+  validates :friend, presence: true
   validate :not_self
   validate :not_friends
-  validate :not_pending
+  validate :not_requested
 
   include Reviewable
 
   def accept
-    user.friends << friend
     update(accepted: true)
+    user.friends << friend
   end
 
   def decline
@@ -49,8 +49,15 @@ class FriendRequest < ActiveRecord::Base
     errors.add(:friend, 'is already added') if user.friends.include?(friend)
   end
 
-  def not_pending
-    return unless friend
-    errors.add(:friend, 'already requested friendship') if friend.pending_friends.include?(user)
+  def not_requested
+    return unless user && friend
+
+    if user.friend_requests.unreviewed.where(friend: friend).where.not(id: id).any?
+      errors.add(:friend, 'is already requested')
+    end
+
+    if friend.friend_requests.unreviewed.where(friend: user).where.not(id: id).any?
+      errors.add(:friend, 'is already pending')
+    end
   end
 end

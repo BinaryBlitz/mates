@@ -19,8 +19,9 @@ class Submission < ActiveRecord::Base
 
   validates :user, presence: true
   validates :event, presence: true, uniqueness: { scope: :user }
-  validate :user_joined?
-  validate :user_invited?
+  validate :not_member
+  validate :not_submitted
+  validate :not_invited
 
   include Reviewable
 
@@ -46,14 +47,19 @@ class Submission < ActiveRecord::Base
     Notifier.new(user, "Ваша заявка на #{event.name} была одобрена", options)
   end
 
-  def user_joined?
+  def not_member
     return unless user
-    errors.add(:event, 'is already visited') if user.events.include?(event)
+    errors.add(:event, 'is already a member') if user.events.include?(event)
   end
 
-  def user_invited?
+  def not_submitted
     return unless user
-    errors.add(:user, 'is already invited') if user.invites.where(event: event).unreviewed.any?
+    errors.add(:user, 'is already submitted') if user.submissions.unreviewed.where(event: event).any?
+  end
+
+  def not_invited
+    return unless user
+    errors.add(:user, 'is already invited') if user.invites.unreviewed.where(event: event).any?
   end
 
   def invalidate_cache

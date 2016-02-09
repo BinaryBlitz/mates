@@ -18,8 +18,8 @@ class Invite < ActiveRecord::Base
   belongs_to :event
 
   validates :user, presence: true
-  validate :not_a_member
-  validate :not_already_invited
+  validate :not_member
+  validate :not_invited
   validate :event_date_valid
 
   include Reviewable
@@ -41,12 +41,12 @@ class Invite < ActiveRecord::Base
     Notifier.new(user, "Вас пригласили на событие: #{event}", options)
   end
 
-  def not_a_member
+  def not_member
     return unless event.users.include?(user)
     errors.add(:user, 'is already a member')
   end
 
-  def not_already_invited
+  def not_invited
     return unless event.invites.where(user: user, accepted: nil).where.not(id: id).any?
     errors.add(:user, 'is already invited to the event')
   end
