@@ -83,11 +83,11 @@ class Event < ActiveRecord::Base
   end
 
   def self.visible_for(user)
-    events = Event.all
+    events = all
     events = events.where('gender IS NULL OR gender = ?', user.gender)
     events = events.where('min_age IS NULL OR min_age < ?', user.age)
     events = events.where('max_age IS NULL OR max_age > ?', user.age)
-    events
+    Event.where(id: events.ids + user.owned_event_ids)
   end
 
   def friend_count(current_user)

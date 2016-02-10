@@ -49,7 +49,7 @@ class Invite < ActiveRecord::Base
   end
 
   def not_invited
-    return unless event.invites.where(user: user, accepted: nil).where.not(id: id).any?
+    return unless event.invites.unreviewed.where(user: user).where.not(id: id).any?
     errors.add(:user, 'is already invited to the event')
   end
 
