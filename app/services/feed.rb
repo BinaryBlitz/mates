@@ -20,7 +20,7 @@ class Feed
 
   def recommended
     Rails.cache.fetch(['feed-recommended', @user], expires_in: 2.minutes) do
-      Event.where(category: @user.categories).public_events.order(starts_at: :desc)
+      Event.where(category: @user.categories).upcoming.public_events.order(starts_at: :desc)
     end
   end
 end
