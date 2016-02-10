@@ -18,7 +18,7 @@ class Submission < ActiveRecord::Base
   belongs_to :event
 
   validates :user, presence: true
-  validates :event, presence: true, uniqueness: { scope: :user }
+  validates :event, presence: true
   validate :not_member
   validate :not_submitted
   validate :not_invited
@@ -54,7 +54,10 @@ class Submission < ActiveRecord::Base
 
   def not_submitted
     return unless user
-    errors.add(:user, 'is already submitted') if user.submissions.unreviewed.where(event: event).any?
+
+    if user.submissions.unreviewed.where(event: event).where.not(id: id).any?
+      errors.add(:user, 'is already submitted')
+    end
   end
 
   def not_invited
