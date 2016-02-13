@@ -16,13 +16,13 @@ gcm.connections = 1
 gcm.save!
 
 # Apple Push Notification Service
-# apns = Rpush::Apns::App.new
-# apns.name = 'ios_app'
-# apns.certificate = File.read('/path/to/sandbox.pem')
-# apns.environment = 'sandbox'
-# apns.password = 'certificate password'
-# apns.connections = 1
-# apns.save!
+apns = Rpush::Apns::App.new
+apns.name = 'ios_app'
+apns.certificate = File.read(Rails.root.join('config', 'pushcert.pem'))
+apns.environment = 'sandbox'
+# apns.password = ''
+apns.connections = 1
+apns.save!
 
 # Categories
 Category.create!([
