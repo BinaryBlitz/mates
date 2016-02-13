@@ -23,7 +23,7 @@ class Invite < ActiveRecord::Base
   validate :not_invited
   validate :event_date_valid
 
-  delegate :creator, to: :event, allow_nil: true
+  delegate :creator, to: :event
 
   include Reviewable
 
