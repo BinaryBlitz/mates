@@ -13,7 +13,6 @@
 
 class Comment < ActiveRecord::Base
   after_create :notify_creator
-  after_create :notify_respondent
 
   belongs_to :user
   belongs_to :event
@@ -30,13 +29,6 @@ class Comment < ActiveRecord::Base
 
     options = { action: 'NEW_COMMENT', comment: as_json }
     Notifier.new(event.creator, "#{user} оставил комментарий к #{event}", options)
-  end
-
-  def notify_respondent
-    return unless respondent
-
-    options = { action: 'NEW_MENTION', comment: as_json }
-    Notifier.new(respondent, "#{user} упомянул вас в комментарии к #{event}", options)
   end
 
   def respondent_membership

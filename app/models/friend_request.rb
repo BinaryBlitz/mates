@@ -12,6 +12,7 @@
 
 class FriendRequest < ActiveRecord::Base
   after_create :notify_friend
+  after_update :notify_user
 
   belongs_to :user
   belongs_to :friend, class_name: 'User'
@@ -26,7 +27,7 @@ class FriendRequest < ActiveRecord::Base
 
   def accept
     update(accepted: true)
-    user.friends << friend
+    user.friendships.create(friend: friend)
   end
 
   def decline
@@ -38,6 +39,12 @@ class FriendRequest < ActiveRecord::Base
   def notify_friend
     options = { action: 'FRIEND_REQUEST', friend_request: as_json }
     Notifier.new(friend, "#{user} хочет добавить вас в друзья", options)
+  end
+
+  def notify_user
+    return unless accepted_changed? && accepted?
+    options = { action: 'FRIEND_REQUEST_ACCEPTED', friend_request: as_json }
+    Notifier.new(user, "#{friend} принял вашу заявку на добавление в друзья", options)
   end
 
   def not_self
