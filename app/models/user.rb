@@ -126,6 +126,10 @@ class User < ActiveRecord::Base
     visited_at && visited_at > 1.minute.ago
   end
 
+  def offer_count
+    invites.unreviewed.count + Submission.where(event: owned_events).unreviewed.count
+  end
+
   private
 
   def set_online

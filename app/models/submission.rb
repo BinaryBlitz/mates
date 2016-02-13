@@ -23,6 +23,8 @@ class Submission < ActiveRecord::Base
   validate :not_submitted
   validate :not_invited
 
+  delegate :creator, to: :event, allow_nil: true
+
   include Reviewable
 
   def accept
@@ -38,7 +40,7 @@ class Submission < ActiveRecord::Base
   private
 
   def notify_creator
-    options = { action: 'NEW_SUBMISSION', submission: as_json }
+    options = { action: 'NEW_SUBMISSION', submission: as_json, count: creator.offer_count }
     Notifier.new(event.creator, "Новая заявка от #{user} на #{event}", options)
   end
 

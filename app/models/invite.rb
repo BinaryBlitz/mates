@@ -46,7 +46,7 @@ class Invite < ActiveRecord::Base
 
   def notify_creator
     return unless accepted_changed? && accepted?
-    options = { action: 'INVITE_ACCEPTED', invite: as_json }
+    options = { action: 'INVITE_ACCEPTED', invite: as_json, count: creator.offer_count }
     Notifier.new(creator, 'Ваше приглашение было принято', options)
   end
 
