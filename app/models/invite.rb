@@ -12,6 +12,7 @@
 
 class Invite < ActiveRecord::Base
   after_create :notify_user
+  after_update :notify_creator
   after_update :invalidate_cache
 
   belongs_to :user
@@ -41,6 +42,12 @@ class Invite < ActiveRecord::Base
   def notify_user
     options = { action: 'INVITE', invite: as_json }
     Notifier.new(user, "Вас пригласили на событие: #{event}", options)
+  end
+
+  def notify_creator
+    return unless accepted_changed? && accepted?
+    options = { action: 'INVITE_ACCEPTED', invite: as_json }
+    Notifier.new(creator, 'Ваше приглашение было принято', options)
   end
 
   def not_member
