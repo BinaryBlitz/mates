@@ -14,6 +14,8 @@ end
 
 if offer.respond_to?(:creator)
   json.cache! ['user-preview', offer.creator], expires_in: 2.minutes do
-    json.partial! 'users/user', user: offer.creator
+    json.creator do
+      json.partial! 'users/user', user: offer.creator
+    end
   end
 end
