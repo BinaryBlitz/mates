@@ -1,6 +1,5 @@
 class EventMembershipsController < ApplicationController
   before_action :set_event, only: [:index, :create]
-  before_action :set_membership, only: [:destroy]
 
   def index
     @memberships = @event.memberships
@@ -15,12 +14,6 @@ class EventMembershipsController < ApplicationController
     else
       render json: @membership.errors, status: 422
     end
-  end
-
-  def destroy
-    authorize @membership
-    @membership.destroy
-    head :no_content
   end
 
   private
