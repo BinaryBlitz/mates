@@ -43,6 +43,9 @@ Rails.application.routes.draw do
         patch 'decline', on: :member
       end
     end
+
+    # Stuff
+    resources :reports, only: [:create]
   end
 
   # Example of regular route:
