@@ -58,10 +58,7 @@ class UsersController < ApplicationController
       :gender, :city, :avatar, :remove_avatar, :phone_number, :verification_token,
       :notifications_events, :notifications_friends,
       photos_attributes: [:id, :image, :_destroy],
-      interests_attributes: [:id, :category_id, :_destroy],
-      preference_attributes: [
-        :notifications_friends, :notifications_events, :visibility_photos, :visibility_events
-      ]
+      interests_attributes: [:id, :category_id, :_destroy]
     )
   end
 end

@@ -28,14 +28,6 @@ class User < ActiveRecord::Base
   validates :gender, inclusion: { in: %w(male female) }, allow_nil: true
   validates :website_url, url: true, allow_nil: true
 
-  # Preferences
-  has_one :preference, dependent: :destroy
-  accepts_nested_attributes_for :preference
-
-  def preferences
-    preference || create_preference
-  end
-
   has_many :photos, dependent: :destroy
   accepts_nested_attributes_for :photos, allow_destroy: true
 

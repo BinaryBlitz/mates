@@ -28,11 +28,11 @@ class UsersTest < ActionDispatch::IntegrationTest
   end
 
   test 'update preferences' do
-    assert_equal true, @user.preferences.notifications_friends
+    assert_equal true, @user.notifications_friends
     patch "/api/users/#{@user.id}.json", api_token: api_token, user: {
-      preference_attributes: { notifications_friends: false }
+      notifications_friends: false
     }
-    assert_equal false, @user.reload.preferences.notifications_friends
+    assert_equal false, @user.reload.notifications_friends
   end
 
   test 'update interests' do
