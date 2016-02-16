@@ -56,6 +56,7 @@ class UsersController < ApplicationController
     params.require(:user).permit(
       :first_name, :last_name, :birthday, :website_url,
       :gender, :city, :avatar, :remove_avatar, :phone_number, :verification_token,
+      :notifications_events, :notifications_friends,
       photos_attributes: [:id, :image, :_destroy],
       interests_attributes: [:id, :category_id, :_destroy],
       preference_attributes: [

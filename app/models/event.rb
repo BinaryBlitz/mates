@@ -152,6 +152,7 @@ class Event < ActiveRecord::Base
 
   def notify_users
     users.each do |user|
+      next unless user.notifications_events?
       options = { action: 'EVENT_DESTROYED', event: as_json }
       Notifier.new(user, "Событие удалено: #{self}", options)
     end

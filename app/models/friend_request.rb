@@ -37,6 +37,8 @@ class FriendRequest < ActiveRecord::Base
   private
 
   def notify_friend
+    return unless friend.notifications_friends?
+
     options = {
       action: 'FRIEND_REQUEST', friend_request: as_json,
       count: friend.incoming_friend_requests.unreviewed.count
@@ -45,6 +47,8 @@ class FriendRequest < ActiveRecord::Base
   end
 
   def notify_user
+    return unless user.notifications_friends?
+
     return unless accepted_changed? && accepted?
     options = { action: 'FRIEND_REQUEST_ACCEPTED', friend_request: as_json }
     Notifier.new(user, "#{friend} принял вашу заявку на добавление в друзья", options)
