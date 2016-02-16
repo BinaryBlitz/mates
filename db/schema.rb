@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160217000803) do
+ActiveRecord::Schema.define(version: 20160217000804) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -131,6 +131,17 @@ ActiveRecord::Schema.define(version: 20160217000803) do
   end
 
   add_index "photos", ["user_id"], name: "index_photos_on_user_id", using: :btree
+
+  create_table "reports", force: :cascade do |t|
+    t.text     "content",    null: false
+    t.integer  "user_id"
+    t.integer  "event_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "reports", ["event_id"], name: "index_reports_on_event_id", using: :btree
+  add_index "reports", ["user_id"], name: "index_reports_on_user_id", using: :btree
 
   create_table "rpush_apps", force: :cascade do |t|
     t.string   "name",                                null: false
