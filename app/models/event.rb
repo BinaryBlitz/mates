@@ -32,8 +32,6 @@ class Event < ActiveRecord::Base
   belongs_to :category
   belongs_to :extra_category, class_name: 'Category'
 
-  has_many :proposals, dependent: :destroy
-  has_many :proposed_users, through: :proposals, source: :user
   has_many :invites, dependent: :destroy
   has_many :invited_users, through: :invites, source: :user
 
@@ -103,10 +101,6 @@ class Event < ActiveRecord::Base
 
   def friend_count(current_user)
     users.where(id: current_user.friends.ids).count
-  end
-
-  def propose(proposed_user, creator)
-    proposals.create(user: proposed_user, creator: creator)
   end
 
   def age_interval

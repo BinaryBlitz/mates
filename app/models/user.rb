@@ -45,9 +45,6 @@ class User < ActiveRecord::Base
   has_many :owned_events, dependent: :destroy, foreign_key: :creator_id, class_name: 'Event'
   has_many :memberships, dependent: :destroy
   has_many :events, through: :memberships
-
-  has_many :proposals, dependent: :destroy
-  has_many :proposed_events, through: :proposals, source: :event
   has_many :invites, dependent: :destroy
 
   has_many :submissions, dependent: :destroy
