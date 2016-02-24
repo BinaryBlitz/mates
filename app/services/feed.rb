@@ -18,6 +18,7 @@ class Feed
     Rails.cache.fetch(['feed-recommended', @user], expires_in: 2.minutes) do
       Event.where(category: @user.categories)
         .where.not(id: @user.owned_events.ids)
+        .where.not(id: Event.created_by_friends_of(@user).ids)
         .upcoming
         .public_events
         .order(starts_at: :desc)
