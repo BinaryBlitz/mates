@@ -69,8 +69,8 @@ class User < ActiveRecord::Base
   end
 
   def friend_request_to_or_from(current_user)
-    outgoing = friend_requests.find_by(friend: current_user)
-    incoming = incoming_friend_requests.find_by(user: current_user)
+    outgoing = friend_requests.unreviewed.find_by(friend: current_user)
+    incoming = incoming_friend_requests.unreviewed.find_by(user: current_user)
     outgoing || incoming
   end
 

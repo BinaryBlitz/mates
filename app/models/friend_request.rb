@@ -67,11 +67,11 @@ class FriendRequest < ActiveRecord::Base
     return unless user && friend
 
     if user.friend_requests.unreviewed.where(friend: friend).where.not(id: id).any?
-      errors.add(:friend, 'is already requested')
+      errors.add(:friend, 'has already received a request')
     end
 
     if friend.friend_requests.unreviewed.where(friend: user).where.not(id: id).any?
-      errors.add(:friend, 'is already pending')
+      errors.add(:friend, 'has already sent a request')
     end
   end
 end
