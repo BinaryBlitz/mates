@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160224090836) do
+ActiveRecord::Schema.define(version: 20160224100028) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -53,8 +53,8 @@ ActiveRecord::Schema.define(version: 20160224090836) do
     t.float    "longitude"
     t.text     "description"
     t.string   "visibility"
-    t.datetime "created_at",        null: false
-    t.datetime "updated_at",        null: false
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
     t.string   "address"
     t.integer  "creator_id"
     t.string   "photo"
@@ -65,6 +65,7 @@ ActiveRecord::Schema.define(version: 20160224090836) do
     t.string   "gender"
     t.string   "sharing_token"
     t.integer  "extra_category_id"
+    t.integer  "memberships_count", default: 0, null: false
   end
 
   add_index "events", ["category_id"], name: "index_events_on_category_id", using: :btree
