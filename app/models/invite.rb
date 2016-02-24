@@ -21,7 +21,7 @@ class Invite < ActiveRecord::Base
   validates :user, presence: true
   validate :not_member
   validate :not_invited
-  validate :event_date_valid
+  validate :event_date_valid, on: :create
 
   delegate :creator, to: :event
 

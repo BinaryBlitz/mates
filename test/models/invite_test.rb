@@ -15,6 +15,7 @@ require 'test_helper'
 class InviteTest < ActiveSupport::TestCase
   setup do
     @invite = invites(:invite)
+    @event = @invite.event
   end
 
   test 'valid' do
@@ -33,9 +34,16 @@ class InviteTest < ActiveSupport::TestCase
   end
 
   test 'valid event date' do
-    event = @invite.event
-    event.starts_at = 1.day.ago
+    @event.update!(starts_at: 1.day.ago)
+    @event.invites.destroy_all
+    invite = @event.invites.build(user: @invite.user)
 
-    assert @invite.invalid?
+    assert invite.invalid?
+  end
+
+  test 'event date validation only on create' do
+    @event.update(starts_at: 1.day.ago)
+
+    assert @invite.valid?
   end
 end
