@@ -86,8 +86,8 @@ class Event < ActiveRecord::Base
   def self.available_for(user)
     events = visible_for(user)
     events = events.where('gender IS NULL OR gender = ?', user.gender)
-    events = events.where('min_age IS NULL OR min_age < ?', user.age)
-    events = events.where('max_age IS NULL OR max_age > ?', user.age)
+    events = events.where('min_age IS NULL OR min_age <= ?', user.age)
+    events = events.where('max_age IS NULL OR max_age >= ?', user.age)
     events = events.where('user_limit IS NULL OR memberships_count < user_limit')
     ids = (events.ids + user.event_ids).uniq
     where(id: ids)
