@@ -33,10 +33,9 @@ Rails.application.routes.draw do
     resources :events, except: [:index, :new, :edit] do
       get 'owned', 'by_token', on: :collection
       get 'available_friends', on: :member
-      
+
       resources :comments, except: [:show, :new, :edit], shallow: true
       resources :memberships, only: [:index, :create], controller: 'event_memberships'
-      resources :proposals, except: [:show, :new, :edit], shallow: true
       resources :invites, except: [:show, :new, :edit], shallow: true do
         patch 'decline', on: :member
       end
@@ -44,6 +43,9 @@ Rails.application.routes.draw do
         patch 'decline', on: :member
       end
     end
+
+    # Stuff
+    resources :reports, only: [:create]
   end
 
   # Example of regular route:

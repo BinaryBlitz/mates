@@ -12,21 +12,22 @@
 
 class FriendRequest < ActiveRecord::Base
   after_create :notify_friend
+  after_update :notify_user
 
   belongs_to :user
   belongs_to :friend, class_name: 'User'
 
   validates :user, presence: true
-  validates :friend, presence: true, uniqueness: { scope: :user }
+  validates :friend, presence: true
   validate :not_self
   validate :not_friends
-  validate :not_pending
+  validate :not_requested
 
   include Reviewable
 
   def accept
-    user.friends << friend
     update(accepted: true)
+    user.friendships.create(friend: friend)
   end
 
   def decline
@@ -36,8 +37,21 @@ class FriendRequest < ActiveRecord::Base
   private
 
   def notify_friend
-    options = { action: 'FRIEND_REQUEST', friend_request: as_json }
+    return unless friend.notifications_friends?
+
+    options = {
+      action: 'FRIEND_REQUEST', friend_request: as_json,
+      count: friend.incoming_friend_requests.unreviewed.count
+    }
     Notifier.new(friend, "#{user} хочет добавить вас в друзья", options)
+  end
+
+  def notify_user
+    return unless user.notifications_friends?
+
+    return unless accepted_changed? && accepted?
+    options = { action: 'FRIEND_REQUEST_ACCEPTED', friend_request: as_json }
+    Notifier.new(user, "#{friend} принял вашу заявку на добавление в друзья", options)
   end
 
   def not_self
@@ -49,8 +63,15 @@ class FriendRequest < ActiveRecord::Base
     errors.add(:friend, 'is already added') if user.friends.include?(friend)
   end
 
-  def not_pending
-    return unless friend
-    errors.add(:friend, 'already requested friendship') if friend.pending_friends.include?(user)
+  def not_requested
+    return unless user && friend
+
+    if user.friend_requests.unreviewed.where(friend: friend).where.not(id: id).any?
+      errors.add(:friend, 'has already received a request')
+    end
+
+    if friend.friend_requests.unreviewed.where(friend: user).where.not(id: id).any?
+      errors.add(:friend, 'has already sent a request')
+    end
   end
 end

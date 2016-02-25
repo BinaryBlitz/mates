@@ -75,7 +75,6 @@ namespace :db do
       users = random_users(limit).to_a
       users.pop(limit / 3).each { |u| event.users << u unless event.users.include?(u) }
       users.pop(limit / 3).each { |u| event.invited_users << u unless event.invited_users.include?(u) }
-      users.pop(limit / 3).each { |u| event.propose(u, event.creator) }
     end
   end
 

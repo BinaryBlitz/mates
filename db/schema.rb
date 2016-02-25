@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160206212412) do
+ActiveRecord::Schema.define(version: 20160224100028) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -53,8 +53,8 @@ ActiveRecord::Schema.define(version: 20160206212412) do
     t.float    "longitude"
     t.text     "description"
     t.string   "visibility"
-    t.datetime "created_at",        null: false
-    t.datetime "updated_at",        null: false
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
     t.string   "address"
     t.integer  "creator_id"
     t.string   "photo"
@@ -65,6 +65,7 @@ ActiveRecord::Schema.define(version: 20160206212412) do
     t.string   "gender"
     t.string   "sharing_token"
     t.integer  "extra_category_id"
+    t.integer  "memberships_count", default: 0, null: false
   end
 
   add_index "events", ["category_id"], name: "index_events_on_category_id", using: :btree
@@ -132,29 +133,16 @@ ActiveRecord::Schema.define(version: 20160206212412) do
 
   add_index "photos", ["user_id"], name: "index_photos_on_user_id", using: :btree
 
-  create_table "preferences", force: :cascade do |t|
-    t.integer  "user_id"
-    t.boolean  "notifications_friends", default: true
-    t.boolean  "notifications_events",  default: true
-    t.string   "visibility_photos",     default: "public"
-    t.string   "visibility_events",     default: "public"
-    t.datetime "created_at",                               null: false
-    t.datetime "updated_at",                               null: false
-  end
-
-  add_index "preferences", ["user_id"], name: "index_preferences_on_user_id", using: :btree
-
-  create_table "proposals", force: :cascade do |t|
+  create_table "reports", force: :cascade do |t|
+    t.text     "content",    null: false
     t.integer  "user_id"
     t.integer  "event_id"
-    t.integer  "creator_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  add_index "proposals", ["creator_id"], name: "index_proposals_on_creator_id", using: :btree
-  add_index "proposals", ["event_id"], name: "index_proposals_on_event_id", using: :btree
-  add_index "proposals", ["user_id"], name: "index_proposals_on_user_id", using: :btree
+  add_index "reports", ["event_id"], name: "index_reports_on_event_id", using: :btree
+  add_index "reports", ["user_id"], name: "index_reports_on_user_id", using: :btree
 
   create_table "rpush_apps", force: :cascade do |t|
     t.string   "name",                                null: false
@@ -186,7 +174,7 @@ ActiveRecord::Schema.define(version: 20160206212412) do
     t.integer  "badge"
     t.string   "device_token",      limit: 64
     t.string   "sound",                        default: "default"
-    t.string   "alert"
+    t.text     "alert"
     t.text     "data"
     t.integer  "expiry",                       default: 86400
     t.boolean  "delivered",                    default: false,     null: false
@@ -211,6 +199,8 @@ ActiveRecord::Schema.define(version: 20160206212412) do
     t.integer  "priority"
     t.text     "url_args"
     t.string   "category"
+    t.boolean  "content_available",            default: false
+    t.text     "notification"
   end
 
   add_index "rpush_notifications", ["delivered", "failed"], name: "index_rpush_notifications_multi", where: "((NOT delivered) AND (NOT failed))", using: :btree
@@ -242,7 +232,6 @@ ActiveRecord::Schema.define(version: 20160206212412) do
   end
 
   add_index "submissions", ["event_id"], name: "index_submissions_on_event_id", using: :btree
-  add_index "submissions", ["user_id", "event_id"], name: "index_submissions_on_user_id_and_event_id", unique: true, using: :btree
   add_index "submissions", ["user_id"], name: "index_submissions_on_user_id", using: :btree
 
   create_table "users", force: :cascade do |t|
@@ -251,14 +240,16 @@ ActiveRecord::Schema.define(version: 20160206212412) do
     t.date     "birthday"
     t.string   "gender"
     t.string   "api_token"
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
+    t.datetime "created_at",                           null: false
+    t.datetime "updated_at",                           null: false
     t.string   "avatar"
     t.string   "city"
     t.string   "phone_number"
     t.datetime "visited_at"
     t.string   "avatar_original"
     t.string   "website_url"
+    t.boolean  "notifications_friends", default: true, null: false
+    t.boolean  "notifications_events",  default: true, null: false
   end
 
   create_table "verification_tokens", force: :cascade do |t|
@@ -280,9 +271,6 @@ ActiveRecord::Schema.define(version: 20160206212412) do
   add_foreign_key "invites", "users"
   add_foreign_key "memberships", "events"
   add_foreign_key "memberships", "users"
-  add_foreign_key "preferences", "users"
-  add_foreign_key "proposals", "events"
-  add_foreign_key "proposals", "users"
   add_foreign_key "submissions", "events"
   add_foreign_key "submissions", "users"
 end

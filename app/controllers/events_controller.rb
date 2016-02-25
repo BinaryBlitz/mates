@@ -5,7 +5,7 @@ class EventsController < ApplicationController
   end
 
   def by_token
-    @event = Event.find_by(sharing_token: params[:sharing_token])
+    @event = Event.find_by!(sharing_token: params[:sharing_token])
     render :show
   end
 

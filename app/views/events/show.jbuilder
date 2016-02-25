@@ -3,6 +3,7 @@ json.extract! @event,
               :city, :latitude, :longitude,
               :user_limit, :min_age, :max_age, :gender, :visibility
 
+json.user_count @event.users.count
 json.sharing_url web_event_url({sharing_token: @event.sharing_token})
 
 json.creator do

@@ -14,13 +14,13 @@ class Membership < ActiveRecord::Base
   after_create :invalidate_cache
 
   belongs_to :user
-  belongs_to :event
+  belongs_to :event, counter_cache: true
 
   validates :user, presence: true
   validates :event, presence: true, uniqueness: { scope: :user }
 
   scope :order_by_starting_date, -> { joins(:event).order('events.starts_at DESC') }
-  scope :visible_for, -> (user) { joins(:event).merge(Event.visible_for(user)) }
+  scope :available_for, -> (user) { joins(:event).merge(Event.available_for(user)) }
 
   private
 

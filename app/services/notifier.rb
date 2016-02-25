@@ -1,5 +1,6 @@
 class Notifier
   def initialize(user, message, options = {})
+    @user = user
     @device_tokens = user.device_tokens
     @message = message
     @options = options

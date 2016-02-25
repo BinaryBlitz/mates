@@ -40,7 +40,7 @@ class FriendRequestTest < ActiveSupport::TestCase
   end
 
   test 'invalid if user requested friendship' do
-    inverse_request = FriendRequest.create(user: users(:baz), friend: users(:foo))
+    inverse_request = FriendRequest.new(user: @friend_request.friend, friend: @friend_request.user)
     assert inverse_request.invalid?
   end
 end

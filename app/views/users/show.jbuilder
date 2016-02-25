@@ -12,7 +12,7 @@ if current_user
 end
 
 if @user == current_user
-  json.preferences @user.preferences
+  json.extract! @user, :notifications_events, :notifications_friends
 end
 
 json.photos @user.photos do |photo|

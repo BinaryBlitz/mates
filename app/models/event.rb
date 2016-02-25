@@ -22,6 +22,7 @@
 #  gender            :string
 #  sharing_token     :string
 #  extra_category_id :integer
+#  memberships_count :integer          default(0), not null
 #
 
 class Event < ActiveRecord::Base
@@ -32,8 +33,6 @@ class Event < ActiveRecord::Base
   belongs_to :category
   belongs_to :extra_category, class_name: 'Category'
 
-  has_many :proposals, dependent: :destroy
-  has_many :proposed_users, through: :proposals, source: :user
   has_many :invites, dependent: :destroy
   has_many :invited_users, through: :invites, source: :user
 
@@ -75,6 +74,8 @@ class Event < ActiveRecord::Base
   scope :upcoming, -> { where('starts_at >= ?', Time.zone.now) }
   scope :on_date, -> (date) { where(starts_at: (date.beginning_of_day)..(date.end_of_day)) }
   scope :public_events, -> { where(visibility: 'public') }
+  scope :created_by_friends_of, -> (user) { where(creator: user.friends) }
+  scope :not_private, -> { where(visibility: ['public', 'friends']) }
 
   def self.on_dates(dates)
     query = 'starts_at BETWEEN ? AND ?' + ' OR starts_at BETWEEN ? AND ?' * (dates.size - 1)
@@ -82,20 +83,26 @@ class Event < ActiveRecord::Base
     Event.where(query, *dates)
   end
 
-  def self.visible_for(user)
-    events = Event.all
+  def self.available_for(user)
+    events = visible_for(user)
     events = events.where('gender IS NULL OR gender = ?', user.gender)
-    events = events.where('min_age IS NULL OR min_age < ?', user.age)
-    events = events.where('max_age IS NULL OR max_age > ?', user.age)
-    events
+    events = events.where('min_age IS NULL OR min_age <= ?', user.age)
+    events = events.where('max_age IS NULL OR max_age >= ?', user.age)
+    events = events.where('user_limit IS NULL OR memberships_count < user_limit')
+    ids = (events.ids + user.event_ids).uniq
+    where(id: ids)
+  end
+
+  def self.visible_for(user)
+    public_event_ids = public_events.ids
+    created_by_friends_ids = created_by_friends_of(user).not_private.ids
+    participated_ids = joins(:memberships).where('memberships.user_id': user.id).ids
+    ids = (public_event_ids + created_by_friends_ids + participated_ids).uniq
+    Event.where(id: ids)
   end
 
   def friend_count(current_user)
     users.where(id: current_user.friends.ids).count
-  end
-
-  def propose(proposed_user, creator)
-    proposals.create(user: proposed_user, creator: creator)
   end
 
   def age_interval
@@ -141,6 +148,7 @@ class Event < ActiveRecord::Base
 
   def notify_users
     users.each do |user|
+      next unless user.notifications_events?
       options = { action: 'EVENT_DESTROYED', event: as_json }
       Notifier.new(user, "Событие удалено: #{self}", options)
     end

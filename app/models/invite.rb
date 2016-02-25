@@ -12,15 +12,18 @@
 
 class Invite < ActiveRecord::Base
   after_create :notify_user
+  after_update :notify_creator
   after_update :invalidate_cache
 
   belongs_to :user
   belongs_to :event
 
   validates :user, presence: true
-  validate :not_a_member
-  validate :not_already_invited
-  validate :event_date_valid
+  validate :not_member
+  validate :not_invited
+  validate :event_date_valid, on: :create
+
+  delegate :creator, to: :event
 
   include Reviewable
 
@@ -37,17 +40,26 @@ class Invite < ActiveRecord::Base
   private
 
   def notify_user
-    options = { action: 'INVITE', invite: as_json }
+    return unless user.notifications_events?
+
+    options = { action: 'INVITE', invite: as_json, count: user.offer_count }
     Notifier.new(user, "Вас пригласили на событие: #{event}", options)
   end
 
-  def not_a_member
+  def notify_creator
+    return unless creator.notifications_events? && accepted_changed? && accepted?
+
+    options = { action: 'INVITE_ACCEPTED', invite: as_json }
+    Notifier.new(creator, 'Ваше приглашение было принято', options)
+  end
+
+  def not_member
     return unless event.users.include?(user)
     errors.add(:user, 'is already a member')
   end
 
-  def not_already_invited
-    return unless event.invites.where(user: user, accepted: nil).where.not(id: id).any?
+  def not_invited
+    return unless event.invites.unreviewed.where(user: user).where.not(id: id).any?
     errors.add(:user, 'is already invited to the event')
   end
 

@@ -30,7 +30,10 @@ after 'deploy:update_code', :roles => :app do
   run "rm -f #{current_release}/config/secrets.yml"
   run "ln -nfs #{deploy_to}/shared/config/secrets.yml #{current_release}/config/secrets.yml"
 
-  # DB
+  run "rm -f #{current_release}/config/pushcert.pem"
+  run "ln -nfs #{deploy_to}/shared/config/pushcert.pem #{current_release}/config/pushcert.pem"
+
+  # Database
   run "rm -f #{current_release}/config/database.yml"
   run "ln -nfs #{deploy_to}/shared/config/database.yml #{current_release}/config/database.yml"
 

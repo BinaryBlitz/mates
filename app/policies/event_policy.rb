@@ -18,10 +18,6 @@ class EventPolicy < ApplicationPolicy
     update?
   end
 
-  def proposals?
-    update?
-  end
-
   def submissions?
     update?
   end

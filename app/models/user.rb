@@ -2,20 +2,22 @@
 #
 # Table name: users
 #
-#  id              :integer          not null, primary key
-#  first_name      :string
-#  last_name       :string
-#  birthday        :date
-#  gender          :string
-#  api_token       :string
-#  created_at      :datetime         not null
-#  updated_at      :datetime         not null
-#  avatar          :string
-#  city            :string
-#  phone_number    :string
-#  visited_at      :datetime
-#  avatar_original :string
-#  website_url     :string
+#  id                    :integer          not null, primary key
+#  first_name            :string
+#  last_name             :string
+#  birthday              :date
+#  gender                :string
+#  api_token             :string
+#  created_at            :datetime         not null
+#  updated_at            :datetime         not null
+#  avatar                :string
+#  city                  :string
+#  phone_number          :string
+#  visited_at            :datetime
+#  avatar_original       :string
+#  website_url           :string
+#  notifications_friends :boolean          default(TRUE), not null
+#  notifications_events  :boolean          default(TRUE), not null
 #
 
 class User < ActiveRecord::Base
@@ -25,14 +27,6 @@ class User < ActiveRecord::Base
   validates :last_name, presence: true, length: { maximum: 20 }
   validates :gender, inclusion: { in: %w(male female) }, allow_nil: true
   validates :website_url, url: true, allow_nil: true
-
-  # Preferences
-  has_one :preference, dependent: :destroy
-  accepts_nested_attributes_for :preference
-
-  def preferences
-    preference || create_preference
-  end
 
   has_many :photos, dependent: :destroy
   accepts_nested_attributes_for :photos, allow_destroy: true
@@ -51,9 +45,6 @@ class User < ActiveRecord::Base
   has_many :owned_events, dependent: :destroy, foreign_key: :creator_id, class_name: 'Event'
   has_many :memberships, dependent: :destroy
   has_many :events, through: :memberships
-
-  has_many :proposals, dependent: :destroy
-  has_many :proposed_events, through: :proposals, source: :event
   has_many :invites, dependent: :destroy
 
   has_many :submissions, dependent: :destroy
@@ -78,8 +69,8 @@ class User < ActiveRecord::Base
   end
 
   def friend_request_to_or_from(current_user)
-    outgoing = friend_requests.find_by(friend: current_user)
-    incoming = incoming_friend_requests.find_by(user: current_user)
+    outgoing = friend_requests.unreviewed.find_by(friend: current_user)
+    incoming = incoming_friend_requests.unreviewed.find_by(user: current_user)
     outgoing || incoming
   end
 
@@ -124,6 +115,10 @@ class User < ActiveRecord::Base
 
   def online?
     visited_at && visited_at > 1.minute.ago
+  end
+
+  def offer_count
+    invites.unreviewed.count + Submission.where(event: owned_events).unreviewed.count
   end
 
   private

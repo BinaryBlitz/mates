@@ -8,7 +8,7 @@ gem 'newrelic_rpm'
 
 gem 'phony_rails'
 gem 'ffaker'
-gem 'rpush', '~> 2.5.0'
+gem 'rpush'
 gem 'validate_url'
 gem 'geocoder'
 gem 'enumerize'
@@ -30,7 +30,7 @@ gem 'bootstrap-sass'
 gem 'sprockets', '2.12.3'
 
 group :development do
-  gem 'annotate', '~> 2.6.0'
+  gem 'annotate'
   gem 'web-console'
   gem 'capistrano'
   gem 'pry-rails'
