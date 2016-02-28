@@ -2,9 +2,11 @@ require 'rvm/capistrano'
 require 'bundler/capistrano'
 load 'deploy/assets'
 
+set :stages, %w(staging production)
+set :default_stage, "staging"
+require 'capistrano/ext/multistage'
+
 set :application, "party_app"
-set :rails_env, "production"
-set :domain, "party@binaryblitz.ru"
 set :deploy_to, "/home/party/#{application}"
 set :use_sudo, false
 set :unicorn_conf, "#{deploy_to}/current/config/unicorn.rb"
@@ -14,12 +16,7 @@ set :rvm_ruby_string, 'ruby-2.2.2@party_app'
 
 set :scm, :git
 set :repository, "git@github.com:BinaryBlitz/mates.git"
-set :branch, "development"
 set :deploy_via, :remote_cache
-
-role :web, domain
-role :app, domain
-role :db,  domain, :primary => true
 
 before 'deploy:setup', 'rvm:install_rvm', 'rvm:install_ruby'
 
