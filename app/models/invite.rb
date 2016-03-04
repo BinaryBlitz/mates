@@ -29,12 +29,16 @@ class Invite < ActiveRecord::Base
 
   # User accepts the invite and joins the event
   def accept
-    update!(accepted: true)
-    user.events << event
+    if event.users.include?(user)
+      destroy
+    else
+      update!(accepted: true)
+      user.events << event
+    end
   end
 
   def decline
-    update!(accepted: false)
+    events.users.include?(user) ? destroy : update!(accepted: false)
   end
 
   private
