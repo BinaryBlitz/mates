@@ -20,6 +20,7 @@ class Invite < ActiveRecord::Base
 
   validates :user, presence: true
   validate :not_member
+  validate :not_submitted
   validate :not_invited
   validate :event_date_valid, on: :create
 
@@ -60,6 +61,11 @@ class Invite < ActiveRecord::Base
   def not_member
     return unless event.users.include?(user)
     errors.add(:user, 'is already a member')
+  end
+
+  def not_submitted
+    return unless event.submissions.unreviewed.where(user: user).any?
+    errors.add(:user, 'has submitted to the event')
   end
 
   def not_invited
