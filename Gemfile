@@ -58,9 +58,13 @@ group :test do
 end
 
 group :production do
+  # Heroku gem
   gem 'rails_12factor'
 end
 
 group :development, :test do
+  # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
+  # AWS adapter for CarrierWave
+  gem 'fog-aws'
 end
