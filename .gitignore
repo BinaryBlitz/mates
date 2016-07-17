@@ -15,11 +15,12 @@
 /log/*
 !/log/.keep
 /tmp
-/public/uploads
-.DS_Store
-.ruby-gemset
-.ruby-version
-.byebug_history
 
-# Ignore database.yml
-/config/database.yml
+# Uploads
+/public/uploads
+
+# macOS
+.DS_Store
+
+# Byebug
+.byebug_history
