@@ -24,7 +24,6 @@ gem 'mini_magick'
 # Auth
 gem 'pundit'
 gem 'has_secure_token'
-gem 'bcrypt'
 
 # Front end
 gem 'sass-rails'

@@ -44,7 +44,6 @@ GEM
     arel (6.0.3)
     autoprefixer-rails (6.3.7)
       execjs
-    bcrypt (3.1.11)
     bootstrap-sass (3.3.6)
       autoprefixer-rails (>= 5.2.1)
       sass (>= 3.3.4)
@@ -191,7 +190,6 @@ PLATFORMS
 
 DEPENDENCIES
   annotate
-  bcrypt
   bootstrap-sass
   bullet
   byebug
