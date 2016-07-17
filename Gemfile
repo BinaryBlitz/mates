@@ -15,7 +15,6 @@ gem 'geocoder'
 # Utilities
 gem 'phony_rails'
 gem 'validate_url'
-gem 'enumerize'
 gem 'httparty'
 
 # Attachments
