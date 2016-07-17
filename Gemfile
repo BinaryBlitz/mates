@@ -6,12 +6,15 @@ gem 'rails', '4.2.7'
 gem 'pg'
 gem 'jbuilder'
 gem 'puma'
-gem 'newrelic_rpm'
 
-gem 'phony_rails'
+# Push notifications
 gem 'rpush'
-gem 'validate_url'
+# Geolocation
 gem 'geocoder'
+
+# Utilities
+gem 'phony_rails'
+gem 'validate_url'
 gem 'enumerize'
 gem 'httparty'
 
@@ -24,25 +27,36 @@ gem 'mini_magick'
 gem 'pundit'
 gem 'has_secure_token'
 
-# Front end
+# Front-end
 gem 'sass-rails'
 gem 'bootstrap-sass'
 gem 'sprockets'
 
+# Analytics
+gem 'newrelic_rpm'
+
 group :development do
-  gem 'annotate'
+  # Spring speeds up development by keeping your application running in the background.
+  gem 'spring'
+  gem 'spring-watcher-listen'
+  # Access an IRB console on exception pages or by using <%= console %> anywhere in the code.
   gem 'web-console'
+  # Model and test annotations
+  gem 'annotate'
+  # Pry console
   gem 'pry-rails'
+  # Database seeds
+  gem 'ffaker'
+  # Optimization
   gem 'traceroute'
   gem 'bullet'
-  gem 'ffaker'
 end
 
 group :test do
+  # Mocking
   gem 'mocha'
 end
 
 group :development, :test do
   gem 'byebug'
-  gem 'spring'
 end
