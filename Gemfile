@@ -1,6 +1,8 @@
 source 'https://rubygems.org'
 
-gem 'rails', '4.2.6'
+ruby '2.3.1'
+
+gem 'rails', '4.2.7'
 gem 'pg'
 gem 'jbuilder'
 gem 'unicorn'
