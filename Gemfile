@@ -9,7 +9,6 @@ gem 'puma'
 gem 'newrelic_rpm'
 
 gem 'phony_rails'
-gem 'ffaker'
 gem 'rpush'
 gem 'validate_url'
 gem 'geocoder'
@@ -36,6 +35,7 @@ group :development do
   gem 'pry-rails'
   gem 'traceroute'
   gem 'bullet'
+  gem 'ffaker'
 end
 
 group :test do
