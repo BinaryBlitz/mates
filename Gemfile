@@ -5,7 +5,7 @@ ruby '2.3.1'
 gem 'rails', '4.2.7'
 gem 'pg'
 gem 'jbuilder'
-gem 'unicorn'
+gem 'puma'
 gem 'newrelic_rpm'
 
 gem 'phony_rails'
