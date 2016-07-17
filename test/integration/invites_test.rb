@@ -17,7 +17,6 @@ class InvitesTest < ActionDispatch::IntegrationTest
   test 'list' do
     get "/api/events/#{@event.id}/invites.json", api_token: @invitee.api_token
     assert_response :success
-    assert_not_nil assigns(:invites)
   end
 
   test 'accept' do

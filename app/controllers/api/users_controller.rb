@@ -14,7 +14,7 @@ class API::UsersController < API::APIController
     @user = User.new(user_params)
 
     if @user.save
-      render :authenticate, status: :created, location: @user
+      render :authenticate, status: :created
     else
       render json: @user.errors, status: :unprocessable_entity
     end
@@ -38,7 +38,7 @@ class API::UsersController < API::APIController
 
   def friends
     @friends = @user.friends
-    render 'friends/index'
+    render 'api/friends/index'
   end
 
   def search

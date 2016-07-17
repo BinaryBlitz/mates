@@ -25,7 +25,6 @@ class EventsTest < ActionDispatch::IntegrationTest
   test 'show' do
     get "/api/events/#{@event.id}.json", api_token: api_token
     assert_response :success
-    assert_not_nil assigns(:event)
   end
 
   test 'show with sharing token' do

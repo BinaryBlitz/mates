@@ -5,7 +5,7 @@ class API::SearchesController < API::APIController
 
   def create
     @search = current_user.searches.create!(search_params)
-    render :show, status: :created, location: @search
+    render :show, status: :created
   end
 
   private

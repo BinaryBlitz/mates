@@ -7,7 +7,7 @@ json.user_count @event.users.count
 json.sharing_url web_event_url({sharing_token: @event.sharing_token})
 
 json.creator do
-  json.partial! 'users/user', user: @event.creator
+  json.partial! 'api/users/user', user: @event.creator
 end
 
 json.invite do
@@ -22,6 +22,6 @@ end
 
 if policy(@event).comment?
   json.comments @event.comments do |comment|
-    json.partial! 'comments/comment', comment: comment
+    json.partial! 'api/comments/comment', comment: comment
   end
 end

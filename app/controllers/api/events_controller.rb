@@ -13,7 +13,7 @@ class API::EventsController < API::APIController
     @event = current_user.owned_events.build(events_params)
 
     if @event.save
-      render :show, status: :created, location: @event
+      render :show, status: :created
     else
       render json: @event.errors, status: 422
     end
@@ -44,7 +44,7 @@ class API::EventsController < API::APIController
   # TODO: Deprecate
   def available_friends
     @users = current_user.friends - @event.users - @event.submitted_users - @event.invited_users
-    render 'users/index'
+    render 'api/users/index'
   end
 
   private

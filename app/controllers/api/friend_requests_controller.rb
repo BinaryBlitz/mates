@@ -11,7 +11,7 @@ class API::FriendRequestsController < API::APIController
     @friend_request = current_user.friend_requests.build(friend: friend)
 
     if @friend_request.save
-      render :show, status: :created, location: @friend_request
+      render :show, status: :created
     else
       render json: @friend_request.errors, status: :unprocessable_entity
     end

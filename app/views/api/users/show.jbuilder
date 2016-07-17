@@ -1,4 +1,4 @@
-json.partial! 'user', user: @user
+json.partial! 'api/users/user', user: @user
 
 json.extract! @user, :birthday, :gender, :city, :avatar_url, :website_url
 
