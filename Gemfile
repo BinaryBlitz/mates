@@ -29,17 +29,14 @@ gem 'bcrypt'
 # Front end
 gem 'sass-rails'
 gem 'bootstrap-sass'
-gem 'sprockets', '2.12.3'
+gem 'sprockets'
 
 group :development do
   gem 'annotate'
   gem 'web-console'
-  gem 'capistrano'
   gem 'pry-rails'
   gem 'traceroute'
   gem 'bullet'
-  gem 'm'
-  gem 'rvm-capistrano', require: false
 end
 
 group :test do
