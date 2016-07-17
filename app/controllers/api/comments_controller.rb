@@ -1,4 +1,4 @@
-class CommentsController < ApplicationController
+class API::CommentsController < API::APIController
   before_action :set_event, except: [:update, :destroy]
   before_action :set_comment, except: [:index, :create]
 

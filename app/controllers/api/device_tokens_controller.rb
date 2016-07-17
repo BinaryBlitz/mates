@@ -1,4 +1,4 @@
-class DeviceTokensController < ApplicationController
+class API::DeviceTokensController < API::APIController
   before_action :set_device_token
 
   def create

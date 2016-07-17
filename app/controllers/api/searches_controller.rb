@@ -1,4 +1,4 @@
-class SearchesController < ApplicationController
+class API::SearchesController < API::APIController
   def show
     @search = Search.find(params[:id])
   end

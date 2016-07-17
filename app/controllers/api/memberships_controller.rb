@@ -1,4 +1,4 @@
-class MembershipsController < ApplicationController
+class API::MembershipsController < API::APIController
   before_action :set_membership, only: [:destroy]
 
   def destroy

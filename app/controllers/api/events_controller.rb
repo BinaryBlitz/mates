@@ -1,4 +1,4 @@
-class EventsController < ApplicationController
+class API::EventsController < API::APIController
   before_action :set_event, except: [:create, :owned, :feed, :by_token]
 
   def show

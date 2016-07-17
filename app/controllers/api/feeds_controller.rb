@@ -1,4 +1,4 @@
-class FeedsController < ApplicationController
+class API::FeedsController < API::APIController
   before_action :set_feed
 
   def friends

@@ -1,4 +1,4 @@
-class FriendRequestsController < ApplicationController
+class API::FriendRequestsController < API::APIController
   before_action :set_friend_request, only: [:update, :destroy, :decline]
 
   def index

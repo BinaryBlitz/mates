@@ -1,4 +1,4 @@
-class UserMembershipsController < ApplicationController
+class API::UserMembershipsController < API::APIController
   before_action :set_user, only: [:index, :create]
 
   def index

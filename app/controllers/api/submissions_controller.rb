@@ -1,4 +1,4 @@
-class SubmissionsController < ApplicationController
+class API::SubmissionsController < API::APIController
   before_action :set_event, only: [:index, :create]
   before_action :set_submission, only: [:update, :destroy, :decline]
 

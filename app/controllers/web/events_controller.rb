@@ -1,4 +1,4 @@
-class Web::EventsController < ApplicationController
+class Web::EventsController < API::APIController
   skip_before_action :restrict_access
 
   layout 'web/layouts/application'

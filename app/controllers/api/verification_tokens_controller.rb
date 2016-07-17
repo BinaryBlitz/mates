@@ -1,4 +1,4 @@
-class VerificationTokensController < ApplicationController
+class API::VerificationTokensController < API::APIController
   skip_before_action :restrict_access
 
   def create

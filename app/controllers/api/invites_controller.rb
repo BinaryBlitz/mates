@@ -1,4 +1,4 @@
-class InvitesController < ApplicationController
+class API::InvitesController < API::APIController
   before_action :set_event, only: [:index, :create]
   before_action :set_invite, only: [:update, :destroy, :decline]
 

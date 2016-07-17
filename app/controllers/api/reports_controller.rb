@@ -1,4 +1,4 @@
-class ReportsController < ApplicationController
+class API::ReportsController < API::APIController
   def create
     @report = Report.new(report_params)
 
