@@ -39,7 +39,7 @@ class Invite < ActiveRecord::Base
   end
 
   def decline
-    events.users.include?(user) ? destroy : update!(accepted: false)
+    event.users.include?(user) ? destroy : update!(accepted: false)
   end
 
   private
