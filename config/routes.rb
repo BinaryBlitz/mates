@@ -3,7 +3,7 @@ Rails.application.routes.draw do
     resources :events, only: :show, param: :sharing_token
   end
 
-  scope '/api' do
+  namespace :api do
     # Auth & users
     resources :verification_tokens, only: [:create, :update], param: :token
     resources :device_tokens, only: [:create, :destroy], param: :token

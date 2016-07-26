@@ -50,10 +50,8 @@ class Event < ActiveRecord::Base
   validates :name, presence: true, length: { maximum: 30 }
   validates :city, presence: true
   validates :user_limit, numericality: { greater_than: 1 }, allow_nil: true
+  validates :visibility, inclusion: { in: %w(public friends private) }
   validate :extra_category, :not_equal_to_category
-
-  extend Enumerize
-  enumerize :visibility, in: [:public, :friends, :private]
 
   #  Filter validations
   validates :gender, inclusion: { in: %w(male female) }, allow_nil: true

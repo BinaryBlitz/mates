@@ -7,22 +7,22 @@ class FriendsTest < ActionDispatch::IntegrationTest
   end
 
   test 'should get index' do
-    get '/api/friends.json', api_token: api_token
+    get api_friends_path(api_token: api_token)
     assert_response :success
   end
 
   test 'destroy' do
     assert_difference('FriendRequest.count') do
-      post '/api/friend_requests.json', api_token: api_token, friend_id: @friend.id
+      post api_friend_requests_path(api_token: api_token, friend_id: @friend.id)
     end
     assert_response :created
 
-    patch "/api/friend_requests/#{FriendRequest.last.id}", api_token: @friend.api_token
+    patch api_friend_request_path(FriendRequest.last, api_token: @friend.api_token)
     assert_response :ok
     assert @user.friends.include?(@friend)
     assert @friend.friends.include?(@user)
 
-    delete "/api/friends/#{@friend.id}", api_token: api_token
+    delete api_friend_path(@friend, api_token: api_token)
     assert_response :no_content
     refute @user.friends.include?(@friend)
     refute @friend.friends.include?(@user)
@@ -33,7 +33,7 @@ class FriendsTest < ActionDispatch::IntegrationTest
     @user.friends << @friend
 
     assert_raise ActiveRecord::RecordNotFound do
-      delete "/api/friends/#{@friend.id}", api_token: stranger.api_token
+      delete api_friend_path(@friend, api_token: stranger.api_token)
     end
   end
 end
