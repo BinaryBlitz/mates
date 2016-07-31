@@ -34,6 +34,9 @@ gem 'sprockets'
 # Analytics
 gem 'newrelic_rpm'
 
+# Database seeds
+gem 'ffaker'
+
 group :development do
   # Spring speeds up development by keeping your application running in the background.
   gem 'spring'
@@ -44,8 +47,6 @@ group :development do
   gem 'annotate'
   # Pry console
   gem 'pry-rails'
-  # Database seeds
-  gem 'ffaker'
   # Optimization
   gem 'traceroute'
   gem 'bullet'
