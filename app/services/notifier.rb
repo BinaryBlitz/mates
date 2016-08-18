@@ -9,7 +9,7 @@ class Notifier
 
   def push
     return if @message.blank? || @device_tokens.blank?
-    Rails.logger.debug "#{Time.zone.now} Notifying #{@user} with message: #{@message}"
+    Rails.logger.debug "#{Time.zone.now} Notifying #{@user.full_name} with message: #{@message}"
 
     push_android_notifications
     push_ios_notifications
