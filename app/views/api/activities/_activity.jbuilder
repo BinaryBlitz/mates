@@ -3,12 +3,12 @@ json.accepted activity.accepted unless activity.is_a?(Membership)
 
 json.event do
   json.cache! ['event-preview', activity.event], expires_in: 2.minutes do
-    json.partial! 'events/event_preview', event: activity.event
+    json.partial! 'api/events/event_preview', event: activity.event
   end
 end
 
 json.user do
   json.cache! ['user-preview', activity.user], expires_in: 2.minutes do
-    json.partial! 'users/user', user: activity.user
+    json.partial! 'api/users/user', user: activity.user
   end
 end
