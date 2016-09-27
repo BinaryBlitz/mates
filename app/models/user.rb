@@ -93,23 +93,16 @@ class User < ActiveRecord::Base
     User.where(query, *args)
   end
 
-  def pending_friend?(user)
-    pending_friends.include?(user)
-  end
-
-  def friend?(user)
-    friends.include?(user)
-  end
-
   def age
     return 0 unless birthday
+
     today = Time.zone.today
     age = today.year - birthday.year
     age -= 1 if today < birthday + age.years
     age
   end
 
-  def to_s
+  def full_name
     "#{first_name} #{last_name}"
   end
 

@@ -7,7 +7,7 @@ json.events_count @user.events.count
 json.friends_count @user.friends.count
 
 if current_user
-  json.is_friend current_user.friend?(@user)
+  json.is_friend current_user.friends.include?(@user)
   json.friend_request current_user.friend_request_to_or_from(@user)
 end
 

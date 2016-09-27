@@ -43,7 +43,7 @@ class FriendRequest < ActiveRecord::Base
       action: 'FRIEND_REQUEST', friend_request: as_json,
       count: friend.incoming_friend_requests.unreviewed.count
     }
-    Notifier.new(friend, "#{user} хочет добавить вас в друзья", options)
+    Notifier.new(friend, "#{user.full_name} хочет добавить вас в друзья", options)
   end
 
   def notify_user
