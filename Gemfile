@@ -31,9 +31,6 @@ gem 'sass-rails'
 gem 'bootstrap-sass'
 gem 'sprockets'
 
-# Analytics
-gem 'newrelic_rpm'
-
 # Database seeds
 gem 'ffaker'
 
