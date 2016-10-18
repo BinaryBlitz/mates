@@ -16,6 +16,7 @@ gem 'geocoder'
 gem 'phony_rails'
 gem 'validate_url'
 gem 'httparty'
+gem 'layer-ruby', require: 'layer'
 
 # Attachments
 gem 'carrierwave'
