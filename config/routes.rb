@@ -11,6 +11,7 @@ Rails.application.routes.draw do
       resources :memberships, only: [:index], controller: 'user_memberships'
       get 'search', on: :collection
       get 'friends', on: :member
+      post 'authenticate_layer', on: :member
     end
 
     # Friends
