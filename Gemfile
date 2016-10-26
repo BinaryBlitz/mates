@@ -7,30 +7,29 @@ gem 'pg', '~> 0.18'
 gem 'jbuilder', '~> 2.6'
 gem 'puma', '~> 3.0'
 
-# Push notifications
-gem 'rpush'
-# Geolocation
-gem 'geocoder'
-
-# Utilities
-gem 'phony_rails'
-gem 'validate_url'
-gem 'httparty'
-gem 'layer-ruby', require: 'layer'
-
-# Attachments
-gem 'carrierwave'
-gem 'carrierwave-base64'
-gem 'mini_magick'
+# Front-end
+gem 'sass-rails'
+gem 'bootstrap-sass'
+gem 'sprockets'
 
 # Auth
 gem 'pundit'
 gem 'has_secure_token'
 
-# Front-end
-gem 'sass-rails'
-gem 'bootstrap-sass'
-gem 'sprockets'
+# Utilities
+gem 'phony_rails'
+gem 'validate_url'
+gem 'httparty'
+gem 'geocoder'
+gem 'layer-ruby', require: 'layer'
+
+# Image processing
+gem 'carrierwave'
+gem 'carrierwave-base64'
+gem 'mini_magick'
+
+# Push notifications
+gem 'rpush'
 
 # Database seeds
 gem 'ffaker'
