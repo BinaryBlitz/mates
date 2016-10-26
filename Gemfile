@@ -31,6 +31,9 @@ gem 'mini_magick'
 # Push notifications
 gem 'rpush'
 
+# Error logging
+gem 'rollbar'
+
 # Database seeds
 gem 'ffaker'
 
@@ -59,8 +62,6 @@ group :production do
   gem 'rails_12factor'
   # AWS adapter for CarrierWave
   gem 'fog-aws'
-  # Error logging
-  gem 'rollbar'
 end
 
 group :development, :test do
