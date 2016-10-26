@@ -46,6 +46,11 @@ class API::UsersController < API::APIController
     render :index
   end
 
+  def authenticate_layer
+    token = Layer::IdentityToken.new(current_user.id, params[:nonce])
+    render json: { token: token }
+  end
+
   private
 
   def set_user
