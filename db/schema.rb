@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161116174610) do
+ActiveRecord::Schema.define(version: 20161116210636) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -244,6 +244,8 @@ ActiveRecord::Schema.define(version: 20161116174610) do
     t.boolean  "verified"
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
+    t.index ["phone_number"], name: "index_verification_tokens_on_phone_number", using: :btree
+    t.index ["token"], name: "index_verification_tokens_on_token", unique: true, using: :btree
   end
 
   add_foreign_key "comments", "events"
