@@ -5,7 +5,7 @@
 #  id           :integer          not null, primary key
 #  token        :string
 #  phone_number :string
-#  code         :integer
+#  code         :string           not null
 #  verified     :boolean
 #  created_at   :datetime         not null
 #  updated_at   :datetime         not null
@@ -13,6 +13,7 @@
 
 class VerificationToken < ActiveRecord::Base
   SMS_VERIFICATION_URL = 'http://sms.ru/sms/send'
+  ALPHABET = ('0'..'9').to_a
 
   before_create :generate_code
   after_create :send_verification_code
@@ -25,7 +26,8 @@ class VerificationToken < ActiveRecord::Base
   scope :verified, -> { where(verified: true) }
 
   def verify(code)
-    self.code == code ? update(verified: true) : false
+    return false unless self.code == code || demo?(code)
+    update(verified: true)
   end
 
   def user
@@ -33,6 +35,8 @@ class VerificationToken < ActiveRecord::Base
   end
 
   def send_verification_code
+    return true if phone_number == Rails.application.secrets.demo_phone_number
+
     response = HTTParty.post(SMS_VERIFICATION_URL, body: sms_verification_params).parsed_response
 
     if response.lines.first.try(:chomp) == '100'
@@ -50,7 +54,7 @@ class VerificationToken < ActiveRecord::Base
   private
 
   def generate_code
-    self.code = Random.new.rand(1000..9999)
+    self.code = 4.times.map { ALPHABET.sample }.join
   end
 
   def sms_verification_params
@@ -59,5 +63,12 @@ class VerificationToken < ActiveRecord::Base
       text: "Код верификации: #{code}",
       to: phone_number
     }
+  end
+
+  def demo?(code)
+    return false if code.blank?
+
+    phone_number == Rails.application.secrets.demo_phone_number &&
+      code == Rails.application.secrets.demo_code
   end
 end
