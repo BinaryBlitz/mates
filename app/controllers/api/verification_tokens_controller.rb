@@ -14,7 +14,7 @@ class API::VerificationTokensController < API::APIController
   def update
     @verification_token = VerificationToken.find_by!(token: params[:token])
 
-    if @verification_token.verify(params[:code].to_i)
+    if @verification_token.verify(params[:code])
       user = @verification_token.user
       render json: { id: user.try(:id), api_token: user.try(:api_token) }
     else
