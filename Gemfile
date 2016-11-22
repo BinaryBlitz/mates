@@ -21,7 +21,7 @@ gem 'phony_rails'
 gem 'validate_url'
 gem 'httparty'
 gem 'geocoder'
-gem 'layer-identity_token'
+gem 'layer-identity_token', git: 'https://github.com/dreimannzelt/layer-identity_token.git'
 
 # Image processing
 gem 'carrierwave'

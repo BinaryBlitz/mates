@@ -1,3 +1,10 @@
+GIT
+  remote: https://github.com/dreimannzelt/layer-identity_token.git
+  revision: bcbe6c13154794c8cd7eb283ae06a9e34284f028
+  specs:
+    layer-identity_token (0.0.2)
+      jwt (~> 1.4, >= 1.4.1)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -101,8 +108,6 @@ GEM
       multi_json (~> 1.2)
     json (2.0.2)
     jwt (1.5.6)
-    layer-identity_token (0.1.0)
-      jwt (~> 1.4, >= 1.4.1)
     listen (3.1.5)
       rb-fsevent (~> 0.9, >= 0.9.4)
       rb-inotify (~> 0.9, >= 0.9.7)
@@ -242,7 +247,7 @@ DEPENDENCIES
   has_secure_token
   httparty
   jbuilder (~> 2.6)
-  layer-identity_token
+  layer-identity_token!
   mini_magick
   mocha
   pg (~> 0.18)
