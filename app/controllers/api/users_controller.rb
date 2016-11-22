@@ -47,7 +47,11 @@ class API::UsersController < API::APIController
   end
 
   def authenticate_layer
-    token = Layer::IdentityToken.new(current_user.id, params[:nonce])
+    token = Layer::IdentityToken.new(
+      current_user.id, params[:nonce], (Time.now+(86400*14)),
+      display_name: current_user.full_name,
+      avatar_url: current_user.avatar.thumb.url
+    )
     render json: { token: token }
   end
 
