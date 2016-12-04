@@ -83,20 +83,25 @@ class Event < ActiveRecord::Base
 
   def self.available_for(user)
     events = visible_for(user)
-    events = events.where('gender IS NULL OR gender = ?', user.gender)
-    events = events.where('min_age IS NULL OR min_age <= ?', user.age)
-    events = events.where('max_age IS NULL OR max_age >= ?', user.age)
-    events = events.where('user_limit IS NULL OR memberships_count < user_limit')
+    events = allowed_for(user)
     ids = (events.ids + user.event_ids).uniq
     where(id: ids)
   end
 
   def self.visible_for(user)
-    public_event_ids = public_events.ids
     created_by_friends_ids = created_by_friends_of(user).not_private.ids
     participated_ids = joins(:memberships).where('memberships.user_id': user.id).ids
-    ids = (public_event_ids + created_by_friends_ids + participated_ids).uniq
+    ids = (created_by_friends_ids + participated_ids).uniq
     Event.where(id: ids)
+  end
+
+  def self.allowed_for(user)
+    events = public_events
+    events = events.where('gender IS NULL OR gender = ?', user.gender)
+    events = events.where('min_age IS NULL OR min_age <= ?', user.age)
+    events = events.where('max_age IS NULL OR max_age >= ?', user.age)
+    events = events.where('user_limit IS NULL OR memberships_count < user_limit')
+    where(id: events.ids)
   end
 
   def friend_count(current_user)
