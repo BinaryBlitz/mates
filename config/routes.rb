@@ -34,6 +34,7 @@ Rails.application.routes.draw do
     resources :events, except: [:index, :new, :edit] do
       get 'owned', 'by_token', on: :collection
       get 'available_friends', on: :member
+      post 'default_photo', on: :collection
 
       resources :comments, except: [:show, :new, :edit], shallow: true
       resources :memberships, only: [:index, :create], controller: 'event_memberships'
