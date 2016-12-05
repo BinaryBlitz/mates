@@ -9,6 +9,11 @@
 #
 
 class Category < ActiveRecord::Base
+  enum type: [
+    :bar_or_club, :cafe, :cinema, :theater, :shows, :concert,
+    :table_games, :active, :walk, :nature, :home, :other
+  ]
+
   has_many :events, dependent: :destroy
   has_many :secondary_events, class_name: 'Event', foreign_key: 'extra_category_id'
 
