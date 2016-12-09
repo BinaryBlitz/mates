@@ -9,7 +9,7 @@ class Feed
       # Created by friends
       created_ids = Event.where(creator_id: friend_ids).where(visibility: ['public', 'friends']).ids
       # Feed
-      ids = (created_ids - @user.owned_event_ids).uniq
+      ids = (created_ids - @user.owned_event_ids - @user.event_ids).uniq
       events = Event.where(id: ids)
         .upcoming
         .available_for(@user)
