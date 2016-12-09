@@ -30,6 +30,6 @@ class Search < ActiveRecord::Base
   def find_events
     events = Event.order(starts_at: :asc).upcoming
     events = events.where(category_id: category_id) if category_id.present?
-    events.available_for(user)
+    events.where.not(id: user.owned_event_ids).available_for(user)
   end
 end
