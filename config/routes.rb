@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   namespace :web do
     resources :events, only: :show, param: :sharing_token
+    get 'events/frontend/:id', to: 'events#frontend_show'
   end
 
   namespace :api do
