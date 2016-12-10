@@ -3,7 +3,7 @@ class Feed
     @user = user
   end
 
-  def friends(location)
+  def friends
     Rails.cache.fetch(['feed-friends', @user], expires_in: 2.minutes) do
       friend_ids = @user.friends.ids
       # Created by friends
@@ -13,7 +13,6 @@ class Feed
       events = Event.where(id: ids)
         .upcoming
         .visible_by_friends_for(@user)
-        .near(location, 30, units: :km)
         .order(starts_at: :desc)
     end
   end

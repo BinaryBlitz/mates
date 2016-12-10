@@ -2,7 +2,7 @@ class API::FeedsController < API::APIController
   before_action :set_feed
 
   def friends
-    @events = @feed.friends(location)
+    @events = @feed.friends
   end
 
   def recommended
