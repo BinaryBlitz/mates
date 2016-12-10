@@ -2,7 +2,7 @@ class API::UserMembershipsController < API::APIController
   before_action :set_user, only: [:index, :create]
 
   def index
-    @memberships = @user.memberships.order_by_starting_date.available_for(current_user)
+    @memberships = Membership.order_by_starting_date.available_for(current_user).where(user_id: @user.id)
   end
 
   private

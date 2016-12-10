@@ -12,7 +12,7 @@ class Feed
       ids = (created_ids - @user.owned_event_ids - @user.event_ids).uniq
       events = Event.where(id: ids)
         .upcoming
-        .available_for(@user)
+        .visible_by_friends_for(@user)
         .near(location, 30, units: :km)
         .order(starts_at: :desc)
     end
@@ -22,10 +22,8 @@ class Feed
     Rails.cache.fetch(['feed-recommended', @user], expires_in: 2.minutes) do
       categories = @user.categories.any? ? @user.categories : Category.all
       Event.where(category: categories)
-        .where.not(id: @user.owned_events.ids)
-        .where.not(id: Event.created_by_friends_of(@user).ids)
         .upcoming
-        .allowed_for(@user)
+        .visible_for(@user)
         .near(location, 30, units: :km)
         .order(starts_at: :desc)
     end
