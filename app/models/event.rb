@@ -82,9 +82,10 @@ class Event < ActiveRecord::Base
   end
 
   def self.available_for(user)
-    events = allowed_for(user)
-    events = joins(:memberships).where('memberships.user_id': user.id)
-    ids = events.ids.uniq
+    events = visible_by_friends_for(user)
+    filled_event_ids = public_events.where('memberships_count = user_limit').ids
+    participated_ids = joins(:memberships).where('memberships.user_id': user.id).ids
+    ids = (events.ids + participated_ids + filled_event_ids).uniq
     where(id: ids)
   end
 
