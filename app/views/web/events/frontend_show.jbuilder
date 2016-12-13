@@ -5,6 +5,10 @@ json.extract! @event,
 
 json.user_count @event.users.count
 
+json.creator do
+  json.partial! 'api/users/user', user: @event.creator
+end
+
 json.users @event.users do |user|
   json.partial! 'api/users/user', user: user
 end
