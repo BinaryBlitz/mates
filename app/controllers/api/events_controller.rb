@@ -45,7 +45,7 @@ class API::EventsController < API::APIController
     type = Category.types.key(params[:category])
     max = Rails.root.join('public', 'images', "#{type}").children.length
     random_number = [*1..max].sample
-    url = view_context.image_path("#{type}/image#{random_number}.png")
+    url = view_context.image_path("#{type}/image#{random_number}.jpg")
     render json: { photo_url: url }
   end
 
