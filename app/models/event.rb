@@ -99,7 +99,7 @@ class Event < ActiveRecord::Base
   def self.visible_by_friends_for(user)
     created_by_friends_ids = created_by_friends_of(user).not_private.ids
     events = allowed_for(user)
-    ids = (events.ids + created_by_friends_ids)
+    ids = (events.ids + created_by_friends_ids).uniq
     where(id: ids)
   end
 
