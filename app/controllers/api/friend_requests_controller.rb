@@ -1,9 +1,8 @@
 class API::FriendRequestsController < API::APIController
   before_action :set_friend_request, only: [:update, :destroy, :decline]
+  before_action :set_friend_requests, only: [:index, :number_of_unreviewed]
 
   def index
-    @incoming = FriendRequest.where(friend: current_user).unreviewed
-    @outgoing = current_user.friend_requests.unreviewed
   end
 
   def create
@@ -35,9 +34,18 @@ class API::FriendRequestsController < API::APIController
     head :ok
   end
 
+  def number_of_unreviewed
+    render json: (@incoming + @outgoing).count
+  end
+
   private
 
   def set_friend_request
     @friend_request = FriendRequest.find(params[:id])
   end
-end
+
+  def set_friend_requests
+    @incoming = FriendRequest.where(friend: current_user).unreviewed
+    @outgoing = current_user.friend_requests.unreviewed
+  end
+ end

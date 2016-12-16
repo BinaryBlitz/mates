@@ -18,11 +18,14 @@ Rails.application.routes.draw do
     # Friends
     resources :friend_requests, except: [:show, :new, :edit] do
       patch 'decline', on: :member
+      get 'number_of_unreviewed', on: :collection
     end
     resources :friends, only: [:index, :destroy]
 
     # Feeds
-    resources :offers, only: [:index]
+    resources :offers, only: [:index] do
+      get 'number_of_unreviewed', on: :collection
+    end
     resource :activity, only: [:show]
     resource :feed, only: [] do
       get 'friends', 'recommended'
