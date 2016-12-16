@@ -3,17 +3,16 @@ class Feed
     @user = user
   end
 
-  def friends(location)
+  def friends
     Rails.cache.fetch(['feed-friends', @user], expires_in: 2.minutes) do
       friend_ids = @user.friends.ids
       # Created by friends
       created_ids = Event.where(creator_id: friend_ids).where(visibility: ['public', 'friends']).ids
       # Feed
-      ids = (created_ids - @user.owned_event_ids).uniq
+      ids = (created_ids - @user.owned_event_ids - @user.event_ids).uniq
       events = Event.where(id: ids)
         .upcoming
-        .available_for(@user)
-        .near(location, 30, units: :km)
+        .visible_by_friends_for(@user)
         .order(starts_at: :desc)
     end
   end
@@ -22,10 +21,8 @@ class Feed
     Rails.cache.fetch(['feed-recommended', @user], expires_in: 2.minutes) do
       categories = @user.categories.any? ? @user.categories : Category.all
       Event.where(category: categories)
-        .where.not(id: @user.owned_events.ids)
-        .where.not(id: Event.created_by_friends_of(@user).ids)
         .upcoming
-        .public_events
+        .visible_for(@user)
         .near(location, 30, units: :km)
         .order(starts_at: :desc)
     end

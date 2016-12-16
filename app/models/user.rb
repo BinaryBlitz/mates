@@ -61,7 +61,7 @@ class User < ActiveRecord::Base
   mount_base64_uploader :avatar, AvatarUploader
 
   phony_normalize :phone_number, default_country_code: 'RU'
-  validates :phone_number, phony_plausible: true, presence: true
+  validates :phone_number, phony_plausible: true, presence: true, uniqueness: true
 
   def remove_friend(friend)
     friendships.find_by(friend: friend).destroy

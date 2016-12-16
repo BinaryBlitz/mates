@@ -21,3 +21,6 @@ json.incoming_submissions @offers.incoming_submissions do |offer|
     json.partial! 'offer', offer: offer
   end
 end
+
+json.outgoing_invites_count @offers.outgoing_invites.count
+json.incoming_invites_count @offers.incoming_invites.count

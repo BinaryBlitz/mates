@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   namespace :web do
     resources :events, only: :show, param: :sharing_token
+    get 'events/frontend/:id', to: 'events#frontend_show'
   end
 
   namespace :api do
@@ -11,7 +12,7 @@ Rails.application.routes.draw do
       resources :memberships, only: [:index], controller: 'user_memberships'
       get 'search', on: :collection
       get 'friends', on: :member
-      post 'authenticate_layer', on: :member
+      post 'authenticate_layer', on: :collection
     end
 
     # Friends
@@ -34,6 +35,7 @@ Rails.application.routes.draw do
     resources :events, except: [:index, :new, :edit] do
       get 'owned', 'by_token', on: :collection
       get 'available_friends', on: :member
+      post 'default_photo', on: :collection
 
       resources :comments, except: [:show, :new, :edit], shallow: true
       resources :memberships, only: [:index, :create], controller: 'event_memberships'

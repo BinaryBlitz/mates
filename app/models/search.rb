@@ -27,9 +27,13 @@ class Search < ActiveRecord::Base
 
   private
 
+  def location
+    ["#{latitude}", "#{longitude}"]
+  end
+
   def find_events
     events = Event.order(starts_at: :asc).upcoming
     events = events.where(category_id: category_id) if category_id.present?
-    events.available_for(user)
+    events.visible_for(user).near(location, 30, units: :km)
   end
 end

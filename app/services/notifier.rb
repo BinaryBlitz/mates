@@ -1,4 +1,6 @@
 class Notifier
+  UA = Urbanairship
+
   def initialize(user, message, options = {})
     @user = user
     @device_tokens = user.device_tokens
@@ -21,7 +23,7 @@ class Notifier
     tokens = @device_tokens.where(platform: 'android')
     return if tokens.blank?
 
-    build_android_notification(tokens)
+    tokens.each { |token| build_android_notification(token) }
     Rails.logger.debug "#{Time.zone.now} GCM notification: #{@message}, options: #{@options}"
   end
 
@@ -35,20 +37,27 @@ class Notifier
 
   private
 
-  def build_android_notification(tokens)
-    notification = Rpush::Gcm::Notification.new
-    notification.app = Rpush::Gcm::App.find_by_name('android_app')
-    notification.registration_ids = tokens.map(&:token)
-    notification.data = { message: @message }.merge(@options)
-    notification.save
+  def build_android_notification(token)
+    airship = UA::Client.new(
+      key: Rails.application.secrets.urban_key,
+      secret: Rails.application.secrets.urban_secret
+    )
+    push = airship.create_push
+    push.audience = UA.android_channel(token.token)
+    push.notification = UA.android(alert: @message)
+    push.device_types = UA.device_types(['android'])
+    push.send_push
   end
 
   def build_ios_notification(token)
-    notification = Rpush::Apns::Notification.new
-    notification.app = Rpush::Apns::App.find_by_name('ios_app')
-    notification.device_token = token.token
-    notification.alert = @message
-    notification.data = @options
-    notification.save
+    airship = UA::Client.new(
+      key: Rails.application.secrets.urban_key,
+      secret: Rails.application.secrets.urban_secret
+    )
+    push = airship.create_push
+    push.audience = UA.ios_channel(token.token)
+    push.notification = UA.ios(alert: @message)
+    push.device_types = UA.device_types(['ios'])
+    push.send_push
   end
 end

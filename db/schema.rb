@@ -1,4 +1,3 @@
-# encoding: UTF-8
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -11,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160224100028) do
+ActiveRecord::Schema.define(version: 20161116210636) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -29,11 +28,10 @@ ActiveRecord::Schema.define(version: 20160224100028) do
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
     t.integer  "respondent_id"
+    t.index ["event_id"], name: "index_comments_on_event_id", using: :btree
+    t.index ["respondent_id"], name: "index_comments_on_respondent_id", using: :btree
+    t.index ["user_id"], name: "index_comments_on_user_id", using: :btree
   end
-
-  add_index "comments", ["event_id"], name: "index_comments_on_event_id", using: :btree
-  add_index "comments", ["respondent_id"], name: "index_comments_on_respondent_id", using: :btree
-  add_index "comments", ["user_id"], name: "index_comments_on_user_id", using: :btree
 
   create_table "device_tokens", force: :cascade do |t|
     t.string   "token"
@@ -41,9 +39,8 @@ ActiveRecord::Schema.define(version: 20160224100028) do
     t.integer  "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_device_tokens_on_user_id", using: :btree
   end
-
-  add_index "device_tokens", ["user_id"], name: "index_device_tokens_on_user_id", using: :btree
 
   create_table "events", force: :cascade do |t|
     t.string   "name"
@@ -66,11 +63,10 @@ ActiveRecord::Schema.define(version: 20160224100028) do
     t.string   "sharing_token"
     t.integer  "extra_category_id"
     t.integer  "memberships_count", default: 0, null: false
+    t.index ["category_id"], name: "index_events_on_category_id", using: :btree
+    t.index ["creator_id"], name: "index_events_on_creator_id", using: :btree
+    t.index ["extra_category_id"], name: "index_events_on_extra_category_id", using: :btree
   end
-
-  add_index "events", ["category_id"], name: "index_events_on_category_id", using: :btree
-  add_index "events", ["creator_id"], name: "index_events_on_creator_id", using: :btree
-  add_index "events", ["extra_category_id"], name: "index_events_on_extra_category_id", using: :btree
 
   create_table "friend_requests", force: :cascade do |t|
     t.integer  "user_id"
@@ -78,30 +74,27 @@ ActiveRecord::Schema.define(version: 20160224100028) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean  "accepted"
+    t.index ["friend_id"], name: "index_friend_requests_on_friend_id", using: :btree
+    t.index ["user_id"], name: "index_friend_requests_on_user_id", using: :btree
   end
-
-  add_index "friend_requests", ["friend_id"], name: "index_friend_requests_on_friend_id", using: :btree
-  add_index "friend_requests", ["user_id"], name: "index_friend_requests_on_user_id", using: :btree
 
   create_table "friendships", force: :cascade do |t|
     t.integer  "user_id"
     t.integer  "friend_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["friend_id"], name: "index_friendships_on_friend_id", using: :btree
+    t.index ["user_id"], name: "index_friendships_on_user_id", using: :btree
   end
-
-  add_index "friendships", ["friend_id"], name: "index_friendships_on_friend_id", using: :btree
-  add_index "friendships", ["user_id"], name: "index_friendships_on_user_id", using: :btree
 
   create_table "interests", force: :cascade do |t|
     t.integer  "category_id"
     t.integer  "user_id"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
+    t.index ["category_id"], name: "index_interests_on_category_id", using: :btree
+    t.index ["user_id"], name: "index_interests_on_user_id", using: :btree
   end
-
-  add_index "interests", ["category_id"], name: "index_interests_on_category_id", using: :btree
-  add_index "interests", ["user_id"], name: "index_interests_on_user_id", using: :btree
 
   create_table "invites", force: :cascade do |t|
     t.integer  "user_id"
@@ -109,29 +102,26 @@ ActiveRecord::Schema.define(version: 20160224100028) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean  "accepted"
+    t.index ["event_id"], name: "index_invites_on_event_id", using: :btree
+    t.index ["user_id"], name: "index_invites_on_user_id", using: :btree
   end
-
-  add_index "invites", ["event_id"], name: "index_invites_on_event_id", using: :btree
-  add_index "invites", ["user_id"], name: "index_invites_on_user_id", using: :btree
 
   create_table "memberships", force: :cascade do |t|
     t.integer  "user_id"
     t.integer  "event_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["event_id"], name: "index_memberships_on_event_id", using: :btree
+    t.index ["user_id"], name: "index_memberships_on_user_id", using: :btree
   end
-
-  add_index "memberships", ["event_id"], name: "index_memberships_on_event_id", using: :btree
-  add_index "memberships", ["user_id"], name: "index_memberships_on_user_id", using: :btree
 
   create_table "photos", force: :cascade do |t|
     t.integer  "user_id"
     t.string   "image"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_photos_on_user_id", using: :btree
   end
-
-  add_index "photos", ["user_id"], name: "index_photos_on_user_id", using: :btree
 
   create_table "reports", force: :cascade do |t|
     t.text     "content",    null: false
@@ -139,10 +129,9 @@ ActiveRecord::Schema.define(version: 20160224100028) do
     t.integer  "event_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["event_id"], name: "index_reports_on_event_id", using: :btree
+    t.index ["user_id"], name: "index_reports_on_user_id", using: :btree
   end
-
-  add_index "reports", ["event_id"], name: "index_reports_on_event_id", using: :btree
-  add_index "reports", ["user_id"], name: "index_reports_on_user_id", using: :btree
 
   create_table "rpush_apps", force: :cascade do |t|
     t.string   "name",                                null: false
@@ -166,9 +155,8 @@ ActiveRecord::Schema.define(version: 20160224100028) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "app_id"
+    t.index ["device_token"], name: "index_rpush_feedback_on_device_token", using: :btree
   end
-
-  add_index "rpush_feedback", ["device_token"], name: "index_rpush_feedback_on_device_token", using: :btree
 
   create_table "rpush_notifications", force: :cascade do |t|
     t.integer  "badge"
@@ -201,9 +189,8 @@ ActiveRecord::Schema.define(version: 20160224100028) do
     t.string   "category"
     t.boolean  "content_available",            default: false
     t.text     "notification"
+    t.index ["delivered", "failed"], name: "index_rpush_notifications_multi", where: "((NOT delivered) AND (NOT failed))", using: :btree
   end
-
-  add_index "rpush_notifications", ["delivered", "failed"], name: "index_rpush_notifications_multi", where: "((NOT delivered) AND (NOT failed))", using: :btree
 
   create_table "searches", force: :cascade do |t|
     t.string   "name"
@@ -219,9 +206,8 @@ ActiveRecord::Schema.define(version: 20160224100028) do
     t.integer  "distance"
     t.integer  "category_ids",               array: true
     t.integer  "user_id"
+    t.index ["user_id"], name: "index_searches_on_user_id", using: :btree
   end
-
-  add_index "searches", ["user_id"], name: "index_searches_on_user_id", using: :btree
 
   create_table "submissions", force: :cascade do |t|
     t.integer  "user_id"
@@ -229,10 +215,9 @@ ActiveRecord::Schema.define(version: 20160224100028) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean  "accepted"
+    t.index ["event_id"], name: "index_submissions_on_event_id", using: :btree
+    t.index ["user_id"], name: "index_submissions_on_user_id", using: :btree
   end
-
-  add_index "submissions", ["event_id"], name: "index_submissions_on_event_id", using: :btree
-  add_index "submissions", ["user_id"], name: "index_submissions_on_user_id", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "first_name"
@@ -255,10 +240,12 @@ ActiveRecord::Schema.define(version: 20160224100028) do
   create_table "verification_tokens", force: :cascade do |t|
     t.string   "token"
     t.string   "phone_number"
-    t.integer  "code"
+    t.string   "code",         null: false
     t.boolean  "verified"
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
+    t.index ["phone_number"], name: "index_verification_tokens_on_phone_number", using: :btree
+    t.index ["token"], name: "index_verification_tokens_on_token", unique: true, using: :btree
   end
 
   add_foreign_key "comments", "events"

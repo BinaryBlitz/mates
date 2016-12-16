@@ -21,7 +21,7 @@ gem 'phony_rails'
 gem 'validate_url'
 gem 'httparty'
 gem 'geocoder'
-gem 'layer-ruby', require: 'layer'
+gem 'layer-identity_token', github: 'SumLare/layer-identity_token'
 
 # Image processing
 gem 'carrierwave'
@@ -29,8 +29,7 @@ gem 'carrierwave-base64'
 gem 'mini_magick'
 
 # Push notifications
-gem 'rpush'
-
+gem 'urbanairship'
 # Error logging
 gem 'rollbar'
 
