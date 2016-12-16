@@ -11,11 +11,11 @@
 #
 
 ios:
-  token: <%= SecureRandom.hex %>
+  token: <%= SecureRandom.uuid %>
   platform: ios
   user: foo
 
 android:
-  token: <%= SecureRandom.hex %>
+  token: <%= SecureRandom.uuid %>
   platform: android
   user: baz

@@ -29,8 +29,7 @@ gem 'carrierwave-base64'
 gem 'mini_magick'
 
 # Push notifications
-gem 'rpush'
-
+gem 'urbanairship'
 # Error logging
 gem 'rollbar'
 
