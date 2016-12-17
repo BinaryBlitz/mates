@@ -13,6 +13,8 @@ class Notifier
     Rails.logger.debug "#{Time.zone.now} Notifying #{@user.full_name} with message: #{@message}"
 
     push_notifications
+  rescue
+    return
   end
 
   private
@@ -24,16 +26,22 @@ class Notifier
 
   private
 
-  def build_notification
+  def airship
     airship = UA::Client.new(
       key: Rails.application.secrets.urban_key,
       secret: Rails.application.secrets.urban_secret
     )
-    push = airship.create_push
+  end
+
+  def named_user
     named_user = UA::NamedUser.new(client: airship)
     named_user.named_user_id = @user.id.to_s
     user = named_user.lookup
-    push.audience = UA.named_user(user)
+  end
+
+  def build_notification
+    push = airship.create_push
+    push.audience = UA.named_user(named_user)
     push.notification = UA.notification(alert: @message)
     push.device_types = UA.device_types(['ios', 'android'])
     push.send_push
