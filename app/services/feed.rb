@@ -12,7 +12,7 @@ class Feed
       ids = (created_ids - @user.owned_event_ids - @user.event_ids).uniq
       events = Event.where(id: ids)
         .upcoming
-        .visible_by_friends_for(@user)
+        .allowed_for(@user)
         .order(starts_at: :desc)
     end
   end
