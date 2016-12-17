@@ -4,8 +4,8 @@ class API::OffersController < API::APIController
   def index
   end
 
-  def number_of_unreviewed
-    render json: @offers.number_of_unreviewed
+  def number_of_incoming
+    render json: @offers.number_of_incoming
   end
 
   private

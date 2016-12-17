@@ -6,8 +6,8 @@ class Offers
     build
   end
 
-  def number_of_unreviewed
-    (outgoing_invites + outgoing_submissions + incoming_invites + incoming_submissions).count
+  def number_of_incoming
+    (incoming_invites + incoming_submissions).count
   end
 
   private

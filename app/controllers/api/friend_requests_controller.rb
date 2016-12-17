@@ -1,6 +1,6 @@
 class API::FriendRequestsController < API::APIController
   before_action :set_friend_request, only: [:update, :destroy, :decline]
-  before_action :set_friend_requests, only: [:index, :number_of_unreviewed]
+  before_action :set_friend_requests, only: [:index, :number_of_incoming]
 
   def index
   end
@@ -34,8 +34,8 @@ class API::FriendRequestsController < API::APIController
     head :ok
   end
 
-  def number_of_unreviewed
-    render json: (@incoming + @outgoing).count
+  def number_of_incoming
+    render json: @incoming.count
   end
 
   private
