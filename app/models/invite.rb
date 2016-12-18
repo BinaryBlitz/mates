@@ -47,14 +47,14 @@ class Invite < ActiveRecord::Base
   def notify_user
     return unless user.notifications_events?
 
-    options = { action: 'INVITE', invite: as_json, count: user.offer_count }
+    options = { action: 'INVITE', count: user.offer_count }
     Notifier.new(user, "Вас пригласили на событие: #{event}", options)
   end
 
   def notify_creator
     return unless creator.notifications_events? && accepted_changed? && accepted?
 
-    options = { action: 'INVITE_ACCEPTED', invite: as_json }
+    options = { action: 'INVITE_ACCEPTED' }
     Notifier.new(creator, 'Ваше приглашение было принято', options)
   end
 

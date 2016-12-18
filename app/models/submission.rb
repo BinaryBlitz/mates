@@ -42,14 +42,14 @@ class Submission < ActiveRecord::Base
   def notify_creator
     return unless creator.notifications_events?
 
-    options = { action: 'NEW_SUBMISSION', submission: as_json, count: creator.offer_count }
+    options = { action: 'NEW_SUBMISSION', count: creator.offer_count }
     Notifier.new(event.creator, "Новая заявка от #{user.full_name} на #{event}", options)
   end
 
   def notify_user
     return unless user.notifications_events?
 
-    options = { action: 'SUBMISSION_APPROVED', submission: as_json }
+    options = { action: 'SUBMISSION_APPROVED' }
     Notifier.new(user, "Ваша заявка на #{event.name} была одобрена", options)
   end
 
