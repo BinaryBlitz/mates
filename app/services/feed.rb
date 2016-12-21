@@ -23,7 +23,7 @@ class Feed
       Event.where(category: categories)
         .upcoming
         .visible_for(@user)
-        .near(location, 30, units: :km)
+        .near(location, 100, units: :km)
         .order(starts_at: :desc)
     end
   end
