@@ -28,7 +28,7 @@ class Comment < ActiveRecord::Base
     return if user == event.creator
     return unless event.creator.notifications_events?
 
-    options = { action: 'NEW_COMMENT', comment: as_json }
+    options = { action: 'NEW_COMMENT' }
     Notifier.new(event.creator, "#{user.full_name} оставил комментарий к #{event}", options)
   end
 

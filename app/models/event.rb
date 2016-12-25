@@ -74,6 +74,7 @@ class Event < ActiveRecord::Base
   scope :public_events, -> { where(visibility: 'public') }
   scope :created_by_friends_of, -> (user) { where(creator: user.friends) }
   scope :not_private, -> { where(visibility: ['public', 'friends']) }
+  scope :not_full, -> { where('user_limit IS NULL OR memberships_count < user_limit') }
 
   def self.on_dates(dates)
     query = 'starts_at BETWEEN ? AND ?' + ' OR starts_at BETWEEN ? AND ?' * (dates.size - 1)
@@ -82,33 +83,25 @@ class Event < ActiveRecord::Base
   end
 
   def self.available_for(user)
-    events = visible_by_friends_for(user)
-    filled_event_ids = public_events.where('memberships_count = user_limit').ids
+    events = allowed_for(user).public_events
+    created_by_friends_ids = created_by_friends_of(user).allowed_for(user).ids
     participated_ids = joins(:memberships).where('memberships.user_id': user.id).ids
-    ids = (events.ids + participated_ids + filled_event_ids).uniq
+    ids = (events.ids + participated_ids + created_by_friends_ids).uniq
     where(id: ids)
   end
 
   def self.visible_for(user)
-    events = allowed_for(user)
+    events = allowed_for(user).not_full.public_events
     created_by_friends_ids = created_by_friends_of(user).not_private.ids
     ids = (events.ids - created_by_friends_ids - user.owned_event_ids - user.event_ids).uniq
     where(id: ids)
   end
 
-  def self.visible_by_friends_for(user)
-    created_by_friends_ids = created_by_friends_of(user).not_private.ids
-    events = allowed_for(user)
-    ids = (events.ids + created_by_friends_ids).uniq
-    where(id: ids)
-  end
-
   def self.allowed_for(user)
-    events = public_events
+    events = not_private
     events = events.where('gender IS NULL OR gender = ?', user.gender)
     events = events.where('min_age IS NULL OR min_age <= ?', user.age)
     events = events.where('max_age IS NULL OR max_age >= ?', user.age)
-    events = events.where('user_limit IS NULL OR memberships_count < user_limit')
     where(id: events.ids)
   end
 
@@ -160,7 +153,7 @@ class Event < ActiveRecord::Base
   def notify_users
     users.each do |user|
       next unless user.notifications_events?
-      options = { action: 'EVENT_DESTROYED', event: as_json }
+      options = { action: 'EVENT_DESTROYED' }
       Notifier.new(user, "Событие удалено: #{self}", options)
     end
   end

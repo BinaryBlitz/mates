@@ -6,6 +6,10 @@ class Offers
     build
   end
 
+  def number_of_incoming
+    (incoming_invites + incoming_submissions).count
+  end
+
   private
 
   def build
