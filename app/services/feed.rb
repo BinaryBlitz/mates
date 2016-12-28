@@ -13,6 +13,7 @@ class Feed
       events = Event.where(id: ids)
         .upcoming
         .allowed_for(@user)
+        .not_full
         .order(starts_at: :desc)
     end
   end
