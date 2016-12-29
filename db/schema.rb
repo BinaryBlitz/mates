@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161116210636) do
+ActiveRecord::Schema.define(version: 20161229004441) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -209,6 +209,13 @@ ActiveRecord::Schema.define(version: 20161116210636) do
     t.index ["user_id"], name: "index_searches_on_user_id", using: :btree
   end
 
+  create_table "social_tokens", force: :cascade do |t|
+    t.string   "service_type"
+    t.integer  "social_id"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+  end
+
   create_table "submissions", force: :cascade do |t|
     t.integer  "user_id"
     t.integer  "event_id"
@@ -235,6 +242,9 @@ ActiveRecord::Schema.define(version: 20161116210636) do
     t.string   "website_url"
     t.boolean  "notifications_friends", default: true, null: false
     t.boolean  "notifications_events",  default: true, null: false
+    t.integer  "vk_id"
+    t.integer  "fb_id"
+    t.integer  "tw_id"
   end
 
   create_table "verification_tokens", force: :cascade do |t|
