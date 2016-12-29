@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   namespace :api do
     # Auth & users
     resources :verification_tokens, only: [:create, :update], param: :token
+    resources :social_tokens, only: [:create]
     resources :device_tokens, only: [:create, :destroy], param: :token
     resources :users, except: [:index, :new, :edit] do
       resources :memberships, only: [:index], controller: 'user_memberships'
