@@ -65,7 +65,7 @@ class API::UsersController < API::APIController
     params.require(:user).permit(
       :first_name, :last_name, :birthday, :website_url,
       :gender, :city, :avatar, :remove_avatar, :phone_number, :verification_token,
-      :notifications_events, :notifications_friends,
+      :notifications_events, :notifications_friends, :vk_id, :fb_id, :tw_id,
       photos_attributes: [:id, :image, :_destroy],
       interests_attributes: [:id, :category_id, :_destroy]
     )
