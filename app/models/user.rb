@@ -18,6 +18,9 @@
 #  website_url           :string
 #  notifications_friends :boolean          default(TRUE), not null
 #  notifications_events  :boolean          default(TRUE), not null
+#  vk_id                 :integer
+#  fb_id                 :integer
+#  tw_id                 :integer
 #
 
 class User < ActiveRecord::Base
